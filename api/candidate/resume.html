@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>上传简历｜AI全量初面系统</title>
+    <link rel="stylesheet" href="./styles.css" />
+</head>
+  <body>
+    <header class="top">
+      <div class="brand"><img class="brand-logo" src="./assets/logo-icon.svg" alt="hi AI初面" /><span><strong>AI全量初面系统</strong><small>泓泽数字旗下产品</small></span></div>
+      <span class="badge">PDF / DOC / DOCX</span>
+    </header>
+    <main class="layout narrow">
+      <div class="page-title">
+        <span class="crumb">候选人端 / 上传简历</span>
+        <h1>上传简历</h1>
+        <p>简历将用于匹配本次初面的追问问题，帮助你更充分地说明自己的真实经历。</p>
+      </div>
+      <section class="panel">
+        <form class="form resume-form">
+          <label class="upload-box" for="resume-file">
+            <input id="resume-file" name="resume" type="file" accept=".pdf,.doc,.docx" hidden />
+            <div><strong>点击上传简历文件</strong><span>支持 PDF、DOC、DOCX，单个文件不超过 20MB</span></div>
+          </label>
+          <div class="soft-note selected-file">尚未选择文件</div>
+        </form>
+        <div class="soft-note" style="margin-top:16px">请上传真实有效的简历文件。简历仅用于本次初面问题匹配和企业 HR 复核。</div>
+        <div class="actions"><a class="btn primary" href="./job-confirm.html">上传并下一步</a><a class="btn" href="./auth.html">返回上一步</a></div>
+      </section>
+    </main>
+
+    <div class="mps-beian">
+      <a href="https://beian.mps.gov.cn/#/query/webSearch?code=44010302111445" rel="noreferrer" target="_blank">
+        <img src="./assets/beian.png" alt="公安备案图标" />
+        <span>粤公网安备44010302111445号</span>
+      </a>
+    </div>
+    <script src="./auth-flow.js"></script>
+    <script src="./candidate-progress.js"></script>
+</body>
+</html>

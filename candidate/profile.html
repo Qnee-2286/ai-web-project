@@ -1,0 +1,859 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>个人中心｜AI全量初面系统</title>
+    <link rel="stylesheet" href="./styles.css?v=20260610b" />
+<style>
+:root {
+  --ink: #0F172A;
+  --muted: #475569;
+  --line: #E2E8F0;
+  --soft: #F7FAFC;
+  --paper: #FFFFFF;
+  --blue: #0070FF;
+  --teal: #00D68F;
+  --amber: #F59E0B;
+  --green: #00D68F;
+  --red: #EF4444;
+  --shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.06);
+  --gradient: linear-gradient(135deg, #0070FF, #00D68F);
+}
+* { box-sizing: border-box; margin: 0; }
+body {
+  color: var(--ink);
+  background: #F7FAFC;
+  font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", Arial, sans-serif;
+  line-height: 1.55;
+}
+a { color: inherit; text-decoration: none; }
+
+/* ===== 顶部导航 ===== */
+.top {
+  position: sticky; top: 0; z-index: 10;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px;
+  width: min(540px, 100%); margin: 0 auto;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(255,255,255,0.94);
+  backdrop-filter: blur(10px);
+}
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand-logo {
+  width: 32px; height: 32px; border-radius: 8px;
+  background: var(--gradient); color: #fff;
+  display: grid; place-items: center;
+  font-size: 14px; font-weight: 900; flex-shrink: 0;
+}
+.brand strong { display: block; font-size: 14px; }
+.brand small { display: block; color: var(--muted); font-size: 11px; }
+.user-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 12px; border-radius: 999px;
+  background: #EFF6FF; color: var(--blue);
+  font-size: 13px; font-weight: 800;
+}
+.user-pill .avatar {
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--gradient); color: #fff;
+  display: grid; place-items: center;
+  font-size: 11px; font-weight: 900;
+}
+
+/* ===== 主容器 ===== */
+.layout { width: min(540px, 100%); margin: 0 auto; padding: 20px 16px 48px; }
+
+/* ===== 欢迎区 ===== */
+.welcome { margin-bottom: 20px; }
+.welcome .crumb { color: var(--muted); font-size: 13px; margin-bottom: 4px; }
+.welcome h1 { color: var(--blue); font-size: 24px; line-height: 1.2; margin: 0 0 6px; }
+.welcome p { color: var(--muted); font-size: 14px; margin: 0; }
+
+/* ===== 统计条 ===== */
+.stats-strip {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 10px; margin-bottom: 22px;
+}
+.stat-box {
+  padding: 14px 12px; text-align: center;
+  border: 1px solid var(--line); border-radius: 12px;
+  background: #fff; box-shadow: var(--shadow);
+}
+.stat-box .num {
+  display: block; font-size: 26px; font-weight: 900;
+  background: var(--gradient); -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; background-clip: text;
+}
+.stat-box .label { display: block; color: var(--muted); font-size: 12px; margin-top: 2px; font-weight: 700; }
+
+/* ===== 列表标题 ===== */
+.list-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 10px; padding: 0 2px;
+}
+.list-header h2 { font-size: 15px; color: var(--ink); }
+.list-header .count { color: var(--muted); font-size: 13px; font-weight: 700; }
+
+/* ===== 面试记录列表 ===== */
+.record-list {
+  border: 1px solid var(--line); border-radius: 12px;
+  background: #fff; box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.record-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: background .15s;
+  position: relative;
+}
+.record-item:not(:last-child)::after {
+  content: '';
+  position: absolute; bottom: 0; left: 56px; right: 16px;
+  height: 1px; background: var(--line);
+}
+.record-item:hover { background: var(--soft); }
+.record-item:active { background: #EFF6FF; }
+
+.company-avatar {
+  width: 40px; height: 40px; border-radius: 10px;
+  background: var(--gradient); color: #fff;
+  display: grid; place-items: center;
+  font-size: 15px; font-weight: 900; flex-shrink: 0;
+}
+.company-avatar.c2 { background: linear-gradient(135deg, #6366F1, #A78BFA); }
+.company-avatar.c3 { background: linear-gradient(135deg, #F59E0B, #F97316); }
+.company-avatar.c4 { background: linear-gradient(135deg, #EC4899, #F43F5E); }
+.company-avatar.c5 { background: linear-gradient(135deg, #14B8A6, #06B6D4); }
+
+.record-main { flex: 1; min-width: 0; }
+.record-main h3 {
+  font-size: 15px; color: var(--ink); margin: 0 0 2px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.record-sub {
+  font-size: 12px; color: var(--muted); margin: 0;
+  display: flex; align-items: center; gap: 6px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.record-sub .sep { color: var(--line); }
+
+.record-tags {
+  display: flex; gap: 4px; margin-top: 5px; flex-wrap: wrap;
+}
+.tag-sm {
+  padding: 2px 8px; border-radius: 999px;
+  border: 1px solid var(--line); background: var(--soft);
+  color: var(--muted); font-size: 11px; font-weight: 700;
+  white-space: nowrap;
+}
+
+.record-arrow {
+  flex-shrink: 0; color: #CBD5E1;
+  transition: transform .2s, color .2s;
+}
+.record-item:hover .record-arrow { color: var(--blue); transform: translateX(2px); }
+
+/* ===== 个人信息面板 ===== */
+.profile-panel {
+  border: 1px solid var(--line); border-radius: 12px;
+  background: #fff; box-shadow: var(--shadow);
+  overflow: hidden; margin-bottom: 24px;
+}
+.profile-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 16px; border-bottom: 1px solid var(--line);
+}
+.profile-head h2 { font-size: 15px; color: var(--ink); }
+.profile-cell {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 16px; cursor: pointer;
+  transition: background .15s; position: relative;
+}
+.profile-cell:not(:last-child)::after {
+  content: ''; position: absolute; bottom: 0; left: 16px; right: 16px;
+  height: 1px; background: var(--line);
+}
+.profile-cell:hover { background: var(--soft); }
+.profile-cell:active { background: #EFF6FF; }
+.cell-icon {
+  width: 32px; height: 32px; border-radius: 8px;
+  display: grid; place-items: center; flex-shrink: 0;
+}
+.cell-icon svg { display: block; }
+.cell-icon.blue { background: #EFF6FF; color: var(--blue); }
+.cell-icon.green { background: #ECFDF5; color: var(--green); }
+.cell-icon.amber { background: #FFFBEB; color: var(--amber); }
+.cell-text { flex: 1; min-width: 0; }
+.cell-text .cell-label { font-size: 14px; color: var(--ink); font-weight: 700; margin: 0; }
+.cell-text .cell-value { font-size: 12px; color: var(--muted); margin: 2px 0 0; }
+.cell-right {
+  display: flex; align-items: center; gap: 6px; flex-shrink: 0;
+}
+.auth-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 10px; border-radius: 999px;
+  font-size: 11px; font-weight: 800; white-space: nowrap;
+}
+.auth-badge.verified { color: #065F46; background: #ECFDF5; }
+.auth-badge.unverified { color: #92400E; background: #FFFBEB; }
+.cell-arrow { color: #CBD5E1; transition: transform .2s, color .2s; }
+.profile-cell:hover .cell-arrow { color: var(--blue); transform: translateX(2px); }
+
+/* ===== 表单弹窗 ===== */
+.form-modal-mask {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(15,23,42,0.5);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity .25s;
+}
+.form-modal-mask.show { opacity: 1; pointer-events: auto; }
+.form-modal {
+  width: min(400px, 90%); background: #fff; border-radius: 16px;
+  padding: 24px 20px; transform: scale(0.95);
+  transition: transform .25s;
+}
+.form-modal-mask.show .form-modal { transform: scale(1); }
+.form-modal h3 { font-size: 17px; color: var(--ink); margin: 0 0 4px; }
+.form-modal .form-desc { font-size: 13px; color: var(--muted); margin: 0 0 18px; }
+.form-group { margin-bottom: 14px; }
+.form-group label { display: block; font-size: 13px; font-weight: 800; color: var(--ink); margin-bottom: 6px; }
+.form-group input {
+  width: 100%; min-height: 42px; padding: 0 12px;
+  border: 1px solid var(--line); border-radius: 8px;
+  background: #fff; color: var(--ink); font-size: 14px;
+  outline: none; transition: border-color .2s;
+}
+.form-group input:focus { border-color: var(--blue); }
+.form-group .hint { font-size: 12px; color: var(--muted); margin-top: 4px; }
+.sms-row { display: flex; gap: 8px; }
+.sms-row input { flex: 1; }
+.sms-btn {
+  min-width: 100px; min-height: 42px; padding: 0 12px;
+  border: 1px solid var(--blue); border-radius: 8px;
+  background: #EFF6FF; color: var(--blue);
+  font-size: 13px; font-weight: 800; cursor: pointer;
+  white-space: nowrap; transition: all .2s;
+}
+.sms-btn:hover { background: var(--blue); color: #fff; }
+.sms-btn.countdown { opacity: .5; pointer-events: none; }
+.form-actions { display: flex; gap: 8px; margin-top: 20px; }
+.form-actions button {
+  flex: 1; min-height: 42px; border-radius: 8px;
+  font-size: 14px; font-weight: 900; cursor: pointer;
+  border: none; transition: all .2s;
+}
+.form-actions .btn-cancel {
+  border: 1px solid var(--line); background: #fff; color: var(--muted);
+}
+.form-actions .btn-confirm {
+  background: var(--gradient); color: #fff;
+}
+.form-actions .btn-confirm:hover { opacity: .9; }
+
+/* ===== 底部提示 ===== */
+.notice-bar {
+  margin-top: 20px; padding: 14px 16px;
+  border: 1px solid rgba(0,112,255,0.2);
+  border-radius: 8px; background: #EFF6FF;
+  color: #1E40AF; font-size: 13px; line-height: 1.65;
+}
+
+/* ===== 退出按钮 ===== */
+.logout-row { margin-top: 24px; text-align: center; }
+.logout-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 10px 24px; border-radius: 8px;
+  border: 1px solid var(--line); background: #fff;
+  color: var(--muted); font-size: 13px; font-weight: 800;
+  cursor: pointer; transition: all .2s;
+}
+.logout-btn:hover { border-color: var(--red); color: var(--red); }
+
+/* ===== 备案 ===== */
+.mps-beian {
+  display: flex; justify-content: center; gap: 6px;
+  padding: 18px; color: var(--muted); font-size: 12px;
+}
+.mps-beian a { display: flex; align-items: center; gap: 4px; color: var(--muted); }
+.mps-beian img { width: 16px; height: 16px; }
+
+/* ===== 详情弹窗 ===== */
+.modal-mask {
+  position: fixed; inset: 0; z-index: 100;
+  background: rgba(15,23,42,0.5);
+  display: flex; align-items: flex-end; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity .25s;
+}
+.modal-mask.show { opacity: 1; pointer-events: auto; }
+.modal-sheet {
+  width: min(540px, 100%); max-height: 85vh;
+  background: #fff; border-radius: 16px 16px 0 0;
+  overflow-y: auto; transform: translateY(100%);
+  transition: transform .3s ease;
+}
+.modal-mask.show .modal-sheet { transform: translateY(0); }
+.modal-handle { display: flex; justify-content: center; padding: 10px; }
+.modal-handle span {
+  width: 36px; height: 4px; border-radius: 999px;
+  background: #CBD5E1;
+}
+.modal-body { padding: 0 20px 28px; }
+.modal-head {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 16px;
+}
+.modal-head .company-avatar { width: 48px; height: 48px; font-size: 18px; }
+.modal-head-text { flex: 1; }
+.modal-head-text h2 { font-size: 18px; color: var(--ink); margin: 0 0 2px; }
+.modal-head-text .sub { color: var(--muted); font-size: 13px; margin: 0; }
+.modal-meta {
+  display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 18px;
+}
+.meta-tag {
+  padding: 4px 10px; border-radius: 999px;
+  border: 1px solid var(--line); background: var(--soft);
+  color: var(--muted); font-size: 12px; font-weight: 700;
+}
+.modal-section { margin-bottom: 18px; }
+.modal-section h4 {
+  font-size: 14px; color: var(--ink); margin: 0 0 8px;
+  display: flex; align-items: center; gap: 6px;
+}
+.modal-section p {
+  font-size: 13px; color: var(--muted); line-height: 1.75;
+  white-space: pre-line; margin: 0;
+}
+.modal-close-row {
+  padding: 16px 20px; border-top: 1px solid var(--line);
+}
+.modal-close-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 100%; min-height: 44px; border-radius: 8px;
+  border: none; background: var(--gradient);
+  color: #fff; font-size: 14px; font-weight: 900;
+  cursor: pointer;
+}
+@media (min-width: 540px) {
+  .modal-mask { align-items: center; }
+  .modal-sheet { border-radius: 16px; max-height: 80vh; }
+}
+</style>
+<style id="site-footer-unified-style">
+.site-footer{background:#fff;border-top:1px solid #E2E8F0;padding:40px;color:#94A3B8;font-size:12px;}
+.site-footer-inner{max-width:1200px;margin:0 auto;display:flex;align-items:flex-start;justify-content:space-between;gap:32px;}
+.site-footer-brand{display:flex;align-items:center;gap:12px;color:#0F172A;font-weight:600;}
+.site-footer-logo{width:32px;height:32px;border-radius:8px;object-fit:contain;display:block;flex-shrink:0;}
+.site-footer-info{text-align:right;}
+.site-footer-info p{margin:0;font-size:12px;color:#94A3B8;line-height:1.8;}
+.site-footer-info a{color:#94A3B8;text-decoration:none;display:inline-flex;align-items:center;gap:4px;vertical-align:middle;}
+.site-footer-info a:hover{color:#0070FF;}
+.site-footer-info img{width:16px;height:16px;flex-shrink:0;}
+@media(max-width:760px){.site-footer{padding:32px 20px;}.site-footer-inner{flex-direction:column;align-items:center;text-align:center;gap:14px;}.site-footer-brand{justify-content:center;}.site-footer-info{text-align:center;}.site-footer-info p{line-height:2;}}
+</style>
+</head>
+<body>
+
+<!-- ===== 顶部 ===== -->
+<header class="top">
+  <div class="brand"><img class="brand-logo" src="./assets/logo-icon.svg" alt="hi AI初面" /><span><strong>AI全量初面系统</strong><small>泓泽数字旗下产品</small></span></div>
+  <div class="user-pill"><div class="avatar">候</div>候选人</div>
+</header>
+
+<!-- ===== 主体 ===== -->
+<main class="layout">
+
+  <!-- 欢迎 -->
+  <div class="welcome">
+    <div class="crumb">候选人端 / 个人中心</div>
+    <h1>你好，候选人</h1>
+    <p>管理你的个人信息，查看已完成的面试记录。</p>
+  </div>
+
+  <!-- 个人信息 -->
+  <div class="profile-panel">
+    <div class="profile-head"><h2>个人信息</h2></div>
+    <div class="profile-cell" onclick="openFormModal('realname')">
+      <div class="cell-icon green">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      </div>
+      <div class="cell-text">
+        <p class="cell-label">实名认证</p>
+        <p class="cell-value">待同步实名信息</p>
+      </div>
+      <div class="cell-right">
+        <span class="auth-badge verified">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+          已认证
+        </span>
+        <svg class="cell-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+    </div>
+    <div class="profile-cell" onclick="openFormModal('phone')">
+      <div class="cell-icon blue">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+      </div>
+      <div class="cell-text">
+        <p class="cell-label">手机号</p>
+        <p class="cell-value">待同步手机号</p>
+      </div>
+      <div class="cell-right">
+        <span style="color:var(--blue);font-size:12px;font-weight:800">修改</span>
+        <svg class="cell-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+    </div>
+    <div class="profile-cell" onclick="openFormModal('password')">
+      <div class="cell-icon amber">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      </div>
+      <div class="cell-text">
+        <p class="cell-label">登录密码</p>
+        <p class="cell-value">可通过短信验证码修改</p>
+      </div>
+      <div class="cell-right">
+        <span style="color:var(--blue);font-size:12px;font-weight:800">修改</span>
+        <svg class="cell-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- 统计条 -->
+  <div class="stats-strip">
+    <div class="stat-box"><span class="num">4</span><span class="label">已参加面试</span></div>
+    <div class="stat-box"><span class="num">15</span><span class="label">记录保留天数</span></div>
+  </div>
+
+  <!-- 列表标题 -->
+  <div class="list-header">
+    <h2>面试记录</h2>
+    <span class="count">共 4 条</span>
+  </div>
+
+  <!-- 面试记录列表 -->
+  <div class="record-list">
+
+    <div class="record-item" onclick="openModal(0)">
+      <div class="company-avatar">泓</div>
+      <div class="record-main">
+        <h3>高级前端工程师</h3>
+        <p class="record-sub">泓泽数字科技有限公司<span class="sep">·</span>06-07</p>
+        <div class="record-tags">
+          <span class="tag-sm">25-40K·14薪</span>
+          <span class="tag-sm">深圳·南山</span>
+        </div>
+      </div>
+      <svg class="record-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+
+    <div class="record-item" onclick="openModal(1)">
+      <div class="company-avatar c2">星</div>
+      <div class="record-main">
+        <h3>产品经理</h3>
+        <p class="record-sub">星辰互联网络科技<span class="sep">·</span>06-05</p>
+        <div class="record-tags">
+          <span class="tag-sm">20-35K·13薪</span>
+          <span class="tag-sm">工作地点以企业填写为准</span>
+        </div>
+      </div>
+      <svg class="record-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+
+    <div class="record-item" onclick="openModal(2)">
+      <div class="company-avatar c3">橙</div>
+      <div class="record-main">
+        <h3>UI/UX 设计师</h3>
+        <p class="record-sub">橙光创意文化传媒<span class="sep">·</span>06-03</p>
+        <div class="record-tags">
+          <span class="tag-sm">15-25K·13薪</span>
+          <span class="tag-sm">深圳·福田</span>
+        </div>
+      </div>
+      <svg class="record-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+
+    <div class="record-item" onclick="openModal(3)">
+      <div class="company-avatar c4">蓝</div>
+      <div class="record-main">
+        <h3>Java 后端开发工程师</h3>
+        <p class="record-sub">蓝海云计算科技<span class="sep">·</span>05-29</p>
+        <div class="record-tags">
+          <span class="tag-sm">18-30K·14薪</span>
+          <span class="tag-sm">深圳·宝安</span>
+        </div>
+      </div>
+      <svg class="record-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+
+  </div>
+
+  <!-- 提示信息 -->
+  <div class="notice-bar">
+    面试评估结果和HR复核意见仅对企业端可见，候选人端不展示评分。如需了解面试结果，请直接与对应企业HR联系。面试记录将在完成后保留 15 天。
+  </div>
+
+  <!-- 退出 -->
+  <div class="logout-row">
+    <button class="logout-btn" onclick="handleLogout()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      退出登录
+    </button>
+  </div>
+
+</main>
+
+<!-- 底部备案 -->
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <div class="site-footer-brand"><img class="site-footer-logo" src="./assets/mother-company-symbol-cropped.png" alt="泓泽数字" /><span>泓泽数字</span></div>
+    <div class="site-footer-info">
+      <p>AI全量初面系统 &middot; Powered by <a href="https://www.hongzedigital.com">泓泽数字</a></p>
+      <p><a href="../help.html">使用说明</a> &middot; <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">粤ICP备2026055553号</a> &middot; <a href="https://www.beian.gov.cn/portal/registerSystemInfo?recordcode=44010302111445" target="_blank" rel="noreferrer"><img src="./assets/beian.png" alt="公安备案图标" />粤公网安备44010302111445号</a></p>
+    </div>
+  </div>
+</footer>
+
+<!-- ===== 详情弹窗 ===== -->
+<div class="modal-mask" id="detailModal">
+  <div class="modal-sheet">
+    <div class="modal-handle"><span></span></div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-close-row">
+      <button class="modal-close-btn" onclick="closeModal()">关闭</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 个人信息表单弹窗 ===== -->
+<div class="form-modal-mask" id="formModal">
+  <div class="form-modal" id="formModalContent"></div>
+</div>
+
+<script>
+/* 个人中心只认候选人账号登录；面试 token 不能替代账号登录。 */
+if (!localStorage.getItem('candidate_account_id')) {
+  location.href = 'login.html';
+}
+
+/* 从 API 加载真实数据；上线环境不展示本地占位面试记录。 */
+var API = '../api';
+var realDataLoaded = false;
+var candidateAccountPhone = '';
+var candidateRealName = '';
+var candidateIdCardMask = '';
+var candidateRealnameStatus = 'pending';
+function formatProfileSalary(r) {
+  var unit = r.salary_unit || 'K/月';
+  if (unit === '面议') return '面议';
+  var min = r.salary_min_k || '';
+  var max = r.salary_max_k || '';
+  if (!min || !max) return '';
+  return unit === '元/天' ? (min + '-' + max + '元/天') : (min + '-' + max + 'K/月');
+}
+(function loadAccountData() {
+  if (!localStorage.getItem('candidate_account_id')) return;
+  fetch(API + '/candidate/account_status.php', { credentials: 'include' })
+    .then(function(r) { return r.json(); })
+    .then(function(res) {
+      if (!res.ok) {
+        localStorage.removeItem('candidate_account_id');
+        location.href = 'login.html';
+        return;
+      }
+      realDataLoaded = true;
+      var d = res.data;
+      candidateAccountPhone = d.phone || '';
+      candidateRealName = d.real_name || '';
+      candidateIdCardMask = d.id_card_mask || '';
+      candidateRealnameStatus = d.realname_status || 'pending';
+      var displayName = candidateRealName || (candidateAccountPhone ? candidateAccountPhone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2') : '候选人');
+      /* 更新用户名 */
+      var h1 = document.querySelector('.welcome h1');
+      if (h1) h1.textContent = '你好，' + displayName;
+      var pill = document.querySelector('.user-pill');
+      if (pill) {
+        pill.innerHTML = '<div class="avatar">' + displayName.charAt(0) + '</div>' + displayName;
+      }
+      /* 更新统计 */
+      var nums = document.querySelectorAll('.stat-box .num');
+      if (nums.length >= 2) {
+        nums[0].textContent = d.interview_count || 0;
+        nums[1].textContent = d.records_keep_days || 15;
+      }
+      /* 更新列表标题 */
+      var countEl = document.querySelector('.list-header .count');
+      if (countEl) countEl.textContent = '共 ' + (d.interview_count || 0) + ' 条';
+      /* 更新实名信息 */
+      var cells = document.querySelectorAll('.profile-cell .cell-value');
+      if (cells.length >= 2) {
+        cells[0].textContent = candidateRealName
+          ? candidateRealName + (candidateIdCardMask ? ' · 身份证号 ' + candidateIdCardMask : '')
+          : '待完成实名认证';
+        cells[1].textContent = candidateAccountPhone || '待绑定手机号';
+      }
+      /* 如果有面试记录，替换列表数据 */
+      if (d.interview_records && d.interview_records.length > 0) {
+        records = [];
+        var clsList = ['', 'c2', 'c3', 'c4', 'c5'];
+        d.interview_records.forEach(function(r, i) {
+          records.push({
+            avatar: (r.company_name || '').charAt(0) || '?',
+            cls: clsList[i % clsList.length],
+            title: r.job_title || '未知岗位',
+            company: r.company_name || '未知企业',
+            salary: formatProfileSalary(r),
+            location: r.work_location || '',
+            date: (r.started_at || '').substring(0, 10),
+            duties: '',
+            requirements: ''
+          });
+        });
+        /* 重新渲染列表 */
+        renderRecordList();
+      } else {
+        /* 没有面试记录时清空列表区域 */
+        var listEl = document.querySelector('.record-list');
+        if (listEl) listEl.innerHTML = '<div style="padding:24px;text-align:center;color:var(--muted);font-size:14px">暂无面试记录</div>';
+      }
+    })
+    .catch(function() {
+      renderRecordList();
+    });
+})();
+
+function renderRecordList() {
+  var listEl = document.querySelector('.record-list');
+  if (!listEl) return;
+  var html = '';
+  records.forEach(function(r, i) {
+    html += '<div class="record-item" onclick="openModal(' + i + ')">'
+      + '<div class="company-avatar ' + r.cls + '">' + r.avatar + '</div>'
+      + '<div class="record-main"><h3>' + r.title + '</h3>'
+      + '<p class="record-sub">' + r.company + (r.date ? '<span class="sep">·</span>' + r.date : '') + '</p>'
+      + (r.salary ? '<div class="record-tags"><span class="tag-sm">' + r.salary + '</span>'
+      + (r.location ? '<span class="tag-sm">' + r.location + '</span>' : '') + '</div>' : '')
+      + '</div>'
+      + '<svg class="record-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>'
+      + '</div>';
+  });
+  listEl.innerHTML = html || '<div style="padding:24px;text-align:center;color:var(--muted);font-size:14px">暂无面试记录</div>';
+}
+
+var records = [];
+renderRecordList();
+
+var iconDoc = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>';
+var iconCheck = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>';
+
+function openModal(i){
+  var r = records[i];
+  var modal = document.getElementById('detailModal');
+  var body = document.getElementById('modalBody');
+  body.innerHTML = ''
+    +'<div class="modal-head">'
+    +'  <div class="company-avatar '+r.cls+'">'+r.avatar+'</div>'
+    +'  <div class="modal-head-text">'
+    +'    <h2>'+r.title+'</h2>'
+    +'    <p class="sub">'+r.company+'</p>'
+    +'  </div>'
+    +'</div>'
+    +'<div class="modal-meta">'
+    +'  <span class="meta-tag">'+r.salary+'</span>'
+    +'  <span class="meta-tag">'+r.location+'</span>'
+    +'  <span class="meta-tag">面试时间 '+r.date+'</span>'
+    +'</div>'
+    +'<div class="modal-section">'
+    +'  <h4>'+iconDoc+' 岗位职责</h4>'
+    +'  <p>'+r.duties+'</p>'
+    +'</div>'
+    +'<div class="modal-section">'
+    +'  <h4>'+iconCheck+' 任职要求</h4>'
+    +'  <p>'+r.requirements+'</p>'
+    +'</div>';
+  modal.classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(){
+  document.getElementById('detailModal').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('detailModal').addEventListener('click', function(e){
+  if(e.target === this) closeModal();
+});
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape'){ closeFormModal(); closeModal(); }
+});
+
+function handleLogout(){
+  if(confirm('确定要退出登录吗？')){
+    fetch(API + '/candidate/logout.php', { method: 'POST', credentials: 'include' }).catch(function(){})
+      .finally(function(){
+        localStorage.removeItem('candidate_token');
+        localStorage.removeItem('candidate_login_date');
+        localStorage.removeItem('candidate_account_id');
+        localStorage.removeItem('candidate_invite_token');
+        location.href = 'login.html';
+      });
+  }
+}
+
+/* ===== 个人信息表单弹窗 ===== */
+var formTemplates = {
+  realname: function(){
+    var nameText = candidateRealName || '暂未读取到实名姓名';
+    var idText = candidateIdCardMask || '暂未读取到证件掩码';
+    var statusText = candidateRealnameStatus === 'verified' ? '已认证' : '未完成认证';
+    return '<h3>实名认证信息</h3>'
+      +'<p class="form-desc">以下信息来自当前候选人账号的实名记录，如需变更请联系客服。</p>'
+      +'<div class="form-group"><label>姓名</label><input value="'+nameText+'" disabled style="background:#F7FAFC;color:var(--muted)" /></div>'
+      +'<div class="form-group"><label>身份证号</label><input value="'+idText+'" disabled style="background:#F7FAFC;color:var(--muted)" /></div>'
+      +'<div class="form-group"><label>认证状态</label>'
+      +'<div style="display:flex;align-items:center;gap:6px;margin-top:4px"><span class="auth-badge verified" style="font-size:13px;padding:5px 14px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>'+statusText+'</span></div></div>'
+      +'<div class="form-actions"><button class="btn-cancel" onclick="closeFormModal()">关闭</button></div>';
+  },
+  phone: function(){
+    var phoneText = candidateAccountPhone ? candidateAccountPhone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2') : '当前登录手机号';
+    return '<h3>修改手机号</h3>'
+      +'<p class="form-desc">请输入新的手机号并完成短信验证，修改后可用新手机号登录。</p>'
+      +'<div class="form-group"><label>当前手机号</label><input value="'+phoneText+'" disabled style="background:#F7FAFC;color:var(--muted)" /></div>'
+      +'<div class="form-group"><label>新手机号</label><input id="newPhone" placeholder="请输入新手机号" maxlength="11" /></div>'
+      +'<div class="form-group"><label>验证码</label><div class="sms-row"><input id="phoneCode" placeholder="短信验证码" maxlength="6" /><button class="sms-btn" id="phoneSmsBtn" onclick="sendSms(this)">获取验证码</button></div></div>'
+      +'<div class="form-actions"><button class="btn-cancel" onclick="closeFormModal()">取消</button><button class="btn-confirm" onclick="confirmPhone()">确认修改</button></div>';
+  },
+  password: function(){
+    var phoneText = candidateAccountPhone ? candidateAccountPhone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2') : '当前登录手机号';
+    return '<h3>修改密码</h3>'
+      +'<p class="form-desc">通过当前绑定手机号验证后即可修改密码，不需要输入原密码。</p>'
+      +'<div class="form-group"><label>当前手机号</label><input value="'+phoneText+'" disabled style="background:#F7FAFC;color:var(--muted)" /></div>'
+      +'<div class="form-group"><label>短信验证码</label><div class="sms-row"><input id="pwdSmsCode" placeholder="请输入短信验证码" maxlength="6" /><button class="sms-btn" id="pwdSmsBtn" onclick="sendPasswordSms(this)">获取验证码</button></div></div>'
+      +'<div class="form-group"><label>新密码</label><input id="newPwd" type="password" placeholder="至少 8 位，含字母和数字" /><p class="hint">密码强度：需包含大小写字母和数字</p></div>'
+      +'<div class="form-group"><label>确认新密码</label><input id="confirmPwd" type="password" placeholder="再次输入新密码" /></div>'
+      +'<div class="form-actions"><button class="btn-cancel" onclick="closeFormModal()">取消</button><button class="btn-confirm" onclick="confirmPassword()">确认修改</button></div>';
+  }
+};
+
+function openFormModal(type){
+  var mask = document.getElementById('formModal');
+  var content = document.getElementById('formModalContent');
+  content.innerHTML = formTemplates[type]();
+  mask.classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+function closeFormModal(){
+  document.getElementById('formModal').classList.remove('show');
+  document.body.style.overflow = '';
+}
+document.getElementById('formModal').addEventListener('click', function(e){
+  if(e.target === this) closeFormModal();
+});
+
+/* ===== 短信验证码倒计时 ===== */
+function sendSms(btn){
+  var phoneInput = document.getElementById('newPhone');
+  var phone = phoneInput ? phoneInput.value.trim() : '';
+  if(!/^1\d{10}$/.test(phone)){ alert('请输入正确的 11 位手机号'); return; }
+  if(!startSmsCountdown(btn)) return;
+  fetch(API + '/auth/send_sms_code.php', {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ phone: phone, purpose: 'candidate_phone' })
+  })
+    .then(function(r){ return r.json(); })
+    .then(function(res){
+      if(!res.ok) throw new Error(res.message || '验证码发送失败');
+    })
+    .catch(function(err){
+      btn.classList.remove('countdown');
+      btn.textContent = '获取验证码';
+      alert(err.message || '验证码发送失败');
+    });
+}
+function startSmsCountdown(btn){
+  if(btn.classList.contains('countdown')) return false;
+  btn.classList.add('countdown');
+  var sec = 60;
+  btn.textContent = sec + 's 后重发';
+  var timer = setInterval(function(){
+    sec--;
+    if(sec <= 0){ clearInterval(timer); btn.classList.remove('countdown'); btn.textContent = '获取验证码'; }
+    else { btn.textContent = sec + 's 后重发'; }
+  }, 1000);
+  return true;
+}
+function sendPasswordSms(btn){
+  if(!candidateAccountPhone){ alert('未读取到当前手机号，请重新登录后再试'); return; }
+  if(!startSmsCountdown(btn)) return;
+  fetch(API + '/auth/send_sms_code.php', {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ phone: candidateAccountPhone, purpose: 'candidate_password' })
+  })
+    .then(function(r){ return r.json(); })
+    .then(function(res){
+      if(!res.ok) throw new Error(res.message || '验证码发送失败');
+    })
+    .catch(function(err){
+      btn.classList.remove('countdown');
+      btn.textContent = '获取验证码';
+      alert(err.message || '验证码发送失败');
+    });
+}
+
+function confirmPhone(){
+  var phone = document.getElementById('newPhone').value;
+  var code = document.getElementById('phoneCode').value;
+  if(!phone || phone.length !== 11){ alert('请输入正确的 11 位手机号'); return; }
+  if(!code || code.length < 4){ alert('请输入短信验证码'); return; }
+  fetch(API + '/candidate/update_phone.php', {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ phone: phone, sms_code: code })
+  })
+    .then(function(r){ return r.json(); })
+    .then(function(res){
+      if(!res.ok) throw new Error(res.message || '手机号修改失败');
+      candidateAccountPhone = (res.data && res.data.phone) || phone;
+      var cells = document.querySelectorAll('.profile-cell .cell-value');
+      if (cells.length >= 2) cells[1].textContent = candidateAccountPhone;
+      alert(res.message || '手机号修改成功');
+      closeFormModal();
+    })
+    .catch(function(err){ alert(err.message || '手机号修改失败'); });
+}
+function confirmPassword(){
+  var code = document.getElementById('pwdSmsCode').value;
+  var np = document.getElementById('newPwd').value;
+  var cp = document.getElementById('confirmPwd').value;
+  if(!code || code.length < 4){ alert('请输入短信验证码'); return; }
+  if(np.length < 8){ alert('新密码至少 8 位'); return; }
+  if(!/[A-Za-z]/.test(np) || !/\d/.test(np)){ alert('新密码需包含字母和数字'); return; }
+  if(np !== cp){ alert('两次输入的密码不一致'); return; }
+  fetch(API + '/candidate/reset_password.php', {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ sms_code: code, new_password: np, password_confirm: cp })
+  })
+    .then(function(r){ return r.json(); })
+    .then(function(res){
+      if(!res.ok) throw new Error(res.message || '密码修改失败');
+      alert(res.message || '密码修改成功');
+      closeFormModal();
+    })
+    .catch(function(err){ alert(err.message || '密码修改失败'); });
+}
+</script>
+<script src="./auth-flow.js?v=20260612d"></script>
+<script src="./candidate-progress.js?v=20260612d"></script>
+
+</body>
+</html>

@@ -1,0 +1,284 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta name="hi-build" content="20260615cachefix" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>初面管理｜AI全量初面系统</title>
+    <link rel="stylesheet" href="./v2-design-system.css?v=20260615cachefix" />
+    <style>
+      .job-card {
+        transition: box-shadow .3s, transform .3s;
+      }
+      .job-card:hover {
+        box-shadow: var(--s3);
+        transform: translateY(-2px);
+      }
+      .job-card-body {
+        padding: 0;
+      }
+      .mini-stats.compact {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+      }
+      .job-card-header h2 {
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .job-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 8px;
+      }
+      .tag .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        display: inline-block;
+      }
+      .tag.blue .dot { background: var(--blue); }
+      .tag.green .dot { background: var(--green); }
+      .tag.amber .dot { background: var(--amber); }
+      .tag.gray .dot { background: var(--text-aux); }
+      .empty-state .empty-icon {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, rgba(0,112,255,.06), rgba(0,214,143,.06));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 28px;
+        position: relative;
+      }
+      .empty-state .empty-icon::before {
+        content: '';
+        position: absolute;
+        inset: -8px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, rgba(0,112,255,.04), rgba(0,214,143,.04));
+        animation: pulse-ring 3s ease-in-out infinite;
+      }
+      @keyframes pulse-ring {
+        0%, 100% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.08); opacity: .5; }
+      }
+      .empty-state .empty-icon svg {
+        width: 48px;
+        height: 48px;
+        stroke: var(--blue);
+        fill: none;
+        stroke-width: 1.5;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .empty-state h2 { font-size: 22px; }
+      .empty-state p { max-width: 360px; margin-left: auto; margin-right: auto; line-height: 1.6; }
+      .btn.danger {
+        border-color: rgba(239,68,68,.28);
+        color: #DC2626;
+        background: #fff;
+      }
+      .btn.danger:hover {
+        background: rgba(239,68,68,.06);
+        border-color: rgba(239,68,68,.45);
+      }
+      @media (max-width: 980px) {
+        .mini-stats.compact { grid-template-columns: 1fr 1fr; }
+      }
+    </style>
+  <style id="site-footer-unified-style">
+.site-footer{background:#fff;border-top:1px solid #E2E8F0;padding:40px;color:#94A3B8;font-size:12px;}
+.site-footer-inner{max-width:1200px;margin:0 auto;display:flex;align-items:flex-start;justify-content:space-between;gap:32px;}
+.site-footer-brand{display:flex;align-items:center;gap:12px;color:#0F172A;font-weight:600;}
+.site-footer-logo{width:32px;height:32px;border-radius:8px;object-fit:contain;display:block;flex-shrink:0;}
+.site-footer-info{text-align:right;}
+.site-footer-info p{margin:0;font-size:12px;color:#94A3B8;line-height:1.8;}
+.site-footer-info a{color:#94A3B8;text-decoration:none;display:inline-flex;align-items:center;gap:4px;vertical-align:middle;}
+.site-footer-info a:hover{color:#0070FF;}
+.site-footer-info img{width:16px;height:16px;flex-shrink:0;}
+@media(max-width:760px){.site-footer{padding:32px 20px;}.site-footer-inner{flex-direction:column;align-items:center;text-align:center;gap:14px;}.site-footer-brand{justify-content:center;}.site-footer-info{text-align:center;}.site-footer-info p{line-height:2;}}
+</style>
+</head>
+  <body>
+    <div class="shell">
+      <aside class="side">
+        <div class="brand">
+          <img class="brand-logo" src="./assets/logo-icon.svg" alt="hi AI初面" style="background:none;padding:0;" />
+          <span><strong>AI全量初面系统</strong><small>泓泽数字旗下产品</small></span>
+        </div>
+        <nav class="nav">
+          <a href="./dashboard.html">🏠 首页</a>
+          <a href="./create-interview-flow.html?v=20260615cachefix">✦ 创建初面</a>
+          <a class="active" href="./job-management.html">📋 初面管理</a>
+          <a href="./candidate-list.html">👥 候选人</a>
+          <a href="./report-review-list.html">📊 报告复核</a>
+          <a href="./question-bank.html">📝 题库管理</a>
+          <div class="nav-sep"></div>
+          <a href="./membership.html">💎 会员中心</a>
+          <a href="./profile.html">⚙ 设置</a>
+        </nav>
+      </aside>
+      <main class="main">
+        <div class="topbar">
+          <div class="page-title">
+            <span class="crumb">HR端 / 初面管理</span>
+            <h1>初面管理</h1>
+            <p>每个岗位都是一场AI初面任务，可从这里编辑初面、配置问题或生成链接。</p>
+          </div>
+          <div class="topbar-account">
+            <a class="btn primary" href="./create-interview-flow.html?v=20260615cachefix">✦ 创建初面</a>
+            <a class="user-mini" href="./profile.html"><div class="avatar">HR</div><div><strong>当前HR</strong><span>个人中心</span></div></a>
+            <a class="btn" href="./login.html">退出</a>
+          </div>
+        </div>
+
+        <div class="job-list" style="margin-top: 24px;">
+          <section class="panel empty-state">
+            <div class="empty-icon">
+              <svg viewBox="0 0 48 48"><path d="M28 4H12a4 4 0 00-4 4v32a4 4 0 004 4h24a4 4 0 004-4V16L28 4z"/><polyline points="28,4 28,16 40,16"/><line x1="16" y1="26" x2="32" y2="26"/><line x1="16" y1="34" x2="26" y2="34"/></svg>
+            </div>
+            <h2>还没有初面任务</h2>
+            <p>新账号不会预置岗位。请先创建一场AI初面，系统会引导你完成岗位信息、问题配置和链接发布。</p>
+            <a class="btn primary" href="./create-interview-flow.html?v=20260615cachefix">✦ 创建初面</a>
+          </section>
+        </div>
+      </main>
+    </div>
+    <footer class="site-footer">
+  <div class="site-footer-inner">
+    <div class="site-footer-brand"><img class="site-footer-logo" src="./assets/mother-company-symbol-cropped.png" alt="泓泽数字" /><span>泓泽数字</span></div>
+    <div class="site-footer-info">
+      <p>AI全量初面系统 &middot; Powered by <a href="https://www.hongzedigital.com">泓泽数字</a></p>
+      <p><a href="../help.html">使用说明</a> &middot; <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">粤ICP备2026055553号</a> &middot; <a href="https://www.beian.gov.cn/portal/registerSystemInfo?recordcode=44010302111445" target="_blank" rel="noreferrer"><img src="./assets/beian.png" alt="公安备案图标" />粤公网安备44010302111445号</a></p>
+    </div>
+  </div>
+</footer>
+    <a href="./login.html" style="display:none" aria-hidden="true">退出</a>
+    <script src="./auth-flow.js?v=20260615cachefix"></script>
+    <script>
+      (() => {
+        const API = '../api';
+
+        async function get(path) {
+          const res = await fetch(`${API}/${path}`, { credentials: 'include' });
+          const data = await res.json().catch(() => ({ok:false, message:'接口返回格式错误'}));
+          if (data && data.data && data.data.need_login) {
+            location.href = './login.html';
+            return new Promise(() => {});
+          }
+          if (!res.ok || !data.ok) throw new Error((data.message || '请求失败') + (data.data && data.data.error ? `：${data.data.error}` : ''));
+          return data;
+        }
+
+        async function post(path, payload) {
+          const res = await fetch(`${API}/${path}`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            credentials: 'include',
+            body: JSON.stringify(payload || {})
+          });
+          const data = await res.json().catch(() => ({ok:false, message:'接口返回格式错误'}));
+          if (data && data.data && data.data.need_login) {
+            location.href = './login.html';
+            return new Promise(() => {});
+          }
+          if (!res.ok || !data.ok) throw new Error((data.message || '请求失败') + (data.data && data.data.error ? `：${data.data.error}` : ''));
+          return data;
+        }
+
+        function formatJobSalary(job) {
+          const unit = job.salary_unit || 'K/月';
+          if (unit === '面议') return '面议';
+          if (unit === '元/天') return (job.salary_min_k || '-') + '-' + (job.salary_max_k || '-') + '元/天';
+          return (job.salary_min_k || '-') + '-' + (job.salary_max_k || '-') + 'K/月';
+        }
+
+        function jobLocationLabel(job) {
+          return String(job.work_location || '').trim() || '工作地点待补充';
+        }
+
+        function renderJobCard(job) {
+          const section = document.createElement('section');
+          section.className = 'job-card';
+          const isActive = job.status === 'active';
+          const statusText = isActive ? '进行中' : '已关闭';
+          const statusClass = isActive ? 'green' : 'gray';
+          section.innerHTML = `
+            <div class="job-card-header">
+              <div>
+                <h2>${job.job_title || ''}</h2>
+                <p>${job.company_name || '公司信息待补充'}</p>
+                <div class="job-meta">
+                  <span class="tag ${statusClass}"><span class="dot"></span>${statusText}</span>
+                  <span class="tag amber"><span class="dot"></span>${jobLocationLabel(job)}</span>
+                  <span class="tag blue">${formatJobSalary(job)}</span>
+                  <span class="tag gray">${job.benefits || '福利待补充'}</span>
+                </div>
+              </div>
+            </div>
+            <div class="job-card-body">
+              <div class="mini-stats compact">
+                <article class="mini-stat"><span>候选人总数</span><strong>${job.candidate_count || 0}</strong><small>已发送邀请</small></article>
+                <article class="mini-stat"><span>已完成初面</span><strong>${job.completed_count || 0}</strong><small>面试已结束</small></article>
+                <article class="mini-stat"><span>待复核报告</span><strong>${job.review_pending_count || 0}</strong><small>需要HR审阅</small></article>
+                <article class="mini-stat"><span>待面试</span><strong>${job.pending_count || 0}</strong><small>尚未开始</small></article>
+              </div>
+            </div>
+            <div class="job-card-footer">
+              <a class="btn" href="./candidate-list.html?job_id=${job.id}">📋 查看候选人</a>
+              <a class="btn" href="./report-review-list.html?job_id=${job.id}">📊 报告复核</a>
+              <a class="btn" href="./job-review.html?job_id=${job.id}">岗位复盘</a>
+              <a class="btn outline-primary" href="./create-interview-flow.html?v=20260615cachefix&job_id=${job.id}&step=1">✦ 编辑初面</a>
+              <button class="btn danger" type="button" data-delete-job="${job.id}" data-job-title="${job.job_title || ''}">删除</button>
+            </div>`;
+          return section;
+        }
+
+        async function deleteJob(jobId, title, card) {
+          const name = title || '该岗位';
+          const ok = window.confirm(`确认删除「${name}」？\n\n删除后，该岗位不会再显示在初面管理中，已生成的候选人链接将不再用于新增候选人；历史候选人和报告记录仍会保留。`);
+          if (!ok) return;
+          await post('hr/delete_job.php', {job_id: jobId});
+          card.remove();
+          if (!document.querySelector('.job-card')) {
+            setupJobManagement();
+          }
+        }
+
+        function setupJobManagement() {
+          const list = document.querySelector('.job-list');
+          if (!list) return;
+          get('hr/list_jobs.php').then(({data}) => {
+            list.innerHTML = '';
+            if (!data.jobs || data.jobs.length === 0) {
+              const empty = document.createElement('section');
+              empty.className = 'panel empty-state';
+              empty.innerHTML = '<div class="empty-icon"><svg viewBox="0 0 48 48"><path d="M28 4H12a4 4 0 00-4 4v32a4 4 0 004 4h24a4 4 0 004-4V16L28 4z"/><polyline points="28,4 28,16 40,16"/><line x1="16" y1="26" x2="32" y2="26"/><line x1="16" y1="34" x2="26" y2="34"/></svg></div><h2>还没有初面任务</h2><p>新账号不会预置岗位。请先创建一场AI初面，系统会引导你完成岗位信息、问题配置和链接发布。</p><a class="btn primary" href="./create-interview-flow.html?v=20260615cachefix">✦ 创建初面</a>';
+              list.appendChild(empty);
+              return;
+            }
+            data.jobs.forEach(job => list.appendChild(renderJobCard(job)));
+            list.querySelectorAll('[data-delete-job]').forEach((button) => {
+              button.addEventListener('click', () => {
+                const card = button.closest('.job-card');
+                deleteJob(Number(button.dataset.deleteJob), button.dataset.jobTitle || '', card).catch((err) => alert(err.message));
+              });
+            });
+          }).catch((err) => {
+            list.innerHTML = `<section class="panel"><p class="hint">${err.message}</p></section>`;
+          });
+        }
+
+        setupJobManagement();
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta name="hi-build" content="20260615cachefix" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI初面报告｜AI全量初面系统</title>
+    <link rel="stylesheet" href="./v2-design-system.css?v=20260615cachefix" />
+    <style>
+      .report-hero{display:flex;align-items:center;justify-content:space-between;gap:20px;background:linear-gradient(135deg,rgba(0,112,255,.06),rgba(0,214,143,.06));border:1px solid rgba(0,112,255,.12);border-radius:var(--radius-card);padding:24px;margin:20px 0}.report-label{font-size:12px;color:var(--text-secondary);margin-bottom:4px}.report-hero h2{font-size:20px;font-weight:800;margin:0 0 4px}.report-hero p{margin:0;font-size:13px;color:var(--text-secondary);max-width:780px;line-height:1.8}.report-score{min-width:150px;text-align:center;padding:14px 18px;background:#fff;border:1px solid var(--border);border-radius:var(--radius-card);box-shadow:var(--s1)}.report-score span{display:block;font-size:12px;color:var(--text-aux)}.report-score strong{display:block;font-size:30px;font-weight:900;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.report-score small{display:block;font-size:12px;color:var(--text-secondary)}
+      .score-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}.score-card{padding:16px;border:1px solid var(--border);border-radius:var(--radius-card);background:#fff;box-shadow:var(--s1)}.score-card span{display:block;font-size:12px;color:var(--text-aux);margin-bottom:4px}.score-card strong{display:block;font-size:28px;line-height:1.1;font-weight:900;color:var(--text-primary)}.score-card strong.gradient{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.score-card small{display:block;margin-top:8px;color:var(--text-secondary);font-size:12px;line-height:1.6}
+      .report-section{background:#fff;border:1px solid var(--border);border-radius:var(--radius-card);margin-bottom:16px;overflow:hidden}.report-section.primary{border-color:rgba(0,112,255,.22);box-shadow:0 8px 28px rgba(0,112,255,.08)}.section-head{padding:16px 20px 8px}.section-head h2{font-size:15px;font-weight:800;margin:0 0 2px}.section-head p{margin:0;font-size:12px;color:var(--text-aux)}
+      .analysis-list{display:grid;gap:10px;padding:8px 20px 20px}.analysis-item{display:grid;gap:4px;padding:12px;border:1px solid var(--border);border-radius:var(--radius-btn);background:var(--bg-main)}.analysis-item strong{font-size:13px}.analysis-item p{margin:0;color:var(--text-secondary);font-size:13px;line-height:1.75}.tag-row{display:flex;flex-wrap:wrap;gap:8px;padding:0 20px 20px}.tag{display:inline-flex;align-items:center;gap:4px;padding:4px 9px;border-radius:999px;font-size:12px;font-weight:700;background:#EFF6FF;color:#1D4ED8}.tag.green{background:#ECFDF5;color:#047857}.tag.amber{background:#FFFBEB;color:#B45309}.tag.red{background:#FEF2F2;color:#B91C1C}.tag.gray{background:#F1F5F9;color:#64748B}
+      .audio-panel{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center;margin:8px 20px 20px;padding:14px;border:1px solid var(--border);border-radius:var(--radius-btn);background:var(--bg-main)}.audio-panel strong{display:block;font-size:14px;margin-bottom:4px}.audio-panel p{margin:0;color:var(--text-secondary);font-size:13px;line-height:1.7}.audio-actions{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}.audio-status{display:inline-flex;align-items:center;padding:4px 9px;border-radius:999px;background:#FFFBEB;color:#B45309;font-size:12px;font-weight:700}
+      .risk-panel{display:grid;gap:10px;padding:8px 20px 20px}.risk-row{display:grid;grid-template-columns:112px 1fr auto;gap:10px;align-items:start;padding:12px;border:1px solid var(--border);border-radius:var(--radius-btn);background:var(--bg-main)}.risk-row span{color:var(--text-aux);font-size:12px;font-weight:700}.risk-row p{margin:0;color:var(--text-secondary);font-size:13px;line-height:1.7}
+      .question-list{display:grid;gap:14px;padding:8px 20px 20px;max-height:760px;overflow-y:auto}.question-card{display:grid;gap:12px;padding:16px;border:1px solid var(--border);border-radius:var(--radius-btn);background:var(--bg-main)}.question-card header{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.question-card h3{margin:0;font-size:14px;line-height:1.65}.question-tools{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;min-width:220px}.judgement-panel{display:grid;gap:10px}.judgement-title{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px;border-radius:var(--radius-btn);background:#fff;border:1px solid var(--border)}.judgement-title strong{font-size:13px}.judgement-title span{color:var(--text-aux);font-size:12px}.criteria-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.criteria-card{display:grid;gap:8px;padding:12px;border-radius:var(--radius-btn);border:1px solid var(--border);background:#fff}.criteria-card header{display:flex;align-items:center;justify-content:space-between;gap:8px}.criteria-card h4{margin:0;font-size:13px}.criteria-card .result{font-weight:800;color:var(--text-primary)}.criteria-card .standard{margin:0;padding-top:8px;border-top:1px dashed var(--border);font-size:12px;color:var(--text-aux);line-height:1.7}.criteria-card .basis{margin:0;font-size:13px;color:var(--text-secondary);line-height:1.75}.criteria-card.warning{border-color:rgba(245,158,11,.35);background:#FFFBEB}.criteria-card.good{border-color:rgba(0,214,143,.25);background:#F0FDF4}
+      details.transcript-box{border:1px solid var(--border);border-radius:var(--radius-btn);background:#fff}details.transcript-box summary{cursor:pointer;padding:10px 12px;font-size:13px;font-weight:700;color:var(--text-secondary)}.transcript{padding:0 12px 12px;color:var(--text-secondary);font-size:13px;line-height:1.8;white-space:pre-wrap;overflow-wrap:anywhere}.review-decision{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 20px;border-bottom:1px solid var(--border)}.review-decision span{display:block;font-size:12px;color:var(--text-aux)}.review-decision strong{font-size:14px}.review-decision small{display:block;font-size:12px;color:var(--text-secondary)}.decision-options{display:flex;gap:8px;flex-wrap:wrap}.decision-options button{padding:8px 16px;border-radius:var(--radius-btn);border:1px solid var(--border);background:#fff;font-size:13px;cursor:pointer;font-weight:600;font-family:inherit}.decision-options button.active{border-color:var(--gradient-start);background:var(--gradient);color:#fff}.feedback-panel{padding:20px}.review-guide{padding:12px 14px;margin-bottom:12px;border:1px solid rgba(0,112,255,.16);border-radius:var(--radius-btn);background:#EFF6FF;color:#334155;font-size:13px;line-height:1.75}.review-guide strong{display:block;color:var(--text-primary);margin-bottom:4px}.feedback-panel textarea{width:100%;min-height:104px;padding:12px;border:1px solid var(--border);border-radius:var(--radius-btn);font-size:13px;font-family:inherit;resize:vertical}.feedback-actions{display:flex;gap:8px;margin-top:12px}.ai-boundary-strip{background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.3);border-radius:var(--radius-btn);padding:12px 16px;font-size:12px;color:#92400E;text-align:center;margin:16px 0}
+      .site-footer{background:#fff;border-top:1px solid #E2E8F0;padding:40px;color:#94A3B8;font-size:12px}.site-footer-inner{max-width:1200px;margin:0 auto;display:flex;align-items:flex-start;justify-content:space-between;gap:32px}.site-footer-brand{display:flex;align-items:center;gap:12px;color:#0F172A;font-weight:600}.site-footer-logo{width:32px;height:32px;border-radius:8px;object-fit:contain;display:block;flex-shrink:0}.site-footer-info{text-align:right}.site-footer-info p{margin:0;font-size:12px;color:#94A3B8;line-height:1.8}.site-footer-info a{color:#94A3B8;text-decoration:none;display:inline-flex;align-items:center;gap:4px;vertical-align:middle}.site-footer-info img{width:16px;height:16px;flex-shrink:0}
+      @media(max-width:1080px){.score-strip,.criteria-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:760px){.shell{display:block}.side{position:relative;height:auto}.report-hero,.question-card header,.audio-panel,.review-decision{grid-template-columns:1fr;flex-direction:column;align-items:flex-start}.score-strip,.criteria-grid{grid-template-columns:1fr}.risk-row{grid-template-columns:1fr}.question-tools,.audio-actions{justify-content:flex-start}.site-footer-inner{flex-direction:column;align-items:center;text-align:center}.site-footer-info{text-align:center}}
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="side">
+        <div class="brand"><img class="brand-logo" src="./assets/logo-icon.svg" alt="hi AI初面" style="background:none;padding:0;" /><span><strong>AI全量初面系统</strong><small>泓泽数字旗下产品</small></span></div>
+        <nav class="nav">
+          <a href="./dashboard.html">首页</a><a href="./create-interview-flow.html?v=20260615cachefix">创建初面</a><a href="./job-management.html">初面管理</a><a href="./candidate-list.html">候选人</a><a class="active" href="./report-review-list.html">报告复核</a><a href="./question-bank.html">题库管理</a>
+          <div class="nav-sep"></div><a href="./membership.html">会员中心</a><a href="./profile.html">设置</a>
+        </nav>
+      </aside>
+      <main class="main">
+        <div class="topbar">
+          <div class="page-title"><span class="crumb">HR端 / 初面报告</span><h1 id="reportTitle">AI初面报告</h1><p id="reportSubtitle">正在读取真实面试记录...</p></div>
+          <div class="topbar-account"><a class="btn" href="./report-review-list.html">返回列表</a><a class="btn primary" href="#hr-feedback">提交复核</a><a class="btn" href="./login.html" id="logoutLink">退出</a></div>
+        </div>
+
+        <section class="report-hero">
+          <div><div class="report-label" id="reportInterviewNo">面试编号：-</div><h2 id="reportCandidateName">候选人</h2><p id="reportSummary">报告生成中。AI只提供初面线索，最终是否推进由HR人工复核。</p></div>
+          <div class="report-score"><span>综合建议</span><strong id="reportDecision">待定</strong><small id="reportDecisionDesc">待HR复核</small></div>
+        </section>
+
+        <section class="score-strip" aria-label="核心评分">
+          <article class="score-card"><span>基础表现分</span><strong id="basicScore">-</strong><small>表达完整度与回答清晰度</small></article>
+          <article class="score-card"><span>岗位匹配分</span><strong class="gradient" id="matchScore">-</strong><small>回答与岗位能力要求的相关度</small></article>
+          <article class="score-card"><span>过程异常风险</span><strong id="riskLevel">低</strong><small id="riskDesc">未发现明显异常，仅作复核提示</small></article>
+          <article class="score-card"><span>完整录音状态</span><strong id="fullAudioState">整理中</strong><small>逐题录音可先播放复核</small></article>
+        </section>
+
+        <section class="report-section primary">
+          <div class="section-head"><h2>AI整理结果</h2><p>只展示候选人维度的复核线索，不在单个报告里做题目或JD优化。</p></div>
+          <div class="analysis-list">
+            <article class="analysis-item"><strong>候选人概览</strong><p id="candidateOverview">报告生成中。</p></article>
+            <article class="analysis-item"><strong>岗位匹配分析</strong><p id="jobMatchAnalysis">正在分析候选人回答和岗位要求的相关度。</p></article>
+            <article class="analysis-item"><strong>建议复核重点</strong><p id="reviewFocus">建议HR结合录音、转写和简历继续复核。</p></article>
+          </div>
+          <div class="tag-row" id="keywordTags"><span class="tag gray">待生成</span></div>
+        </section>
+
+        <section class="report-section">
+          <div class="section-head"><h2>完整面试音频</h2><p>完整音频应由“AI读题 + 候选人回答”合成；未生成前不提供虚假的下载按钮。</p></div>
+          <div class="audio-panel">
+            <div><strong id="fullAudioTitle">整合音频暂未生成</strong><p id="fullAudioDesc">当前可先在逐题区域播放候选人每题回答。整场合成音频接入后，会在这里提供播放和下载。</p></div>
+            <div class="audio-actions"><span class="audio-status" id="fullAudioBadge">整理中</span><button class="btn" type="button" disabled>播放完整音频</button><button class="btn primary" type="button" disabled>下载完整音频</button></div>
+          </div>
+        </section>
+
+        <section class="report-section">
+          <div class="section-head"><h2>过程异常行为提示</h2><p>仅提示需要HR复核的过程风险，不直接判定作弊或淘汰。</p></div>
+          <div class="risk-panel" id="riskPanel"></div>
+        </section>
+
+        <section class="report-section">
+          <div class="section-head"><h2>逐题AI判断</h2><p>优先看每题AI判断，原始转写折叠在下方作为证据。</p></div>
+          <div class="question-list" id="reportRecordingRows"><div class="question-card">暂无语音记录。</div></div>
+        </section>
+
+        <section class="report-section" id="hr-feedback">
+          <div class="section-head"><h2>HR复核反馈区</h2><p>保留人工判断和最终推进结论。</p></div>
+          <section class="review-decision" aria-label="HR复核结果">
+            <div><span>HR复核结果</span><strong>请确认下一步处理</strong><small>AI仅提供初面线索，复核结果由HR人工确认。</small></div>
+            <div class="decision-options"><button type="button">继续推进</button><button type="button">待定</button><button type="button">暂不推进</button></div>
+          </section>
+          <div class="feedback-panel">
+            <div class="review-guide"><strong>建议填写内容</strong>请补充你对候选人的人工判断、候选人亮点、风险点、是否推进、后续追问建议。写得越具体，系统后续对同类岗位、同类候选人回答的判断会越准确。</div>
+            <textarea placeholder="请输入HR复核意见"></textarea>
+            <div class="feedback-actions"><a class="btn" href="javascript:void(0)">暂存</a><a class="btn primary" href="javascript:void(0)">提交复核意见</a></div>
+          </div>
+        </section>
+
+        <section class="ai-boundary-strip">AI仅整理候选人初面线索、回答证据和过程风险提示，不直接淘汰候选人，不直接决定录用；最终判断由HR或企业完成。</section>
+      </main>
+    </div>
+    <footer class="site-footer"><div class="site-footer-inner"><div class="site-footer-brand"><img class="site-footer-logo" src="./assets/mother-company-symbol-cropped.png" alt="泓泽数字" /><span>泓泽数字</span></div><div class="site-footer-info"><p>AI全量初面系统 &middot; Powered by <a href="https://www.hongzedigital.com">泓泽数字</a></p><p><a href="../help.html">使用说明</a> &middot; <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">粤ICP备2026055553号</a> &middot; <a href="https://www.beian.gov.cn/portal/registerSystemInfo?recordcode=44010302111445" target="_blank" rel="noreferrer"><img src="./assets/beian.png" alt="公安备案图标" />粤公网安备44010302111445号</a></p></div></div></footer>
+    <script src="./common.js?v=20260615cachefix"></script>
+    <script src="./auth-flow.js?v=20260615cachefix"></script>
+    <script>
+    (function(){
+      var API = '../api';
+      function get(path){return fetch(API+'/'+path,{credentials:'include'}).then(function(r){return r.json();}).then(function(data){if(data&&data.data&&data.data.need_login){location.href='./login.html';return new Promise(function(){});}if(!data.ok)throw new Error(data.message||'请求失败');return data;});}
+      function post(path,payload){return fetch(API+'/'+path,{method:'POST',headers:{'Content-Type':'application/json'},credentials:'include',body:JSON.stringify(payload)}).then(function(r){return r.json();}).then(function(data){if(data&&data.data&&data.data.need_login){location.href='./login.html';return new Promise(function(){});}if(!data.ok)throw new Error(data.message||'请求失败');return data;});}
+      function esc(value){return String(value==null?'':value).replace(/[&<>"']/g,function(ch){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch];});}
+      function textValue(value,fallback){if(value==null)return fallback||'';if(Array.isArray(value)){var parts=value.map(function(v){return textValue(v,'');}).filter(Boolean);return parts.length?parts.join('；'):(fallback||'');}if(typeof value==='object'){var objParts=Object.keys(value).map(function(k){var v=textValue(value[k],'');return v?k+'：'+v:'';}).filter(Boolean);return objParts.length?objParts.join('；'):(fallback||'');}var text=String(value).trim();return text&&text.toLowerCase()!=='array'?text:(fallback||'');}
+      function keywordList(value){var text=textValue(value,'');return text.split(/[、,，;；\s]+/).filter(Boolean);}
+      function yesNo(value){return value?'已通过':'未记录';}
+      function fmtTime(value){return value?String(value).replace('T',' ').slice(0,16):'-';}
+      function statusText(status){var map={continue:'继续推进',hold:'待定',reject:'暂不推进',ready:'待复核',reviewed:'已复核',report_ready:'报告已生成'};return map[status]||'待HR复核';}
+      function transcriptText(item){if(item.transcript_text)return item.transcript_text;if(item.transcript_status==='failed')return '转写失败，请稍后重试或联系平台处理';if(item.transcript_status==='processing')return '转写处理中';return '等待语音转写服务处理';}
+      function clarity(item){var text=transcriptText(item);if(!item.transcript_text)return ['待整理','转写未完成，暂不评价表达清晰度。'];if(text.length>=80)return ['较清晰','回答内容较完整，能提供一定背景和动作信息。'];if(text.length>=35)return ['基本清晰','回答能回应问题，但细节和结果展开不足。'];return ['偏简短','回答较短，HR需要继续追问背景、动作和结果。'];}
+      function matchLevel(item,jobTitle){var hay=(item.question_text+' '+transcriptText(item)+' '+jobTitle).toLowerCase();var keys=['客户','销售','沟通','产品','运营','转化','需求','岗位','项目','协作','复盘','服务'];var hits=keys.filter(function(k){return hay.indexOf(k)>=0;}).length;if(hits>=4)return ['高','回答中出现多个与岗位场景相关的能力线索。'];if(hits>=2)return ['中高','回答与岗位有一定相关性，但还需要结合简历和二面继续核实。'];return ['待核验','当前回答和岗位关键能力的直接关联较少，需要HR追问。'];}
+      function riskPoint(item,concerns){var text=transcriptText(item);if(!item.transcript_text)return ['转写待完成','该题暂缺可复核文本，建议先听录音。'];if(text.length<35)return ['回答偏简短','回答细节不足，建议追问候选人本人动作、结果口径和协作边界。'];if(concerns)return ['需结合报告复核',concerns];return ['暂无明显风险','该题未发现明显异常，HR可按岗位要求继续判断。'];}
+      function renderRisk(session,recordings){var check=session.device_check||{};var vr=check.video_risk||{};var saved=recordings.filter(function(r){return r.audio_object_key;}).length;var failed=recordings.filter(function(r){return r.transcript_status==='failed';}).length;var cameraOk=!!check.camera;var micOk=!!check.microphone;var checkedAt=check.checked_at?('检测时间：'+fmtTime(check.checked_at)+'。'):'';var deviceText=checkedAt+'摄像头 '+yesNo(cameraOk)+'，麦克风 '+yesNo(micOk)+'。摄像头用于本人在场和过程风险检测；当前版本不向HR开放完整视频回放。';var videoStatus='待采样';var videoText='尚未收到面试过程视频采样结果；如候选人使用旧包完成面试，可能只有设备授权记录。';if(vr&&Number(vr.samples||0)>0){var levelMap={normal:'正常',minor:'轻微异常',review:'需复核',unsupported:'设备不支持'};videoStatus=levelMap[vr.level]||'需复核';videoText='已完成 '+(vr.samples||0)+' 次过程采样；检测到本人在镜头内 '+(vr.face_samples||0)+' 次，无人脸/疑似离屏 '+(vr.no_face_samples||0)+' 次，多人入镜 '+(vr.multi_face_samples||0)+' 次，摄像头中断 '+(vr.camera_interruptions||0)+' 次。该结果仅作为HR复核提示，不直接判定作弊。';}else if(vr&&vr.supported===false){videoStatus='设备不支持';videoText='候选人浏览器不支持智能人脸检测，系统仅能确认摄像头授权和录音连续性。';}var rows=[['设备授权记录',deviceText,(cameraOk&&micOk)?'已通过':'需复核'],['视频行为判读',videoText,videoStatus],['录制连续性','已保存 '+saved+' 段候选人回答录音，转写失败 '+failed+' 段。录音缺失或转写失败时建议HR听原始录音复核。',failed?'需复核':'正常']];document.getElementById('riskPanel').innerHTML=rows.map(function(r){var cls=r[2]==='正常'||r[2]==='已通过'?'green':(r[2]==='需复核'||r[2]==='轻微异常'?'amber':'gray');return '<div class="risk-row"><span>'+esc(r[0])+'</span><p>'+esc(r[1])+'</p><em class="tag '+cls+'">'+esc(r[2])+'</em></div>';}).join('');}
+      function bindPlayButtons(root){root.querySelectorAll('.play-answer-btn').forEach(function(btn){btn.addEventListener('click',function(){var recId=btn.getAttribute('data-recording-id');var card=btn.closest('.question-card');var old=card.querySelector('audio');if(old){old.remove();btn.textContent='播放回答';return;}btn.textContent='加载中...';btn.disabled=true;get('hr/get_recording_url.php?recording_id='+encodeURIComponent(recId)).then(function(res){var audio=document.createElement('audio');audio.controls=true;audio.src=res.data.url;audio.style.cssText='width:100%;margin-top:6px;';card.appendChild(audio);btn.textContent='关闭播放';btn.disabled=false;audio.play().catch(function(){});}).catch(function(err){btn.textContent='播放失败';btn.disabled=false;alert(err.message);});});});}
+      var params=new URLSearchParams(location.search);var candidateId=params.get('candidate_id');if(!candidateId){document.getElementById('reportSummary').textContent='缺少候选人参数，请从报告复核列表进入。';return;}
+      get('hr/report_detail.php?candidate_id='+encodeURIComponent(candidateId)).then(function(res){
+        var data=res.data,c=data.candidate||{},job=data.job||{},session=data.session||{},report=data.report||{},recordings=data.recordings||[];
+        var name=c.real_name||('候选人#'+(c.id||candidateId));var jobTitle=job.job_title||'-';var company=job.company_name||'-';var summary=textValue(report.summary,'候选人已完成语音初面，报告仍在整理中。HR可先查看录音、转写和逐题回答。');var concerns=textValue(report.concerns,'');
+        document.getElementById('reportTitle').textContent=name+'｜AI初面报告';document.getElementById('reportSubtitle').textContent=company+' · '+jobTitle;document.getElementById('reportInterviewNo').textContent='面试编号：'+(session.interview_no||'未生成');document.getElementById('reportCandidateName').textContent=name+'｜'+jobTitle;document.getElementById('reportSummary').textContent=summary;document.getElementById('reportDecision').textContent=statusText(report.recommendation);document.getElementById('reportDecisionDesc').textContent='完成时间：'+fmtTime(session.completed_at||report.updated_at);document.getElementById('basicScore').textContent=report.basic_score||'-';document.getElementById('matchScore').textContent=report.match_score||'-';document.getElementById('fullAudioState').textContent=recordings.length?'整理中':'暂无录音';
+        document.getElementById('candidateOverview').textContent=summary;document.getElementById('jobMatchAnalysis').textContent=report.match_score?('当前岗位匹配分为 '+report.match_score+'，请结合逐题回答、简历和二面追问继续判断。'):'系统暂未生成完整岗位匹配分，建议先依据逐题回答进行人工复核。';document.getElementById('reviewFocus').textContent=concerns||'建议HR重点核实候选人回答中的本人贡献边界、最终结果口径、岗位动机和后续追问点。';
+        var keywords=keywordList(report.keywords);document.getElementById('keywordTags').innerHTML=keywords.length?keywords.map(function(k){return '<span class="tag green">'+esc(k)+'</span>';}).join(''):'<span class="tag gray">待生成</span>';
+        renderRisk(session,recordings);
+        var box=document.getElementById('reportRecordingRows');if(!recordings.length){box.innerHTML='<div class="question-card">暂无语音记录。</div>';}else{box.innerHTML=recordings.map(function(item,index){var cl=clarity(item),ml=matchLevel(item,jobTitle),rp=riskPoint(item,concerns);var canPlay=item.audio_object_key&&item.id;var answerActions=canPlay?'<button type="button" class="btn play-answer-btn" data-recording-id="'+esc(item.id)+'">播放回答</button><a class="btn" target="_blank" rel="noopener" href="../api/hr/download_recording.php?recording_id='+encodeURIComponent(item.id)+'">下载回答</a>':'<span class="tag gray">无录音</span>';return '<article class="question-card"><header><h3>第 '+esc(item.sort_order||index+1)+' 题 · '+esc(item.question_text||'未记录题目')+'</h3><div class="question-tools"><span class="tag '+(item.transcript_text?'green':'amber')+'">'+(item.transcript_text?'回答已转写':'等待转写')+'</span>'+answerActions+'</div></header><div class="judgement-panel"><div class="judgement-title"><strong>候选人回答判断</strong><span>先看判断，再展开转写</span></div><div class="criteria-grid"><div class="criteria-card good"><header><h4>表达清晰度</h4><span class="result">'+esc(cl[0])+'</span></header><p class="standard">评判标准：是否讲清背景、动作、结果，逻辑是否连贯，是否明显跑题。</p><p class="basis">本题依据：'+esc(cl[1])+'</p></div><div class="criteria-card"><header><h4>岗位匹配度</h4><span class="result">'+esc(ml[0])+'</span></header><p class="standard">评判标准：回答是否体现岗位需要的能力、经验和真实工作场景。</p><p class="basis">本题依据：'+esc(ml[1])+'</p></div><div class="criteria-card warning"><header><h4>待核验点</h4><span class="result">'+esc(rp[0])+'</span></header><p class="standard">评判标准：HR下一轮需要重点核实的模糊点、风险点或证据不足点。</p><p class="basis">本题依据：'+esc(rp[1])+'</p></div></div></div><details class="transcript-box"><summary>查看原始转写</summary><div class="transcript">'+esc(transcriptText(item))+'</div></details></article>';}).join('');bindPlayButtons(box);}
+        var decisionButtons=Array.from(document.querySelectorAll('.decision-options button'));var feedbackText=document.querySelector('#hr-feedback textarea');var saveButtons=Array.from(document.querySelectorAll('.feedback-actions .btn'));var selected=report.recommendation||'';var decisionMap={continue:'继续推进',hold:'待定',reject:'暂不推进'};function applyDecision(){decisionButtons.forEach(function(btn){var value=Object.keys(decisionMap).find(function(k){return decisionMap[k]===btn.textContent.trim();});btn.classList.toggle('active',value===selected);});}decisionButtons.forEach(function(btn){btn.addEventListener('click',function(){selected=Object.keys(decisionMap).find(function(k){return decisionMap[k]===btn.textContent.trim();})||'';applyDecision();});});applyDecision();function saveReview(draft){if(!draft&&!selected){alert('请先选择复核结果：继续推进、待定或暂不推进。');return;}post('hr/save_report_review.php',{candidate_id:candidateId,recommendation:selected||'hold',feedback:feedbackText?feedbackText.value.trim():'',draft:draft}).then(function(){alert(draft?'复核意见已暂存':'复核意见已提交');if(!draft)location.href='./report-review-list.html?status='+encodeURIComponent(selected||'hold');}).catch(function(err){alert(err.message);});}if(saveButtons[0])saveButtons[0].addEventListener('click',function(e){e.preventDefault();saveReview(true);});if(saveButtons[1])saveButtons[1].addEventListener('click',function(e){e.preventDefault();saveReview(false);});
+      }).catch(function(err){document.getElementById('reportSummary').textContent=err.message;});
+      document.getElementById('logoutLink').addEventListener('click',function(e){e.preventDefault();post('auth/logout.php',{}).catch(function(){}).then(function(){location.href='./login.html';});});
+      get('auth/me.php').catch(function(){location.href='./login.html';});
+    })();
+    </script>
+  </body>
+</html>

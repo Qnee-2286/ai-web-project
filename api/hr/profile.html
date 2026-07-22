@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta name="hi-build" content="20260615cachefix" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>个人中心 - AI全量初面系统</title>
+    <style>
+      *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+      body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;color:#0F172A;background:#F7FAFC;line-height:1.6}
+      a{color:inherit;text-decoration:none}
+      .shell{display:flex;min-height:100vh}
+      .side{width:240px;background:#0D1B2A;padding:0;flex-shrink:0;display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100}
+      .side .brand{padding:24px 20px 20px;display:flex;align-items:center;gap:12px}
+      .side .brand-logo{width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,#0070FF,#00D68F);object-fit:cover;flex-shrink:0}
+      .side .brand strong{color:#fff;font-size:15px;display:block;line-height:1.3}
+      .side .brand small{color:#94A3B8;font-size:11px;display:block}
+      .side nav{display:flex;flex-direction:column;gap:2px;padding:8px 12px;flex:1}
+      .side nav a{display:block;padding:10px 16px;border-radius:6px;color:#94A3B8;font-size:14px;transition:all .2s;border-left:3px solid transparent;margin-left:-3px}
+      .side nav a:hover{color:#fff;background:rgba(255,255,255,0.04)}
+      .side nav a.active{color:#fff;background:rgba(0,112,255,0.08);border-left-color:#0070FF;font-weight:500}
+      .main{flex:1;margin-left:240px;background:#F7FAFC;min-height:100vh;display:flex;flex-direction:column}
+      .topbar{background:#fff;border-bottom:1px solid #E2E8F0;padding:16px 32px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:50}
+      .topbar .page-title .crumb{font-size:12px;color:#94A3B8;display:block;margin-bottom:2px}
+      .topbar .page-title h1{font-size:20px;font-weight:600;color:#0F172A}
+      .topbar .page-title p{font-size:13px;color:#475569;margin-top:2px}
+      .topbar-account{display:flex;align-items:center;gap:16px}
+      .user-mini{display:flex;align-items:center;gap:10px}
+      .avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#0070FF,#00D68F);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;flex-shrink:0}
+      .user-mini strong{font-size:13px;color:#0F172A;display:block}
+      .user-mini span{font-size:11px;color:#94A3B8;display:block}
+      .btn{display:inline-flex;align-items:center;justify-content:center;padding:8px 20px;border-radius:8px;font-size:13px;font-weight:500;border:1px solid #E2E8F0;background:#fff;color:#0F172A;cursor:pointer;transition:all .2s;white-space:nowrap}
+      .btn:hover{border-color:#CBD5E1;background:#F8FAFC}
+      .btn.primary{background:linear-gradient(135deg,#0070FF,#00D68F);color:#fff;border:none}
+      .btn.primary:hover{opacity:.9}
+      .panel{background:#fff;border-radius:12px;padding:24px;border:1px solid #E2E8F0;margin-bottom:20px}
+      .hint{font-size:13px;color:#475569;margin-top:4px}
+      .profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;padding:24px 32px 32px}
+      .profile-grid .wide{grid-column:1/-1}
+      .profile-section-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px}
+      .profile-section-head h2{font-size:17px;font-weight:600;color:#0F172A;margin-bottom:2px}
+      .profile-section-head .hint{margin-top:0}
+      .panel h2{font-size:17px;font-weight:600;color:#0F172A;margin-bottom:16px}
+      .status-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+      .status-grid article{padding:16px;border-radius:10px;border:1px solid #E2E8F0;background:#FAFBFC}
+      .status-grid article span{display:block;margin-bottom:8px}
+      .status-grid article strong{font-size:15px;color:#0F172A;display:block;margin-bottom:4px}
+      .status-grid article small{font-size:12px;color:#475569;display:block}
+      .tag{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:500}
+      .tag.gray{background:#F1F5F9;color:#64748B}
+      .tag.orange{background:#FFF7ED;color:#EA580C}
+      .field{margin-bottom:16px}
+      .field label{display:block;font-size:13px;color:#475569;margin-bottom:6px;font-weight:500}
+      .field input,.field select{width:100%;padding:9px 12px;border-radius:8px;border:1px solid #E2E8F0;font-size:14px;color:#0F172A;background:#fff;transition:border .2s}
+      .field input:focus,.field select:focus{outline:none;border-color:#0070FF;box-shadow:0 0 0 3px rgba(0,112,255,0.1)}
+      .field textarea{width:100%;padding:9px 12px;border-radius:8px;border:1px solid #E2E8F0;font-size:14px;color:#0F172A;min-height:80px;resize:vertical;font-family:inherit}
+      .field textarea:focus{outline:none;border-color:#0070FF;box-shadow:0 0 0 3px rgba(0,112,255,0.1)}
+      .notice{font-size:12px;color:#64748B;padding:10px 14px;background:#F8FAFC;border-radius:8px;border:1px solid #E2E8F0;margin:12px 0}
+      .notice.compact{padding:8px 12px}
+      .info-list p{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #F1F5F9;font-size:13px}
+      .info-list p:last-child{border-bottom:none}
+      .info-list p span{color:#475569}
+      .info-list p strong{color:#0F172A;font-weight:500}
+      .company-auth-card{padding:20px;border-radius:10px;border:1px solid #E2E8F0;background:#FAFBFC;margin-bottom:16px}
+      .company-auth-card strong{display:block;font-size:14px;color:#0F172A;margin-bottom:6px}
+      .company-auth-card p{font-size:13px;color:#475569;margin-bottom:12px}
+      .setting-list{display:flex;flex-direction:column;gap:1px}
+      .setting-row{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid #F1F5F9;cursor:pointer}
+      .setting-row:last-child{border-bottom:none}
+      .setting-row strong{font-size:14px;color:#0F172A;display:block;margin-bottom:2px}
+      .setting-row small{font-size:12px;color:#475569;display:block}
+      .setting-row input[type="checkbox"]{width:18px;height:18px;accent-color:#0070FF;flex-shrink:0}
+      .table-wrap{overflow-x:auto}
+      .compact-table table{width:100%;border-collapse:collapse;font-size:13px}
+      .compact-table th{text-align:left;padding:10px 12px;color:#475569;font-weight:500;border-bottom:1px solid #E2E8F0;font-size:12px}
+      .compact-table td{padding:10px 12px;border-bottom:1px solid #F1F5F9;color:#0F172A}
+      .mps-beian{text-align:center;padding:20px;font-size:12px;color:#94A3B8;background:#F7FAFC;margin-left:240px}
+      .mps-beian a{color:#94A3B8;display:inline-flex;align-items:center;gap:6px}
+      .mps-beian img{width:14px;height:14px}
+      @media(max-width:900px){.side{display:none}.main{margin-left:0}.mps-beian{margin-left:0}.profile-grid{grid-template-columns:1fr}.status-grid{grid-template-columns:1fr 1fr}}
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="side">
+        <div class="brand"><img class="brand-logo" src="./assets/logo-icon.svg" alt="hi AI初面" /><span><strong>AI全量初面系统</strong><small>泓泽数字旗下产品</small></span></div>
+        <nav class="nav">
+          <a href="./dashboard.html">首页</a>
+          <a href="./create-interview-flow.html?v=20260615cachefix">创建初面</a>
+          <a href="./job-management.html">初面管理</a>
+          <a href="./candidate-list.html">候选人</a>
+          <a href="./report-review-list.html">报告复核</a>
+          <a href="./question-bank.html">题库管理</a>
+          <a class="active" href="./profile.html">设置</a>
+        </nav>
+      </aside>
+      <main class="main">
+        <div class="topbar">
+          <div class="page-title">
+            <span class="crumb">HR端 / 个人中心</span>
+            <h1>个人中心</h1>
+            <p>管理账号资料、认证状态、会员权益、消息提醒和账号安全。</p>
+          </div>
+          <div class="user-mini"><div class="avatar" id="avatarText">HR</div><div><strong id="miniName">当前HR</strong><span id="miniStatus">正在读取账号状态</span></div></div>
+        </div>
+
+        <section class="profile-grid">
+          <section class="panel wide account-overview">
+            <div class="profile-section-head">
+              <div>
+                <h2>账号状态</h2>
+                <p class="hint">这些状态决定HR可使用的功能范围。</p>
+              </div>
+              <a class="btn" href="./dashboard.html">返回首页</a>
+            </div>
+            <div class="status-grid">
+              <article><span class="tag gray" id="profilePhoneTag">读取中</span><strong>手机</strong><small id="profilePhoneText">-</small></article>
+              <article><span class="tag gray" id="profileEmailTag">未绑定</span><strong>邮箱</strong><small id="profileEmailText">-</small></article>
+              <article><span class="tag gray" id="profileRealnameTag">未实名</span><strong>个人实名</strong><small id="profileRealnameText">未完成实名认证</small></article>
+              <article><span class="tag orange" id="profileCompanyTag">待认证</span><strong>企业认证</strong><small id="profileCompanyText">认证后展示企业资料</small></article>
+            </div>
+          </section>
+
+          <form class="panel" id="profileForm">
+            <h2>个人信息</h2>
+            <div class="field"><label>姓名</label><input name="name" placeholder="请输入真实姓名" /></div>
+            <div class="field"><label>头像地址</label><input name="avatar_url" placeholder="后续支持头像上传" /></div>
+            <div class="field"><label>招聘身份</label><select name="role_title"><option>HRBP</option><option>招聘负责人</option><option>老板/业务负责人</option></select></div>
+            <p class="notice compact">手机号和邮箱涉及账号安全，当前版本通过绑定流程修改，不在这里直接改。</p>
+            <button class="btn primary" type="submit">保存个人信息</button>
+          </form>
+
+          <section class="panel">
+            <h2>实名认证</h2>
+            <div class="info-list">
+              <p><span>认证状态</span><strong id="profileRealnameStatus">未实名</strong></p>
+              <p><span>认证方式</span><strong>腾讯云实名核身</strong></p>
+              <p><span>认证用途</span><strong>仅用于确认HR账号身份</strong></p>
+            </div>
+            <a class="btn" href="./realname.html">查看实名信息</a>
+          </section>
+
+          <section class="panel wide" id="companyAuthPanel">
+            <div class="profile-section-head">
+              <div>
+                <h2>企业认证</h2>
+                <p class="hint">未完成企业认证前，不展示企业资料，也不能把企业信息作为已认证信息展示给候选人。</p>
+              </div>
+              <span class="tag orange">待认证</span>
+            </div>
+            <div class="company-auth-card">
+              <strong>完成企业认证后可查看和维护企业信息</strong>
+              <p>认证通过后，系统将展示公司名称、统一社会信用代码、营业执照状态、企业联系人、公司介绍、更新时间等内容，并用于创建岗位时自动带出。</p>
+              <button class="btn primary" type="button">去企业认证</button>
+            </div>
+          </section>
+
+          <section class="panel">
+            <h2>会员信息</h2>
+            <div class="info-list">
+              <p><span>当前版本</span><strong>体验版</strong></p>
+              <p><span>面试次数</span><strong>1/5</strong></p>
+              <p><span>报告保存</span><strong>默认15天</strong></p>
+            </div>
+            <a class="btn primary" href="javascript:void(0)">查看会员权益</a>
+          </section>
+
+          <form class="panel" id="passwordForm">
+            <h2>安全设置</h2>
+            <div class="field"><label>原密码</label><input name="old_password" type="password" placeholder="请输入原密码" /></div>
+            <div class="field"><label>新密码</label><input name="new_password" type="password" placeholder="至少6位" /></div>
+            <div class="field"><label>确认新密码</label><input name="confirm_password" type="password" placeholder="再次输入新密码" /></div>
+            <button class="btn primary" type="submit">重置密码</button>
+          </form>
+
+          <section class="panel wide">
+            <h2>消息与邮件设置</h2>
+            <div class="setting-list">
+              <label class="setting-row"><span><strong>面试报告生成后邮件通知</strong><small>发送到当前绑定邮箱，便于HR及时复核。</small></span><input type="checkbox" checked /></label>
+              <label class="setting-row"><span><strong>候选人完成面试后邮件通知</strong><small>候选人完成后通过邮件提示，不默认短信。</small></span><input type="checkbox" checked /></label>
+              <label class="setting-row"><span><strong>每日面试汇总邮件</strong><small>汇总当天完成、待复核和未完成的面试情况。</small></span><input type="checkbox" /></label>
+            </div>
+            <p class="notice compact">候选人未完成提醒已放到候选人列表，由HR手动点击"提醒"处理；可复制链接文本，也可在后续短信接口接通后发送短信。</p>
+          </section>
+
+          <section class="panel wide">
+            <h2>登录记录</h2>
+            <div class="table-wrap compact-table">
+              <table>
+                <thead><tr><th>时间</th><th>方式</th><th>设备</th><th>结果</th></tr></thead>
+                <tbody>
+                  <tr><td colspan="4">暂无登录记录展示。后续接入登录日志后在这里显示。</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+      </main>
+    </div>
+    <div class="mps-beian"><a href="https://beian.mps.gov.cn/#/query/webSearch?code=44010302111445" rel="noreferrer" target="_blank"><img src="./assets/beian.png" alt="公安备案图标" /><span>粤公网安备44010302111445号</span></a></div>
+    <script src="./auth-flow.js?v=20260615cachefix"></script>
+  </body>
+</html>

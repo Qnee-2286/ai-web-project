@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>确认岗位信息｜AI全量初面系统</title>
+    <link rel="stylesheet" href="./styles.css" />
+</head>
+  <body>
+    <header class="top">
+      <div class="brand"><img class="brand-logo" src="./assets/logo-icon.svg" alt="hi AI初面" /><span><strong>AI全量初面系统</strong><small>泓泽数字旗下产品</small></span></div>
+      <span class="badge">面试前确认</span>
+    </header>
+    <main class="layout">
+      <div class="page-title">
+        <span class="crumb">候选人端 / 岗位确认</span>
+        <h1>请确认公司与岗位信息</h1>
+        <p>以下内容由企业 HR 填写，AI 语音将在面试开始前向你传达。</p>
+      </div>
+      <section class="grid two">
+        <div class="panel info-list" id="jobInfoPanel">
+          <div class="info-item"><span>公司名称</span><strong data-job="company_name">正在读取</strong></div>
+          <div class="info-item"><span>岗位名称</span><strong data-job="job_title">正在读取</strong></div>
+          <div class="info-item"><span>薪资福利</span><strong data-job="salary_benefits">正在读取</strong></div>
+          <div class="info-item"><span>公司介绍</span><p data-job="company_intro">正在读取</p></div>
+          <div class="info-item"><span>岗位职责</span><p data-job="responsibilities">正在读取</p></div>
+          <div class="info-item"><span>任职要求</span><p data-job="requirements">正在读取</p></div>
+          <div class="notice">请确认以上公司、岗位、薪资福利与招聘沟通内容一致。若信息不一致，请先返回邀请页反馈可疑岗位。</div>
+          <div class="actions"><a class="btn primary" href="./device-check.html">我已确认，进入设备检查</a><a class="btn" href="./auth.html">返回实名认证</a></div>
+        </div>
+      </section>
+    </main>
+
+    <div class="mps-beian">
+      <a href="https://beian.mps.gov.cn/#/query/webSearch?code=44010302111445" rel="noreferrer" target="_blank">
+        <img src="./assets/beian.png" alt="公安备案图标" />
+        <span>粤公网安备44010302111445号</span>
+      </a>
+    </div>
+    <script src="./auth-flow.js"></script>
+    <script src="./candidate-progress.js"></script>
+</body>
+</html>

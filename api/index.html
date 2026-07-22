@@ -1,0 +1,243 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI全量初面系统 - 泓泽数字</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --b1:#0070FF;--b2:#00D68F;
+  --bg:#F7FAFC;--card:#FFFFFF;
+  --t1:#0F172A;--t2:#475569;--t3:#94A3B8;
+  --bd:#E2E8F0;
+  --g:linear-gradient(135deg,#0070FF,#00D68F);
+  --g-text:linear-gradient(135deg,#0070FF,#00D68F);
+  --s1:0 1px 3px rgba(0,0,0,0.04);
+  --s2:0 4px 16px rgba(0,0,0,0.06);
+  --s3:0 8px 32px rgba(0,112,255,0.12);
+  --r8:8px;--r12:12px;--r16:16px;--r24:24px;
+}
+html{scroll-behavior:smooth;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:var(--bg);color:var(--t1);line-height:1.6;overflow-x:hidden;}
+.reveal{opacity:0;transform:translateY(30px);transition:opacity 0.6s cubic-bezier(0.22,0.61,0.36,1),transform 0.6s cubic-bezier(0.22,0.61,0.36,1);}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal-delay-1{transition-delay:0.05s;}.reveal-delay-2{transition-delay:0.12s;}.reveal-delay-3{transition-delay:0.19s;}
+.reveal-delay-4{transition-delay:0.26s;}.reveal-delay-5{transition-delay:0.33s;}.reveal-delay-6{transition-delay:0.40s;}
+.floating-orbs{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0;}
+.orb{position:absolute;border-radius:50%;filter:blur(60px);opacity:0.35;animation:orb-float linear infinite;}
+.orb-1{width:320px;height:320px;background:rgba(0,112,255,0.13);top:-10%;left:-5%;animation-duration:18s;}
+.orb-2{width:260px;height:260px;background:rgba(0,214,143,0.10);bottom:-15%;right:-8%;animation-duration:22s;animation-delay:-8s;}
+.orb-3{width:180px;height:180px;background:rgba(139,92,246,0.08);top:40%;left:55%;animation-duration:16s;animation-delay:-4s;}
+@keyframes orb-float{0%,100%{transform:translate(0,0) scale(1);}25%{transform:translate(40px,-30px) scale(1.08);}50%{transform:translate(-20px,-60px) scale(0.94);}75%{transform:translate(-50px,-10px) scale(1.05);}}
+.hero-particles{position:absolute;inset:0;pointer-events:none;z-index:0;}
+.hero-particle{position:absolute;border-radius:50%;animation:hero-particle-rise linear infinite;opacity:0;}
+.hero-particle.dot{background:#0070FF;box-shadow:0 0 6px #0070FF,0 0 14px rgba(0,112,255,0.4);}
+.hero-particle.dot-g{background:#00D68F;box-shadow:0 0 6px #00D68F,0 0 14px rgba(0,214,143,0.4);}
+.hero-particle.dot-p{background:#8B5CF6;box-shadow:0 0 6px #8B5CF6,0 0 14px rgba(139,92,246,0.4);}
+@keyframes hero-particle-rise{0%{opacity:0;transform:translateY(0) translateX(0) scale(0);}10%{opacity:0.8;}60%{opacity:0.6;}90%{opacity:0.1;}100%{opacity:0;transform:translateY(-500px) translateX(60px) scale(1);}}
+.feature-card{position:relative;}
+.feature-card::after{content:'';position:absolute;inset:-1px;border-radius:17px;background:var(--g);opacity:0;transition:opacity 0.35s;z-index:-1;}
+.feature-card:hover::after{opacity:0.5;}
+.feature-card:hover .feature-icon svg{animation:icon-bounce 0.4s ease;}
+@keyframes icon-bounce{0%,100%{transform:scale(1);}40%{transform:scale(1.25);}70%{transform:scale(0.95);}}
+.cta-particles{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+.cta-particle{position:absolute;width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.35);animation:cta-particle-rise linear infinite;bottom:-20px;}
+@keyframes cta-particle-rise{0%{opacity:0;transform:translateY(0) scale(0);}20%{opacity:0.7;}80%{opacity:0.3;}100%{opacity:0;transform:translateY(-600px) scale(0.3);}}
+.parallax-layer{transition:transform 0.1s linear;will-change:transform;}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:64px;background:rgba(255,255,255,0.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:100;}
+.nav-brand{display:flex;align-items:center;gap:12px;}
+.nav-logo{width:36px;height:36px;border-radius:10px;background:var(--g);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:16px;flex-shrink:0;transition:transform 0.25s,box-shadow 0.25s;}
+.nav-logo:hover{transform:scale(1.08);box-shadow:0 0 20px rgba(0,112,255,0.35);}
+.nav-brand-text{font-size:16px;font-weight:700;background:var(--g-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.nav-links{display:flex;align-items:center;gap:28px;}
+.nav-links a{font-size:14px;color:var(--t2);text-decoration:none;transition:color 0.2s;position:relative;}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--g);border-radius:1px;transition:width 0.3s ease;}
+.nav-links a:hover{color:var(--b1);}
+.nav-links a:hover::after{width:100%;}
+.nav-actions{display:flex;align-items:center;gap:12px;}
+.btn-outline{padding:8px 18px;border-radius:var(--r8);border:1.5px solid var(--bd);background:transparent;color:var(--t1);font-size:13px;font-weight:500;cursor:pointer;text-decoration:none;transition:all 0.2s;display:inline-flex;align-items:center;gap:6px;}
+.btn-outline:hover{border-color:var(--b1);color:var(--b1);box-shadow:0 0 0 3px rgba(0,112,255,0.08);}
+.btn-primary{padding:8px 18px;border-radius:var(--r8);border:none;background:var(--g);color:#fff;font-size:13px;font-weight:600;cursor:pointer;text-decoration:none;transition:all 0.25s;display:inline-flex;align-items:center;gap:6px;box-shadow:0 2px 8px rgba(0,112,255,0.25);}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,112,255,0.4);}
+.hero{padding:100px 40px 100px;text-align:center;position:relative;overflow:hidden;background:linear-gradient(180deg,#F0F7FF 0%,#F0FDF6 40%,var(--bg) 100%);}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--bd);border-radius:50px;padding:6px 16px;font-size:13px;color:var(--t2);margin-bottom:28px;position:relative;z-index:1;}
+.hero-badge-dot{width:8px;height:8px;border-radius:50%;background:#00D68F;animation:hero-pulse 2s infinite;}
+@keyframes hero-pulse{0%,100%{opacity:1;box-shadow:0 0 6px #00D68F;}50%{opacity:0.5;box-shadow:0 0 12px #00D68F;}}
+.hero h1{font-size:52px;font-weight:800;color:var(--t1);letter-spacing:-1.5px;line-height:1.2;position:relative;z-index:1;margin-bottom:16px;}
+.hero h1 span{background:var(--g-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-lead{font-size:17px;color:var(--t2);max-width:560px;margin:0 auto 36px;position:relative;z-index:1;line-height:1.7;}
+.hero-actions{display:flex;align-items:center;justify-content:center;gap:14px;position:relative;z-index:1;}
+.hero-actions .btn-primary{padding:13px 28px;font-size:15px;}
+.hero-actions .btn-outline{padding:12px 28px;font-size:15px;}
+.hero-mockup{margin:60px auto 0;max-width:880px;position:relative;z-index:1;}
+.hero-mockup-inner{background:var(--card);border-radius:var(--r16);padding:20px;border:1px solid var(--bd);box-shadow:var(--s3);}
+.stats-bar{display:flex;justify-content:center;gap:60px;padding:32px 40px;background:var(--card);border-bottom:1px solid var(--bd);}
+.stat-item{text-align:center;}
+.stat-value{font-size:32px;font-weight:800;color:var(--t1);letter-spacing:-1px;}
+.stat-unit{font-size:14px;color:var(--t3);font-weight:400;margin-left:2px;}
+.stat-name{font-size:13px;color:var(--t3);margin-top:4px;}
+.section{padding:80px 40px;max-width:1200px;margin:0 auto;}
+.section-label{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--b1);margin-bottom:12px;}
+.section-header{text-align:center;margin-bottom:56px;}
+.section-title{font-size:36px;font-weight:700;color:var(--t1);letter-spacing:-0.5px;margin-bottom:12px;}
+.section-desc{font-size:16px;color:var(--t2);max-width:600px;margin:0 auto;}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.feature-card{background:var(--card);border-radius:var(--r16);padding:32px 28px;border:1px solid var(--bd);transition:all 0.25s;}
+.feature-card:hover{box-shadow:var(--s2);transform:translateY(-3px);border-color:rgba(0,112,255,0.2);}
+.feature-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;}
+.fi-1{background:rgba(0,112,255,0.08);color:#0070FF;}.fi-2{background:rgba(0,214,143,0.08);color:#00D68F;}
+.fi-3{background:rgba(139,92,246,0.08);color:#8B5CF6;}.fi-4{background:rgba(245,158,11,0.08);color:#F59E0B;}
+.fi-5{background:rgba(236,72,153,0.08);color:#EC4899;}.fi-6{background:rgba(14,165,233,0.08);color:#0EA5E9;}
+.feature-card svg{width:24px;height:24px;}
+.feature-card h3{font-size:17px;font-weight:700;color:var(--t1);margin-bottom:8px;}
+.feature-card p{font-size:14px;color:var(--t2);line-height:1.65;}
+.how-bg{background:var(--card);border-top:1px solid var(--bd);border-bottom:1px solid var(--bd);}
+.steps{display:flex;gap:0;position:relative;}
+.steps-line{position:absolute;top:40px;left:60px;right:60px;height:2px;background:var(--bd);z-index:0;}
+.steps-line-fill{height:100%;width:0;background:var(--g);border-radius:1px;transition:width 1.5s cubic-bezier(0.22,0.61,0.36,1);}
+.step{flex:1;text-align:center;position:relative;z-index:1;}
+.step-num{width:80px;height:80px;border-radius:50%;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;color:#fff;background:var(--g);box-shadow:0 4px 16px rgba(0,112,255,0.25);}
+.step h3{font-size:17px;font-weight:700;color:var(--t1);margin-bottom:6px;}
+.step p{font-size:13px;color:var(--t2);max-width:200px;margin:0 auto;}
+.plans-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.plan-card{background:var(--card);border-radius:var(--r16);padding:36px 28px;border:1px solid var(--bd);transition:all 0.25s;position:relative;}
+.plan-card:hover{border-color:rgba(0,112,255,0.25);box-shadow:var(--s2);}
+.plan-card.featured{border:2px solid var(--b1);box-shadow:var(--s3);}
+.plan-card.featured::before{content:'推荐';position:absolute;top:0;right:24px;background:var(--g);color:#fff;font-size:11px;font-weight:600;padding:4px 14px;border-radius:0 0 8px 8px;}
+.plan-name{font-size:15px;font-weight:700;color:var(--t1);margin-bottom:4px;}
+.plan-sub{font-size:12px;color:var(--t3);margin-bottom:20px;}
+.plan-price{font-size:42px;font-weight:800;color:var(--t1);letter-spacing:-1px;margin-bottom:4px;}
+.plan-price .period{font-size:13px;color:var(--t3);font-weight:400;}
+.plan-desc{font-size:13px;color:var(--t2);margin-bottom:24px;line-height:1.6;}
+.plan-features{list-style:none;margin-bottom:28px;}
+.plan-features li{font-size:13px;color:var(--t2);padding:6px 0;display:flex;align-items:center;gap:8px;}
+.plan-features li::before{content:'✓';color:#00D68F;font-weight:700;font-size:14px;}
+.plan-btn{display:block;text-align:center;padding:12px;border-radius:var(--r8);font-size:14px;font-weight:600;text-decoration:none;transition:all 0.25s;}
+.plan-btn.primary{background:var(--g);color:#fff;box-shadow:0 2px 8px rgba(0,112,255,0.25);}
+.plan-btn.primary:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,112,255,0.35);}
+.plan-btn.outline{border:1.5px solid var(--bd);color:var(--t1);}
+.plan-btn.outline:hover{border-color:var(--b1);color:var(--b1);}
+.entry-split{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.entry-card{background:var(--card);border-radius:var(--r16);padding:40px 32px;border:1px solid var(--bd);text-align:center;transition:all 0.35s cubic-bezier(0.22,0.61,0.36,1);position:relative;overflow:hidden;}
+.entry-card::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:0;height:3px;background:var(--g);border-radius:3px 3px 0 0;transition:width 0.4s ease;}
+.entry-card:hover{box-shadow:0 12px 48px rgba(0,112,255,0.08);transform:translateY(-4px);}
+.entry-card:hover::after{width:60%;}
+.entry-card.hr{border-color:rgba(0,112,255,0.15);}
+.entry-card.candidate{border-color:rgba(0,214,143,0.15);}
+.entry-card.hr:hover{border-color:rgba(0,112,255,0.35);}
+.entry-card.candidate:hover{border-color:rgba(0,214,143,0.35);}
+.entry-icon{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;transition:transform 0.3s ease;}
+.entry-card:hover .entry-icon{transform:scale(1.1);}
+.entry-card.hr .entry-icon{background:rgba(0,112,255,0.08);color:#0070FF;}
+.entry-card.candidate .entry-icon{background:rgba(0,214,143,0.08);color:#00D68F;}
+.entry-card h3{font-size:20px;font-weight:700;color:var(--t1);margin-bottom:8px;}
+.entry-card p{font-size:14px;color:var(--t2);margin-bottom:24px;line-height:1.6;}
+.entry-card .btn-primary{padding:10px 24px;font-size:14px;justify-content:center;}
+.cta-section{max-width:1200px;margin:0 auto;padding:0 40px 80px;}
+.cta-box{background:linear-gradient(135deg,#0D1B2A,#1A2D44);border-radius:var(--r24);padding:64px;text-align:center;position:relative;overflow:hidden;}
+.cta-box::before{content:'';position:absolute;top:-20%;right:-10%;width:500px;height:500px;background:conic-gradient(from 0deg,rgba(0,112,255,0.15),rgba(0,214,143,0.1),rgba(0,112,255,0.15));border-radius:50%;animation:cta-rotate 12s linear infinite;pointer-events:none;}
+@keyframes cta-rotate{to{transform:rotate(360deg);}}
+.cta-box::after{content:'';position:absolute;bottom:-30%;left:-5%;width:350px;height:350px;background:radial-gradient(circle,rgba(0,214,143,0.12) 0%,transparent 70%);pointer-events:none;animation:cta-pulse 5s ease-in-out infinite;}
+@keyframes cta-pulse{0%,100%{transform:scale(1);opacity:0.6;}50%{transform:scale(1.2);opacity:1;}}
+.cta-box h2{font-size:36px;font-weight:700;color:#fff;margin-bottom:12px;position:relative;z-index:1;}
+.cta-box p{font-size:16px;color:rgba(255,255,255,0.6);margin-bottom:32px;position:relative;z-index:1;}
+.cta-box .btn-primary{padding:14px 36px;font-size:16px;position:relative;z-index:1;}
+.footer{background:var(--card);border-top:1px solid var(--bd);padding:40px;}
+.footer-inner{max-width:1200px;margin:0 auto;display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:32px;}
+.footer-brand{display:flex;align-items:center;gap:12px;}
+.footer-logo{width:32px;height:32px;border-radius:8px;object-fit:contain;display:block;flex-shrink:0;}
+.footer-name{font-size:14px;font-weight:600;color:var(--t1);}
+.footer-info{text-align:right;}
+.footer-info p{font-size:12px;color:var(--t3);line-height:1.8;}
+.footer-info a{color:var(--t3);text-decoration:none;transition:color 0.2s;}
+.footer-info a:hover{color:var(--b1);}
+@media (max-width:768px){
+  .floating-orbs{display:none;}.nav{padding:0 20px;height:56px;}.nav-links{display:none;}.hero{padding:60px 20px 80px;}.hero h1{font-size:30px;}.hero-lead{font-size:15px;}.hero-actions{flex-direction:column;}.hero-actions .btn-primary,.hero-actions .btn-outline{width:100%;justify-content:center;}.stats-bar{gap:24px;padding:24px 20px;flex-wrap:wrap;}.stat-value{font-size:26px;}.section{padding:60px 20px;}.section-title{font-size:28px;}.features-grid{grid-template-columns:1fr;}.steps{flex-direction:column;gap:32px;}.steps-line{display:none;}.plans-grid{grid-template-columns:1fr;}.entry-split{grid-template-columns:1fr;}.cta-section{padding:0 20px 60px;}.cta-box{padding:48px 24px;}.cta-box h2{font-size:26px;}.footer-inner{flex-direction:column;text-align:center;align-items:center;}.footer-info{text-align:center;}
+}
+@media (min-width:769px) and (max-width:1024px){.features-grid{grid-template-columns:repeat(2,1fr);}.plans-grid{grid-template-columns:repeat(2,1fr);}.section{padding:70px 32px;}.hero{padding:70px 32px 90px;}.hero h1{font-size:42px;}}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <div class="nav-brand"><img class="nav-logo" src="./landing-assets/logo-icon.svg" alt="hi AI初面" style="background:none;padding:0;" /><span class="nav-brand-text">AI全量初面系统</span></div>
+  <div class="nav-links"><a href="#features">功能亮点</a><a href="#how">如何运作</a><a href="#plans">套餐</a><a href="#entry">快速入口</a></div>
+  <div class="nav-actions"><a href="./candidate/index.html" class="btn-outline">我是候选人</a><a href="./hr/register.html" class="btn-primary">HR 免费注册</a></div>
+</nav>
+<section class="hero">
+  <div class="floating-orbs"><div class="orb orb-1 parallax-layer" data-parallax="20"></div><div class="orb orb-2 parallax-layer" data-parallax="-25"></div><div class="orb orb-3 parallax-layer" data-parallax="15"></div></div>
+  <div class="hero-particles" id="heroParticles"></div>
+  <div class="hero-badge"><span class="hero-badge-dot"></span> AI 全量初面，所见即所得</div>
+  <h1>让 AI 帮你<br>完成 <span>全量初面</span></h1>
+  <p class="hero-lead">不再手动筛选简历、不再重复问同样的问题。AI 全量初面系统基于大语言模型，对每一位候选人进行结构化深度初面，自动生成评估报告。HR 只需审阅结论，效率提升 10 倍。</p>
+  <div class="hero-actions"><a href="./hr/register.html" class="btn-primary">免费注册试用 →</a><a href="#features" class="btn-outline">查看功能亮点</a></div>
+  <div class="hero-mockup"><div class="hero-mockup-inner"><div style="background:#F1F5F9;border-radius:8px;padding:24px;display:flex;gap:16px;flex-wrap:wrap;"><div style="flex:2;min-width:280px;"><div style="height:16px;width:40%;background:var(--bd);border-radius:4px;margin-bottom:20px;"></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;"><div style="background:var(--card);border-radius:10px;padding:16px;border:1px solid var(--bd);"><div style="height:12px;width:60%;background:#E2E8F0;border-radius:3px;margin-bottom:12px;"></div><div style="height:28px;width:45%;background:var(--g);border-radius:4px;opacity:0.8;"></div></div><div style="background:var(--card);border-radius:10px;padding:16px;border:1px solid var(--bd);"><div style="height:12px;width:50%;background:#E2E8F0;border-radius:3px;margin-bottom:12px;"></div><div style="height:28px;width:38%;background:#00D68F;border-radius:4px;opacity:0.6;"></div></div></div><div style="background:var(--card);border-radius:10px;padding:16px;border:1px solid var(--bd);"><div style="height:12px;width:30%;background:#E2E8F0;border-radius:3px;margin-bottom:16px;"></div><div style="display:flex;flex-direction:column;gap:10px;"><div style="display:flex;align-items:center;gap:10px;padding:10px;background:#F8FAFC;border-radius:8px;"><div style="width:10px;height:10px;border-radius:50%;background:#00D68F;box-shadow:0 0 6px rgba(0,214,143,0.5);"></div><div style="height:10px;flex:1;background:#E2E8F0;border-radius:3px;"></div><div style="height:10px;width:60px;background:var(--bd);border-radius:3px;"></div></div><div style="display:flex;align-items:center;gap:10px;padding:10px;background:#F8FAFC;border-radius:8px;"><div style="width:10px;height:10px;border-radius:50%;background:#F59E0B;box-shadow:0 0 6px rgba(245,158,11,0.5);"></div><div style="height:10px;flex:1;background:#E2E8F0;border-radius:3px;"></div><div style="height:10px;width:80px;background:var(--bd);border-radius:3px;"></div></div><div style="display:flex;align-items:center;gap:10px;padding:10px;background:#F8FAFC;border-radius:8px;"><div style="width:10px;height:10px;border-radius:50%;background:#0070FF;box-shadow:0 0 6px rgba(0,112,255,0.5);"></div><div style="height:10px;flex:1;background:#E2E8F0;border-radius:3px;"></div><div style="height:10px;width:70px;background:var(--bd);border-radius:3px;"></div></div></div></div></div><div style="flex:1;min-width:180px;background:var(--card);border-radius:10px;padding:16px;border:1px solid var(--bd);"><div style="height:12px;width:50%;background:#E2E8F0;border-radius:3px;margin-bottom:20px;"></div><div style="width:80px;height:80px;border-radius:50%;border:6px solid var(--bd);border-top-color:#0070FF;margin:0 auto 16px;animation:spin 1.5s linear infinite;"></div><div style="height:12px;width:70%;background:#E2E8F0;border-radius:3px;margin:0 auto 12px;"></div><div style="height:8px;width:90%;background:#F1F5F9;border-radius:3px;margin:0 auto 8px;"></div><div style="height:8px;width:80%;background:#F1F5F9;border-radius:3px;margin:0 auto 8px;"></div><div style="height:8px;width:85%;background:#F1F5F9;border-radius:3px;margin:0 auto;"></div></div></div></div></div>
+</section>
+<div class="stats-bar reveal" id="stats-bar">
+  <div class="stat-item"><div class="stat-value"><span class="stat-number" data-target="10">0</span><span class="stat-unit">倍+</span></div><div class="stat-name">筛选效率提升</div></div>
+  <div class="stat-item"><div class="stat-value"><span class="stat-number" data-target="15">0</span><span class="stat-unit">分钟</span></div><div class="stat-name">平均每场面试</div></div>
+  <div class="stat-item"><div class="stat-value"><span class="stat-number" data-target="98">0</span><span class="stat-unit">%</span></div><div class="stat-name">评估一致性</div></div>
+  <div class="stat-item"><div class="stat-value"><span class="stat-number" data-target="500">0</span><span class="stat-unit">+</span></div><div class="stat-name">题库模版</div></div>
+</div>
+<section class="section" id="features">
+  <div class="section-header reveal"><div class="section-label">核心能力</div><h2 class="section-title">不只是面试机器人</h2><p class="section-desc">从创建面试到审阅报告，AI 辅助覆盖初面全流程。不是替代 HR，而是给 HR 装上外挂。</p></div>
+  <div class="features-grid">
+    <div class="feature-card reveal reveal-delay-1"><div class="feature-icon fi-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div><h3>AI 智能出题</h3><p>根据岗位 JD 自动生成结构化面试题，覆盖技术、行为、情境三大维度，支持自定义题库和追问策略。</p></div>
+    <div class="feature-card reveal reveal-delay-2"><div class="feature-icon fi-2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><h3>全自动视频面试</h3><p>候选人无需下载 App，浏览器打开即面。AI 语音提问 + 实时录制，面试进度实时可见。</p></div>
+    <div class="feature-card reveal reveal-delay-3"><div class="feature-icon fi-3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div><h3>评估报告自动生成</h3><p>多维评分（沟通力、逻辑力、专业度等）+ AI 总评 + 关键问答摘要。HR 快速决策录用/待定/淘汰。</p></div>
+    <div class="feature-card reveal reveal-delay-4"><div class="feature-icon fi-4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4-4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div><h3>候选人管理</h3><p>批量导入/创建候选人、批量发起面试、实时查看面试进度和状态。一人管理千人初面。</p></div>
+    <div class="feature-card reveal reveal-delay-5"><div class="feature-icon fi-5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></div><h3>防作弊机制</h3><p>人脸核身 + 面试过程异常行为检测 + AI 答案一致性校验，确保初面结果真实可信。</p></div>
+    <div class="feature-card reveal reveal-delay-6"><div class="feature-icon fi-6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg></div><h3>岗位体系管理</h3><p>建立公司岗位库，每个岗位绑定专属题库和面试策略。一次配置，重复使用。</p></div>
+  </div>
+</section>
+<div class="how-bg">
+<section class="section" id="how">
+  <div class="section-header reveal"><div class="section-label">工作流程</div><h2 class="section-title">四步完成初面闭环</h2><p class="section-desc">从创建到审阅，平均 5 分钟完成配置。剩下的交给 AI。</p></div>
+  <div class="steps">
+    <div class="steps-line"><div class="steps-line-fill" id="stepsFill"></div></div>
+    <div class="step reveal reveal-delay-1"><div class="step-num">1</div><h3>创建面试流程</h3><p>设置岗位、选题库模版、配置面试轮次和时长</p></div>
+    <div class="step reveal reveal-delay-2"><div class="step-num">2</div><h3>邀请候选人</h3><p>生成专属面试链接，批量发送给候选人</p></div>
+    <div class="step reveal reveal-delay-3"><div class="step-num">3</div><h3>AI 自动初面</h3><p>候选人随时进入面试，AI 提问、录制、评分</p></div>
+    <div class="step reveal reveal-delay-4"><div class="step-num">4</div><h3>审阅评估报告</h3><p>查看评分、AI 评语和关键问答，快速做出决策</p></div>
+  </div>
+</section>
+</div>
+<section class="section" id="plans">
+  <div class="section-header reveal"><div class="section-label">灵活定价</div><h2 class="section-title">按需选择，随时升级</h2><p class="section-desc">所有方案均包含 7 天免费试用，无需绑定支付方式。</p></div>
+  <div class="plans-grid">
+    <div class="plan-card reveal reveal-delay-1"><div class="plan-name">入门版</div><div class="plan-sub">适合初创团队试水</div><div class="plan-price">¥299<span class="period">/月</span></div><p class="plan-desc">每月 20 场AI面试，基础题库模版，1 个岗位配置。</p><ul class="plan-features"><li>20 场 AI 面试/月</li><li>基础题库模版</li><li>1 个岗位配置</li><li>标准评估报告</li><li>邮件通知</li></ul><a href="./hr/register.html" class="plan-btn outline">免费试用 7 天</a></div>
+    <div class="plan-card featured reveal reveal-delay-2"><div class="plan-name">专业版</div><div class="plan-sub">适合成长期招聘团队</div><div class="plan-price">¥899<span class="period">/月</span></div><p class="plan-desc">每月 100 场面试，自定义题库，5 个岗位，防作弊检测。</p><ul class="plan-features"><li>100 场 AI 面试/月</li><li>自定义题库 + 追问策略</li><li>5 个岗位配置</li><li>深度评估报告 + AI 评语</li><li>防作弊检测</li><li>批量候选人导入</li></ul><a href="./hr/register.html" class="plan-btn primary">免费试用 7 天</a></div>
+    <div class="plan-card reveal reveal-delay-3"><div class="plan-name">企业版</div><div class="plan-sub">适合大规模招聘需求</div><div class="plan-price">联系我们<span class="period"></span></div><p class="plan-desc">不限场次，定制化题库策略，专属客户成功经理，API 对接。</p><ul class="plan-features"><li>不限 AI 面试场次</li><li>全量功能开放</li><li>不限岗位配置</li><li>定制化题库策略</li><li>专属客户成功经理</li><li>API / SSO 对接</li></ul><a href="./hr/register.html" class="plan-btn outline">联系销售 →</a></div>
+  </div>
+</section>
+<section class="section" id="entry">
+  <div class="section-header reveal"><div class="section-label">快速入口</div><h2 class="section-title">选择你的身份</h2></div>
+  <div class="entry-split">
+    <div class="entry-card hr reveal reveal-delay-1"><div class="entry-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><h3>我是 HR / 招聘方</h3><p>创建面试流程、管理候选人、查看 AI 评估报告，掌控招聘全流程。</p><a href="./hr/login.html" class="btn-primary">进入 HR 端 →</a></div>
+    <div class="entry-card candidate reveal reveal-delay-2"><div class="entry-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><h3>我是候选人</h3><p>使用面试邀请码进入，AI 引导完成初面，随时查看面试进度。</p><a href="./candidate/index.html" class="btn-primary" style="background:var(--b2);">进入候选人端 →</a></div>
+  </div>
+</section>
+<div class="cta-section reveal">
+  <div class="cta-box"><div class="cta-particles" id="ctaParticles"></div><h2>准备好让你的招聘效率提升 10 倍了吗？</h2><p>7 天免费试用，无需绑定支付方式。随时取消，零风险。</p><a href="./hr/register.html" class="btn-primary">立即免费注册 →</a></div>
+</div>
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand"><span class="footer-name">泓泽数字</span></div>
+    <div class="footer-info">
+      <p>AI全量初面系统 · Powered by <a href="https://www.hongzedigital.com">泓泽数字</a></p>
+      <p><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">粤ICP备2026055553号</a> · <a href="https://www.beian.gov.cn/portal/registerSystemInfo?recordcode=44010302111445" target="_blank" rel="noreferrer">粤公网安备44010302111445号</a></p>
+    </div>
+  </div>
+</footer>
+<script>
+(function(){var c=document.getElementById('heroParticles');if(!c)return;var cls=['dot','dot','dot','dot-g','dot-g','dot-p'];for(var i=0;i<22;i++){var p=document.createElement('div');p.className='hero-particle '+cls[i%cls.length];p.style.left=(Math.random()*90)+'%';p.style.bottom=(Math.random()*60)+'%';var s=6+Math.random()*10;p.style.width=s+'px';p.style.height=s+'px';p.style.animationDuration=(8+Math.random()*14)+'s';p.style.animationDelay=(Math.random()*12)+'s';c.appendChild(p);}})();
+(function(){var c=document.getElementById('ctaParticles');if(!c)return;function sp(){var p=document.createElement('div');p.className='cta-particle';p.style.left=(Math.random()*90)+'%';p.style.animationDuration=(4+Math.random()*6)+'s';c.appendChild(p);setTimeout(function(){if(p.parentNode)p.parentNode.removeChild(p);},7000);}for(var i=0;i<15;i++){setTimeout(sp,i*350);}setInterval(function(){if(c.getBoundingClientRect().top<window.innerHeight&&c.getBoundingClientRect().bottom>0){sp();}},1200);})();
+(function(){var h=document.querySelector('.hero');if(!h)return;var ls=h.querySelectorAll('.parallax-layer');h.addEventListener('mousemove',function(e){var r=h.getBoundingClientRect();var x=(e.clientX-r.left)/r.width-0.5;var y=(e.clientY-r.top)/r.height-0.5;ls.forEach(function(l){var f=parseFloat(l.getAttribute('data-parallax'))||0;l.style.transform='translate('+(x*f)+'px,'+(y*f)+'px)';});});h.addEventListener('mouseleave',function(){ls.forEach(function(l){l.style.transform='translate(0,0)';});});})();
+(function(){var o=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.15,rootMargin:'0px 0px -40px 0px'});document.querySelectorAll('.reveal').forEach(function(el){o.observe(el);});})();
+(function(){var done=false;var o=new IntersectionObserver(function(es){if(es[0].isIntersecting&&!done){done=true;var d=300;document.querySelectorAll('.stat-number').forEach(function(el){var t=parseInt(el.getAttribute('data-target'));var st=null;function a(ts){if(!st)st=ts;var p=Math.min((ts-st)/1500,1);var e=1-Math.pow(1-p,3);el.textContent=Math.round(e*t);if(p<1)requestAnimationFrame(a);else el.textContent=t;}setTimeout(function(){requestAnimationFrame(a);},d);d+=150;});}},{threshold:0.5});var s=document.getElementById('stats-bar');if(s)o.observe(s);})();
+(function(){var f=document.getElementById('stepsFill');if(!f)return;var h=document.getElementById('how');if(!h)return;var a=false;var o=new IntersectionObserver(function(es){if(es[0].isIntersecting&&!a){a=true;f.style.width='100%';}},{threshold:0.3});o.observe(h);})();
+var st=document.createElement('style');st.textContent='@keyframes spin{to{transform:rotate(360deg)}}';document.head.appendChild(st);
+(function(){document.querySelectorAll('.feature-card').forEach(function(c){c.addEventListener('mousemove',function(e){var r=c.getBoundingClientRect();var x=(e.clientX-r.left)/r.width-0.5;var y=(e.clientY-r.top)/r.height-0.5;c.style.transform='perspective(800px) rotateY('+(x*6)+'deg) rotateX('+(-y*4)+'deg) translateY(-6px)';});c.addEventListener('mouseleave',function(){c.style.transform='';});});})();
+</script>
+</body>
+</html>

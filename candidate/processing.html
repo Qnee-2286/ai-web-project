@@ -1,0 +1,68 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>材料整理中｜AI全量初面系统</title>
+    <link rel="stylesheet" href="./styles.css?v=20260610b" />
+<style id="beian-unified-style">
+      .mps-beian{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:18px auto;color:#94A3B8;font-size:12px;}
+      .mps-beian a{display:inline-flex;align-items:center;gap:4px;color:#94A3B8;text-decoration:none;}
+      .mps-beian a:hover{color:#0878ff;}
+      .mps-beian img{width:16px;height:16px;flex-shrink:0;}
+    </style>
+  <style id="site-footer-unified-style">
+.site-footer{background:#fff;border-top:1px solid #E2E8F0;padding:40px;color:#94A3B8;font-size:12px;}
+.site-footer-inner{max-width:1200px;margin:0 auto;display:flex;align-items:flex-start;justify-content:space-between;gap:32px;}
+.site-footer-brand{display:flex;align-items:center;gap:12px;color:#0F172A;font-weight:600;}
+.site-footer-logo{width:32px;height:32px;border-radius:8px;object-fit:contain;display:block;flex-shrink:0;}
+.site-footer-info{text-align:right;}
+.site-footer-info p{margin:0;font-size:12px;color:#94A3B8;line-height:1.8;}
+.site-footer-info a{color:#94A3B8;text-decoration:none;display:inline-flex;align-items:center;gap:4px;vertical-align:middle;}
+.site-footer-info a:hover{color:#0070FF;}
+.site-footer-info img{width:16px;height:16px;flex-shrink:0;}
+@media(max-width:760px){.site-footer{padding:32px 20px;}.site-footer-inner{flex-direction:column;align-items:center;text-align:center;gap:14px;}.site-footer-brand{justify-content:center;}.site-footer-info{text-align:center;}.site-footer-info p{line-height:2;}}
+</style>
+</head>
+  <body>
+    <header class="top">
+      <div class="brand">
+        <img class="brand-logo" src="./assets/logo-icon.svg" alt="hi AI初面" />
+        <span><strong>AI全量初面系统</strong><small>泓泽数字旗下产品</small></span>
+      </div>
+      <span class="badge">整理中</span>
+    </header>
+    <main class="layout narrow">
+      <section class="panel">
+        <div class="page-title">
+          <span class="crumb">候选人端 / 材料整理</span>
+          <h1>面试已提交成功</h1>
+          <p>系统正在整理本次面试材料，预计需要 1-2 分钟。录音整理完成后将自动进入完成页。</p>
+        </div>
+        <div class="notice">
+          你可以保持页面打开；如中途关闭，也可稍后通过原面试链接查看结果。
+        </div>
+        <div class="progress-card">
+          <div class="progress-row"><span>整段录音</span><strong id="mergeStatus">等待处理</strong></div>
+          <div class="progress-row"><span>语音转写</span><strong id="transcriptStatus">等待处理</strong></div>
+          <div class="progress-row"><span>HR报告</span><strong id="reportStatus">等待处理</strong></div>
+        </div>
+        <div class="form-message ok" id="processingMessage">正在启动材料整理...</div>
+        <div class="actions">
+          <button class="btn primary" id="retryProcessing" type="button">重新检查</button>
+        </div>
+      </section>
+    </main>
+    <script src="./auth-flow.js?v=20260612d"></script>
+    <script src="./materials-flow.js?v=20260612d"></script>
+      <footer class="site-footer">
+  <div class="site-footer-inner">
+    <div class="site-footer-brand"><img class="site-footer-logo" src="./assets/mother-company-symbol-cropped.png" alt="泓泽数字" /><span>泓泽数字</span></div>
+    <div class="site-footer-info">
+      <p>AI全量初面系统 &middot; Powered by <a href="https://www.hongzedigital.com">泓泽数字</a></p>
+      <p><a href="../help.html">使用说明</a> &middot; <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">粤ICP备2026055553号</a> &middot; <a href="https://www.beian.gov.cn/portal/registerSystemInfo?recordcode=44010302111445" target="_blank" rel="noreferrer"><img src="./assets/beian.png" alt="公安备案图标" />粤公网安备44010302111445号</a></p>
+    </div>
+  </div>
+</footer>
+  </body>
+</html>

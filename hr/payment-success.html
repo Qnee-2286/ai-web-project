@@ -1,0 +1,181 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>支付成功 — AI全量初面系统</title>
+<style>
+:root{--brand-blue:#0070ff;--brand-green:#00d68f;--brand-gradient:linear-gradient(135deg,#0070ff,#00d68f);--bg-page:#f7fafc;--bg-card:#fff;--bg-soft:#f8fafc;--text-primary:#0f172a;--text-secondary:#475569;--text-tertiary:#94a3b8;--border-default:#e2e8f0;--radius-sm:8px;--radius-md:12px;--radius-lg:16px;--shadow-card:0 1px 3px rgba(15,23,42,.04);--font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC","Microsoft YaHei",sans-serif}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--bg-page);color:var(--text-primary);min-height:100vh;font-size:14px;line-height:1.6}
+
+.nav{background:var(--bg-card);border-bottom:1px solid var(--border-default);padding:0 20px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-brand img{height:34px;width:auto;max-width:170px;border-radius:0;object-fit:contain;flex-shrink:0;background:transparent;padding:0;box-shadow:none}
+.nav-brand strong{font-size:15px;font-weight:700;color:var(--text-primary)}
+.nav-brand small{font-size:11px;color:var(--text-tertiary);display:block;line-height:1.2}
+.nav-back{display:flex;align-items:center;gap:4px;color:var(--text-secondary);text-decoration:none;font-size:14px;padding:6px 12px;border-radius:var(--radius-sm);transition:background .2s}
+.nav-back:hover{background:var(--bg-soft)}
+
+.page-container{max-width:560px;margin:0 auto;padding:32px 16px 48px}
+
+.success-hero{text-align:center;margin-bottom:28px;animation:fadeUp .5s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.success-check{width:80px;height:80px;margin:0 auto 16px;background:linear-gradient(135deg,#00d68f,#00b87a);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 32px rgba(0,214,143,.3);animation:pop .4s cubic-bezier(.34,1.56,.64,1) .1s both}
+@keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}
+.success-check svg{width:40px;height:40px;color:#fff}
+.success-title{font-size:24px;font-weight:800;color:var(--text-primary);margin-bottom:6px}
+.success-subtitle{font-size:14px;color:var(--text-secondary)}
+
+.order-card{background:var(--bg-card);border:1px solid var(--border-default);border-radius:var(--radius-lg);padding:24px 20px;box-shadow:var(--shadow-card);margin-bottom:20px}
+.order-card-title{font-size:13px;font-weight:600;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:16px}
+.order-line{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--bg-soft)}
+.order-line:last-of-type{border-bottom:none}
+.order-line-label{color:var(--text-secondary);font-size:14px}
+.order-line-value{color:var(--text-primary);font-size:14px;font-weight:600}
+.order-line-value.amount{color:var(--brand-blue);font-size:18px;font-weight:800}
+
+.invoice-section{background:var(--bg-card);border:1px solid var(--border-default);border-radius:var(--radius-lg);padding:18px 20px;margin-bottom:20px;box-shadow:var(--shadow-card)}
+.invoice-toggle-row{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.invoice-toggle-info{flex:1}
+.invoice-toggle-title{font-size:15px;font-weight:700;color:var(--text-primary);margin-bottom:2px}
+.invoice-toggle-hint{font-size:12px;color:var(--text-tertiary)}
+.switch{position:relative;display:inline-block;width:44px;height:24px;flex-shrink:0}
+.switch input{opacity:0;width:0;height:0}
+.switch-slider{position:absolute;cursor:pointer;inset:0;background:#cbd5e1;border-radius:24px;transition:.3s}
+.switch-slider::before{content:"";position:absolute;height:18px;width:18px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.3s}
+.switch input:checked+.switch-slider{background:var(--brand-blue)}
+.switch input:checked+.switch-slider::before{transform:translateX(20px)}
+.invoice-entry{margin-top:14px;display:none;animation:fadeUp .3s ease}
+.invoice-entry.show{display:block}
+.invoice-entry p{font-size:13px;color:var(--text-secondary);margin-bottom:14px;line-height:1.6}
+
+.btn-primary{width:100%;height:52px;background:var(--brand-gradient);border:none;border-radius:var(--radius-md);color:#fff;font-family:var(--font);font-size:16px;font-weight:700;cursor:pointer;letter-spacing:.02em;box-shadow:0 4px 20px rgba(0,112,255,.25);transition:opacity .2s,transform .15s,box-shadow .2s;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-primary:hover{opacity:.95;transform:translateY(-1px);box-shadow:0 6px 28px rgba(0,112,255,.3)}
+.btn-secondary{width:100%;height:48px;background:var(--bg-card);border:1.5px solid var(--border-default);border-radius:var(--radius-md);color:var(--text-secondary);font-family:var(--font);font-size:15px;font-weight:600;cursor:pointer;margin-top:12px;transition:all .2s;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-secondary:hover{border-color:var(--brand-blue);color:var(--brand-blue);background:var(--bg-soft)}
+
+.footer-hint{text-align:center;margin-top:24px;font-size:12px;color:var(--text-tertiary);line-height:1.8}
+
+@media(max-width:480px){.nav{padding:0 16px}.page-container{padding:24px 14px 40px}.success-check{width:68px;height:68px}.success-check svg{width:34px;height:34px}.success-title{font-size:20px}}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="./membership.html" class="nav-brand">
+    <img src="./assets/hi-logo-horizontal.svg" alt="hi AI初面" />
+  </a>
+  <a href="./payment.html" class="nav-back">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    返回
+  </a>
+</nav>
+
+<div class="page-container">
+  <div class="success-hero">
+    <div class="success-check">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+    </div>
+    <h1 class="success-title">支付成功</h1>
+    <p class="success-subtitle" id="subtitle">您的会员已激活，可以开始使用了</p>
+  </div>
+
+  <div class="order-card">
+    <div class="order-card-title">订单详情</div>
+    <div class="order-line"><span class="order-line-label">订单编号</span><span class="order-line-value" id="orderNo">—</span></div>
+    <div class="order-line"><span class="order-line-label">套餐名称</span><span class="order-line-value" id="orderPlan">—</span></div>
+    <div class="order-line"><span class="order-line-label">支付方式</span><span class="order-line-value" id="orderPay">—</span></div>
+    <div class="order-line"><span class="order-line-label">实付金额</span><span class="order-line-value amount" id="orderAmount">¥—</span></div>
+    <div class="order-line"><span class="order-line-label">权益状态</span><span class="order-line-value" id="grantStatus">—</span></div>
+    <div class="order-line"><span class="order-line-label">本次增加</span><span class="order-line-value" id="quotaIncrease">—</span></div>
+    <div class="order-line"><span class="order-line-label">有效期</span><span class="order-line-value" id="orderValidity">—</span></div>
+  </div>
+
+  <div class="invoice-section">
+    <div class="invoice-toggle-row">
+      <div class="invoice-toggle-info">
+        <div class="invoice-toggle-title">需要开具发票</div>
+        <div class="invoice-toggle-hint">电子普通发票，1-3 个工作日内发送至您的邮箱</div>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="invoiceToggle" onchange="toggleInvoice()">
+        <span class="switch-slider"></span>
+      </label>
+    </div>
+    <div class="invoice-entry" id="invoiceEntry">
+      <p>勾选后请填写发票信息，我们将在 1-3 个工作日内将电子发票发送至您的邮箱。</p>
+      <a href="#" class="btn-primary" id="invoiceBtn">去填写发票信息 →</a>
+    </div>
+  </div>
+
+  <a href="./membership.html" class="btn-secondary">返回会员中心，开始使用 →</a>
+
+  <div class="footer-hint">如需帮助，可联系客服<br>工作日 9:00–18:00 在线</div>
+</div>
+
+<script>
+const API = '/api';
+const params = new URLSearchParams(location.search);
+const orderNo = params.get('order_no') || '';
+
+function goLogin() {
+  location.href = './login.html?redirect=' + encodeURIComponent('payment-success.html?order_no=' + orderNo);
+}
+
+async function apiGet(path) {
+  const res = await fetch(`${API}/${path}`, { credentials: 'include' });
+  const data = await res.json().catch(() => ({ ok:false, message:'接口返回格式错误' }));
+  if (data?.data?.need_login) { goLogin(); return null; }
+  return data;
+}
+
+async function loadOrder() {
+  if (!orderNo) {
+    document.getElementById('subtitle').textContent = '订单信息加载失败';
+    return;
+  }
+  const data = await apiGet('hr/order_detail.php?order_no=' + encodeURIComponent(orderNo));
+  if (!data || !data.ok) {
+    document.getElementById('subtitle').textContent = (data?.message) || '订单信息加载失败';
+    return;
+  }
+  const o = data.data;
+  document.getElementById('orderNo').textContent = o.order_no;
+  document.getElementById('orderPlan').textContent = o.plan_name;
+  document.getElementById('orderPay').textContent = o.pay_method_text;
+  document.getElementById('orderAmount').textContent = '¥' + (o.paid_amount || o.amount);
+  document.getElementById('grantStatus').textContent = o.grant_status === 'granted' ? '已到账' : '等待到账';
+  document.getElementById('quotaIncrease').textContent = o.quota_increase ? '+' + o.quota_increase + ' 次' : '—';
+  document.getElementById('orderValidity').textContent = o.validity_text || '—';
+  if (o.pay_status !== 'paid') {
+    document.querySelector('.success-title').textContent = '支付确认中';
+    document.getElementById('subtitle').textContent = '如果您已完成支付，请稍候，系统正在等待支付平台确认';
+    document.querySelector('.invoice-section').style.display = 'none';
+    setTimeout(loadOrder, 3000);
+    return;
+  }
+  document.querySelector('.success-title').textContent = '支付成功';
+  document.getElementById('subtitle').textContent = '会员权益已自动到账，可返回会员中心查看';
+  document.querySelector('.invoice-section').style.display = '';
+}
+
+function toggleInvoice() {
+  const checked = document.getElementById('invoiceToggle').checked;
+  const entry = document.getElementById('invoiceEntry');
+  if (checked) {
+    entry.classList.add('show');
+    document.getElementById('invoiceBtn').href = './invoice.html?order_no=' + encodeURIComponent(orderNo);
+  } else {
+    entry.classList.remove('show');
+  }
+}
+
+loadOrder();
+</script>
+</body>
+</html>
+
+
+
+

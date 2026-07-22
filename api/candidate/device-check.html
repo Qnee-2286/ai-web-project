@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>设备检查｜AI全量初面系统</title>
+    <link rel="stylesheet" href="./styles.css" />
+</head>
+  <body>
+    <header class="top">
+      <div class="brand"><img class="brand-logo" src="./assets/logo-icon.svg" alt="hi AI初面" /><span><strong>AI全量初面系统</strong><small>泓泽数字旗下产品</small></span></div>
+      <span class="badge">设备检查</span>
+    </header>
+    <main class="layout">
+      <div class="page-title">
+        <span class="crumb">候选人端 / 设备检查</span>
+        <h1>请开启摄像头和麦克风</h1>
+        <p>本次初面预计 8-15 分钟。请保持手机稳定，并尽量在安静、光线充足的环境中作答。</p>
+      </div>
+      <section class="panel">
+        <div class="device-grid">
+          <div class="device-card"><strong>摄像头</strong><span>待开启</span></div>
+          <div class="device-card"><strong>麦克风</strong><span>待开启</span></div>
+          <div class="device-card"><strong>网络</strong><span>稳定</span></div>
+        </div>
+        <div class="device-preview" id="devicePreview" hidden>
+          <video id="deviceCameraPreview" autoplay muted playsinline></video>
+          <div class="mic-test">
+            <strong>麦克风收音测试</strong>
+            <div class="mic-meter"><i id="micMeterBar"></i></div>
+            <span id="micTestMessage">请说一句话，确认音量条会变化。</span>
+          </div>
+        </div>
+        <div class="notice" style="margin-top:16px">摄像头仅用于确认本人参与和面试环境监测（防作弊），不会录像也不向HR展示。AI语音初面只收录语音回答。</div>
+        <div class="notice" style="margin-top:10px">面试过程中请尽量不要切换页面、接听电话或退出当前页面，以免影响录音和作答保存。</div>
+        <div class="soft-note" style="margin-top:16px">点击下方按钮后，系统将申请摄像头和麦克风权限。请在手机弹窗中选择允许。</div>
+        <div class="actions">
+          <button class="btn primary" id="startDeviceCheckBtn" type="button">开始设备检测</button>
+          <a class="btn primary disabled" id="deviceNextBtn" href="./interview.html" aria-disabled="true">进入 AI 语音初面</a>
+          <a class="btn" href="./job-confirm.html">返回岗位信息</a>
+        </div>
+      </section>
+    </main>
+
+    <div class="mps-beian">
+      <a href="https://beian.mps.gov.cn/#/query/webSearch?code=44010302111445" rel="noreferrer" target="_blank">
+        <img src="./assets/beian.png" alt="公安备案图标" />
+        <span>粤公网安备44010302111445号</span>
+      </a>
+    </div>
+    <script src="./auth-flow.js"></script>
+    <script src="./candidate-progress.js"></script>
+</body>
+</html>

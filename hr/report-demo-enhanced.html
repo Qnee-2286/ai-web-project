@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta name="hi-build" content="20260615cachefix" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI初面报告 Demo｜AI全量初面系统</title>
+    <link rel="stylesheet" href="./v2-design-system.css?v=20260615cachefix" />
+    <style>
+      .report-hero{display:flex;align-items:center;justify-content:space-between;gap:20px;background:linear-gradient(135deg,rgba(0,112,255,.06),rgba(0,214,143,.06));border:1px solid rgba(0,112,255,.12);border-radius:var(--radius-card);padding:24px;margin:20px 0}.report-label{font-size:12px;color:var(--text-secondary);margin-bottom:4px}.report-hero h2{font-size:20px;font-weight:800;margin:0 0 4px}.report-hero p{margin:0;font-size:13px;color:var(--text-secondary);max-width:780px;line-height:1.8}
+      .score-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}.score-card{padding:16px;border:1px solid var(--border);border-radius:var(--radius-card);background:var(--bg-card);box-shadow:var(--s1)}.score-card span{display:block;font-size:12px;color:var(--text-aux);margin-bottom:4px}.score-card strong{display:block;font-size:30px;line-height:1;font-weight:900;color:var(--text-primary)}.score-card strong.gradient{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.score-card small{display:block;margin-top:8px;color:var(--text-secondary);font-size:12px;line-height:1.6}
+      .report-section{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-card);margin-bottom:16px;overflow:hidden}.report-section.primary{border-color:rgba(0,112,255,.22);box-shadow:0 8px 28px rgba(0,112,255,.08)}.section-head{padding:16px 20px 8px}.section-head h2{font-size:15px;font-weight:800;margin:0 0 2px}.section-head p{margin:0;font-size:12px;color:var(--text-aux)}
+      .analysis-list{display:grid;gap:10px;padding:8px 20px 20px}.analysis-item{display:grid;gap:4px;padding:12px;border:1px solid var(--border);border-radius:var(--radius-btn);background:var(--bg-main)}.analysis-item strong{font-size:13px}.analysis-item p{margin:0;color:var(--text-secondary);font-size:13px;line-height:1.75}
+      .tag-row{display:flex;flex-wrap:wrap;gap:8px;padding:0 20px 20px}.tag{display:inline-flex;align-items:center;gap:4px;padding:4px 9px;border-radius:999px;font-size:12px;font-weight:700;background:#EFF6FF;color:#1D4ED8}.tag.green{background:#ECFDF5;color:#047857}.tag.amber{background:#FFFBEB;color:#B45309}.tag.red{background:#FEF2F2;color:#B91C1C}.tag.gray{background:#F1F5F9;color:#64748B}
+      .audio-panel{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center;margin:8px 20px 20px;padding:14px;border:1px solid var(--border);border-radius:var(--radius-btn);background:var(--bg-main)}.audio-panel strong{display:block;font-size:14px;margin-bottom:4px}.audio-panel p{margin:0;color:var(--text-secondary);font-size:13px;line-height:1.7}.audio-actions{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}.audio-status{display:inline-flex;align-items:center;padding:4px 9px;border-radius:999px;background:#ECFDF5;color:#047857;font-size:12px;font-weight:700}
+      .risk-panel{display:grid;gap:10px;padding:8px 20px 20px}.risk-row{display:grid;grid-template-columns:108px 1fr auto;gap:10px;align-items:start;padding:12px;border:1px solid var(--border);border-radius:var(--radius-btn);background:var(--bg-main)}.risk-row span{color:var(--text-aux);font-size:12px;font-weight:700}.risk-row p{margin:0;color:var(--text-secondary);font-size:13px;line-height:1.7}
+      .question-list{display:grid;gap:14px;padding:8px 20px 20px}.question-card{display:grid;gap:12px;padding:16px;border:1px solid var(--border);border-radius:var(--radius-btn);background:var(--bg-main)}.question-card header{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.question-card h3{margin:0;font-size:14px;line-height:1.65}.question-tools{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;min-width:220px}
+      .question-design{display:grid;gap:10px;padding:12px;border:1px solid rgba(0,112,255,.18);border-radius:var(--radius-btn);background:linear-gradient(135deg,rgba(239,246,255,.85),rgba(240,253,244,.68))}.question-design-title{display:flex;justify-content:space-between;gap:12px;align-items:center}.question-design-title strong{font-size:13px}.question-design-title span{font-size:12px;color:var(--text-aux)}.design-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.design-card{padding:12px;border:1px solid var(--border);border-radius:var(--radius-btn);background:#fff}.design-card span{display:block;font-size:12px;color:var(--text-aux);margin-bottom:4px}.design-card strong{font-size:14px}.design-card p{margin:8px 0 0;color:var(--text-secondary);font-size:13px;line-height:1.7}.design-suggestion{padding:12px;border-radius:var(--radius-btn);background:#fff;border:1px dashed rgba(0,112,255,.28);font-size:13px;line-height:1.75;color:var(--text-secondary)}.design-suggestion strong{color:var(--text-primary)}
+      .judgement-panel{display:grid;gap:10px}.judgement-title{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px;border-radius:var(--radius-btn);background:#fff;border:1px solid var(--border)}.judgement-title strong{font-size:13px}.judgement-title span{color:var(--text-aux);font-size:12px}.criteria-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.criteria-card{display:grid;gap:8px;padding:12px;border-radius:var(--radius-btn);border:1px solid var(--border);background:#fff}.criteria-card header{display:flex;align-items:center;justify-content:space-between;gap:8px}.criteria-card h4{margin:0;font-size:13px}.criteria-card .result{font-weight:800;color:var(--text-primary)}.criteria-card .standard{margin:0;padding-top:8px;border-top:1px dashed var(--border);font-size:12px;color:var(--text-aux);line-height:1.7}.criteria-card .basis{margin:0;font-size:13px;color:var(--text-secondary);line-height:1.75}.criteria-card.warning{border-color:rgba(245,158,11,.35);background:#FFFBEB}.criteria-card.good{border-color:rgba(0,214,143,.25);background:#F0FDF4}
+      details.transcript-box{border:1px solid var(--border);border-radius:var(--radius-btn);background:#fff}details.transcript-box summary{cursor:pointer;padding:10px 12px;font-size:13px;font-weight:700;color:var(--text-secondary)}.transcript{padding:0 12px 12px;color:var(--text-secondary);font-size:13px;line-height:1.8;white-space:pre-wrap}.review-box{padding:16px 20px 20px}.review-guide{padding:12px 14px;margin-bottom:12px;border:1px solid rgba(0,112,255,.16);border-radius:var(--radius-btn);background:#EFF6FF;color:#334155;font-size:13px;line-height:1.75}.review-guide strong{display:block;color:var(--text-primary);margin-bottom:4px}.review-box textarea{width:100%;min-height:104px;border:1px solid var(--border);border-radius:var(--radius-btn);padding:12px;resize:vertical;font-family:inherit}.ai-boundary-strip{background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.3);border-radius:var(--radius-btn);padding:12px 16px;font-size:12px;color:#92400E;text-align:center;margin:16px 0}
+      .site-footer{background:#fff;border-top:1px solid #E2E8F0;padding:40px;color:#94A3B8;font-size:12px}.site-footer-inner{max-width:1200px;margin:0 auto;display:flex;align-items:flex-start;justify-content:space-between;gap:32px}.site-footer-brand{display:flex;align-items:center;gap:12px;color:#0F172A;font-weight:600}.site-footer-logo{width:32px;height:32px;border-radius:8px;object-fit:contain;display:block;flex-shrink:0}.site-footer-info{text-align:right}.site-footer-info p{margin:0;font-size:12px;color:#94A3B8;line-height:1.8}.site-footer-info a{color:#94A3B8;text-decoration:none;display:inline-flex;align-items:center;gap:4px;vertical-align:middle}.site-footer-info img{width:16px;height:16px;flex-shrink:0}
+      @media(max-width:1080px){.score-strip,.criteria-grid,.design-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:760px){.shell{display:block}.side{position:relative;height:auto}.report-hero,.question-card header,.audio-panel{grid-template-columns:1fr;flex-direction:column;align-items:flex-start}.score-strip,.criteria-grid,.design-grid{grid-template-columns:1fr}.risk-row{grid-template-columns:1fr}.question-tools,.audio-actions{justify-content:flex-start}.site-footer-inner{flex-direction:column;align-items:center;text-align:center}.site-footer-info{text-align:center}}
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="side">
+        <div class="brand">
+          <img class="brand-logo" src="./assets/logo-icon.svg" alt="hi AI初面" style="background:none;padding:0;" />
+          <span><strong>AI全量初面系统</strong><small>泓泽数字旗下产品</small></span>
+        </div>
+        <nav class="nav">
+          <a href="./dashboard.html">首页</a><a href="./create-interview-flow.html?v=20260615cachefix">创建初面</a><a href="./job-management.html">初面管理</a><a href="./candidate-list.html">候选人</a><a class="active" href="./report-review-list.html">报告复核</a><a href="./question-bank.html">题库管理</a>
+          <div class="nav-sep"></div><a href="./membership.html">会员中心</a><a href="./profile.html">设置</a>
+        </nav>
+      </aside>
+
+      <main class="main">
+        <div class="topbar">
+          <div class="page-title"><span class="crumb">HR端 / 初面报告 Demo</span><h1>陈林洪｜AI初面报告</h1><p>销售专员 · 广州泓泽数字科技有限责任公司</p></div>
+          <div class="topbar-account"><a class="btn" href="./report-review-list.html">返回列表</a><a class="btn primary" href="#hr-feedback">提交复核</a></div>
+        </div>
+
+        <section class="report-hero">
+          <div><div class="report-label">面试编号：HI20260613-J006-0001</div><h2>综合建议：建议进入HR人工复核</h2><p>候选人具备ToB销售与客户沟通基础，表达较完整，能围绕客户痛点展开说明；但关键项目细节、成交数据和AI招聘理解仍需二面追问核验。</p></div>
+          <div class="score-card"><span>综合结论</span><strong class="gradient">推进</strong><small>AI辅助建议，非自动录用结论</small></div>
+        </section>
+
+        <section class="score-strip" aria-label="核心评分">
+          <article class="score-card"><span>基础表现分</span><strong>82</strong><small>表达清晰，回答完整度较好</small></article>
+          <article class="score-card"><span>岗位匹配分</span><strong class="gradient">76</strong><small>销售经验匹配，行业深度待核验</small></article>
+          <article class="score-card"><span>过程异常风险</span><strong>低</strong><small>未发现明显换人或中断异常</small></article>
+          <article class="score-card"><span>题目有效性</span><strong>良好</strong><small>1题建议优化，JD可补充客户场景</small></article>
+        </section>
+
+        <section class="report-section primary">
+          <div class="section-head"><h2>AI整理结果</h2><p>从转写、题目、岗位要求中提炼可复核的信息。</p></div>
+          <div class="analysis-list">
+            <article class="analysis-item"><strong>候选人概览</strong><p>候选人能较自然地描述客户沟通、需求挖掘和跟进动作，适合进入人工复核；目前回答偏过程描述，量化结果和复杂客户案例不足。</p></article>
+            <article class="analysis-item"><strong>岗位匹配分析</strong><p>与销售专员岗位的客户开发、产品讲解、报价沟通有一定重合；对AI招聘产品的理解还停留在“提升效率”层面，需要确认是否能独立讲清产品价值。</p></article>
+            <article class="analysis-item"><strong>建议复核重点</strong><p>建议HR重点追问候选人过往客户推进的真实边界、最终结果口径、本人贡献比例，以及是否能把AI招聘产品的价值讲到客户听得懂的业务语言。</p></article>
+          </div>
+          <div class="tag-row"><span class="tag green">客户沟通</span><span class="tag green">ToB销售</span><span class="tag">需求挖掘</span><span class="tag amber">业绩数据待核验</span><span class="tag amber">AI产品理解待加强</span></div>
+        </section>
+
+        <section class="report-section">
+          <div class="section-head"><h2>完整面试音频</h2><p>完整音频用于复盘整场面试；每题下方仍可单独播放候选人回答。</p></div>
+          <div class="audio-panel">
+            <div><strong>整合版：AI读题 + 候选人回答</strong><p>系统会把每道题的AI读题音频补齐，再拼接候选人回答和题间停顿，即便候选人面试时没有听完整题，下载版也能连贯复听。</p></div>
+            <div class="audio-actions"><span class="audio-status">已生成</span><a class="btn" href="javascript:void(0)">播放完整音频</a><a class="btn primary" href="javascript:void(0)">下载完整音频</a></div>
+          </div>
+        </section>
+
+        <section class="report-section">
+          <div class="section-head"><h2>逐题AI判断</h2><p>聚焦候选人每题回答质量；原始转写放在每题下方作为证据。</p></div>
+          <div class="question-list">
+            <article class="question-card">
+              <header>
+                <h3>第 1 题 · 请介绍一次你独立跟进客户并推动转化的经历。</h3>
+                <div class="question-tools"><span class="tag green">回答完整</span><a class="btn" href="javascript:void(0)">播放回答</a><a class="btn" href="javascript:void(0)">下载回答</a></div>
+              </header>
+              <div class="judgement-panel">
+                <div class="judgement-title"><strong>候选人回答判断</strong><span>优先看这里，转写作为下方证据</span></div>
+                <div class="criteria-grid">
+                  <div class="criteria-card good"><header><h4>表达清晰度</h4><span class="result">较清晰</span></header><p class="standard">评判标准：是否讲清背景、动作、结果，逻辑是否连贯，是否明显跑题。</p><p class="basis">本题依据：候选人说明了客户问题、产品演示、竞品对比和报价方案；但最终结果只说“进入试用”，结果闭环不完整。</p></div>
+                  <div class="criteria-card good"><header><h4>岗位匹配度</h4><span class="result">高</span></header><p class="standard">评判标准：回答是否体现岗位需要的能力、经验和真实工作场景。</p><p class="basis">本题依据：回答覆盖客户沟通、需求理解、产品演示、报价推进，和销售专员岗位相关度较高。</p></div>
+                  <div class="criteria-card warning"><header><h4>待核验点</h4><span class="result">结果口径不清</span></header><p class="standard">评判标准：HR下一轮需要重点核实的模糊点、风险点或证据不足点。</p><p class="basis">本题依据：没有说明最终推进到什么阶段、候选人本人负责哪些动作、与团队协作边界如何，建议二面追问。</p></div>
+                </div>
+              </div>
+              <details class="transcript-box"><summary>查看原始转写</summary><div class="transcript">候选人：我之前跟进过一个企业客户，前期先了解他们招聘渠道成本比较高的问题，然后给他们做了产品演示，也整理了竞品对比和报价方案，最后客户进入试用。</div></details>
+            </article>
+
+            <article class="question-card">
+              <header>
+                <h3>第 5 题 · 如果客户觉得AI初面不够可靠，你会怎么回应？</h3>
+                <div class="question-tools"><span class="tag amber">建议追问</span><a class="btn" href="javascript:void(0)">播放回答</a><a class="btn" href="javascript:void(0)">下载回答</a></div>
+              </header>
+              <div class="judgement-panel">
+                <div class="judgement-title"><strong>候选人回答判断</strong><span>先看判断，再展开转写</span></div>
+                <div class="criteria-grid">
+                  <div class="criteria-card good"><header><h4>表达清晰度</h4><span class="result">清晰</span></header><p class="standard">评判标准：是否直接回应问题，表达是否有层次，能否让HR快速理解。</p><p class="basis">本题依据：候选人先回应客户顾虑，再说明AI初面不替代HR，表达路径清楚。</p></div>
+                  <div class="criteria-card"><header><h4>岗位匹配度</h4><span class="result">中高</span></header><p class="standard">评判标准：是否体现对产品价值、客户异议和销售沟通场景的理解。</p><p class="basis">本题依据：能说出“辅助筛选和记录”，但缺少更具体的客户价值、案例或数据支撑。</p></div>
+                  <div class="criteria-card warning"><header><h4>待核验点</h4><span class="result">产品价值讲解偏浅</span></header><p class="standard">评判标准：哪些内容可能影响岗位胜任，需要HR继续追问。</p><p class="basis">本题依据：建议追问候选人如何向客户解释准确性、合规边界、ROI和真实使用场景。</p></div>
+                </div>
+              </div>
+              <details class="transcript-box"><summary>查看原始转写</summary><div class="transcript">候选人：我会先认可客户的顾虑，然后说明AI初面不是替代HR，而是帮助HR先做基础筛选和记录，最后还是由HR复核。</div></details>
+            </article>
+          </div>
+        </section>
+
+        <section class="report-section" id="hr-feedback">
+          <div class="section-head"><h2>HR复核反馈区</h2><p>保留人工判断和最终推进结论。</p></div>
+          <div class="review-box">
+            <div class="review-guide"><strong>建议填写内容</strong>请补充你对候选人的人工判断、候选人亮点、风险点、是否推进、后续追问建议。写得越具体，系统后续对同类岗位、同类候选人回答的判断会越准确。</div>
+            <textarea placeholder="请输入HR复核意见"></textarea>
+            <div style="display:flex;gap:8px;margin-top:12px;"><a class="btn" href="javascript:void(0)">暂存</a><a class="btn primary" href="javascript:void(0)">提交复核意见</a></div>
+          </div>
+        </section>
+
+        <section class="ai-boundary-strip">AI仅整理候选人初面线索、回答证据和过程风险提示，不直接淘汰候选人，不直接决定录用；最终判断由HR或企业完成。</section>
+      </main>
+    </div>
+
+    <footer class="site-footer"><div class="site-footer-inner"><div class="site-footer-brand"><img class="site-footer-logo" src="./assets/mother-company-symbol-cropped.png" alt="泓泽数字" /><span>泓泽数字</span></div><div class="site-footer-info"><p>AI全量初面系统 &middot; Powered by <a href="https://www.hongzedigital.com">泓泽数字</a></p><p><a href="../help.html">使用说明</a> &middot; <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">粤ICP备2026055553号</a> &middot; <a href="https://www.beian.gov.cn/portal/registerSystemInfo?recordcode=44010302111445" target="_blank" rel="noreferrer"><img src="./assets/beian.png" alt="公安备案图标" />粤公网安备44010302111445号</a></p></div></div></footer>
+  </body>
+</html>

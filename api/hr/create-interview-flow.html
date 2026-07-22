@@ -1,0 +1,1245 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta name="hi-build" content="20260615cachefix" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>创建初面｜AI全量初面系统</title>
+    <link rel="stylesheet" href="./v2-design-system.css?v=20260615cachefix" />
+    <style>
+      /* ===== Range row ===== */
+      .range-row { display: flex; align-items: center; gap: 8px; }
+      .range-row select { flex: 1; }
+      .range-row span { color: var(--text-aux); font-size: 13px; font-weight: 600; }
+
+      /* ===== Benefit picker ===== */
+      .benefit-picker { margin-top: 4px; }
+      .benefit-groups { display: grid; gap: 12px; }
+      .benefit-group { padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--radius-btn); background: rgba(247,250,252,.55); }
+      .benefit-group-title { display: block; margin-bottom: 8px; font-size: 12px; font-weight: 700; color: var(--text-secondary); }
+      .benefit-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+      .benefit-tag {
+        appearance: none; -webkit-appearance: none;
+        display: inline-flex; align-items: center; justify-content: center;
+        padding: 6px 14px; border-radius: 999px;
+        border: 1.5px solid var(--border); background: var(--bg-card);
+        color: var(--text-primary); font-size: 13px; font-weight: 500;
+        line-height: 1.5; cursor: pointer; transition: all .2s;
+        user-select: none; font-family: inherit;
+      }
+      .benefit-tag:hover { border-color: var(--border-hover); }
+      .benefit-tag.active { border-color: rgba(0,214,143,.4); background: rgba(0,214,143,.06); color: #059669; }
+      .benefit-custom { display: flex; gap: 8px; margin-top: 12px; }
+      .benefit-custom input { flex: 1; min-height: 44px; padding: 0 14px; border: 1px solid var(--border); border-radius: var(--radius-btn); font-size: 14px; font-family: inherit; background: var(--bg-card); outline: none; }
+      .benefit-custom input:focus { border-color: var(--gradient-start); box-shadow: 0 0 0 3px rgba(0,112,255,.1); }
+      .benefit-custom button {
+        min-width: 96px; min-height: 44px;
+        border: 1px solid var(--border); border-radius: var(--radius-btn);
+        background: var(--bg-card); color: var(--blue);
+        font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit;
+      }
+      .benefit-custom button:hover { border-color: var(--border-hover); background: rgba(0,112,255,.04); }
+      .benefit-summary { min-height: 20px; margin-top: 8px; font-size: 12px; color: var(--text-aux); }
+      .benefit-summary.has-value { color: var(--text-secondary); }
+
+      /* ===== Step standard ===== */
+      .step-standard {
+        margin-top: 22px; padding: 14px 18px;
+        border-radius: var(--radius-card);
+        background: linear-gradient(135deg, rgba(0,112,255,.04), rgba(0,214,143,.04));
+        border: 1px solid rgba(0,112,255,.08);
+        display: flex; gap: 8px; font-size: 13px;
+        color: var(--text-secondary); align-items: flex-start;
+      }
+      .step-standard strong { color: var(--blue); white-space: nowrap; flex-shrink: 0; }
+
+      /* ===== Section title icon ===== */
+      .section-title h2 .icon {
+        display: inline-flex; align-items: center; justify-content: center;
+        width: 28px; height: 28px; border-radius: 8px;
+        background: var(--gradient); color: #fff; font-size: 13px;
+      }
+
+      /* ===== Question editor ===== */
+      .question-editor-section { margin-bottom: 24px; }
+      .section-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 14px; }
+      .section-head h3 { font-size: 15px; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 8px; }
+      .section-head h3 .q-icon {
+        display: inline-flex; align-items: center; justify-content: center;
+        width: 24px; height: 24px; border-radius: 6px;
+        font-size: 11px; font-weight: 700; color: #fff; flex-shrink: 0;
+      }
+      .section-head h3 .q-icon.basic { background: var(--blue); }
+      .section-head h3 .q-icon.ai { background: var(--green); }
+      .section-head h3 .q-icon.resume { background: var(--amber); }
+      .section-head p { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+      .section-head .actions { display: flex; gap: 8px; }
+
+      .editable-question-list { min-height: 40px; }
+      .empty-question {
+        padding: 20px; text-align: center;
+        color: var(--text-aux); font-size: 13px;
+        border: 1.5px dashed var(--border); border-radius: var(--radius-btn);
+        background: rgba(247,250,252,.5);
+      }
+      .editable-question {
+        display: grid; grid-template-columns: minmax(92px,120px) 1fr auto;
+        align-items: center; gap: 12px;
+        padding: 14px 16px; border-radius: var(--radius-btn);
+        border: 1px solid var(--border); background: var(--bg-card);
+        margin-bottom: 10px;
+      }
+      .question-meta { display: flex; flex-direction: column; gap: 2px; }
+      .question-meta span {
+        display: inline-flex; align-items: center; justify-content: center;
+        width: 42px; height: 24px; border-radius: 999px;
+        background: var(--gradient); color: #fff;
+        font-size: 12px; font-weight: 700;
+      }
+      .question-meta small { font-size: 11px; color: var(--text-aux); }
+      .editable-question textarea {
+        width: 100%; min-height: 44px; border: 0;
+        background: transparent; color: var(--text-primary);
+        font-size: 14px; line-height: 1.6; resize: vertical;
+        outline: none; font-family: inherit;
+      }
+      .question-tools { display: flex; gap: 8px; white-space: nowrap; }
+      .question-tools button { border: 0; background: transparent; color: var(--blue); font-size: 12px; font-weight: 600; cursor: pointer; font-family: inherit; }
+      .question-tools button[data-action="delete"] { color: var(--red); }
+
+      .muted-section { opacity: .75; }
+      .resume-rule-card {
+        padding: 16px 18px; border-radius: var(--radius-card);
+        border: 1px solid rgba(245,158,11,.15);
+        background: rgba(245,158,11,.03);
+        display: flex; gap: 12px; align-items: flex-start;
+      }
+      .resume-rule-card .rule-icon {
+        width: 32px; height: 32px; border-radius: 8px;
+        background: rgba(245,158,11,.1);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 16px; flex-shrink: 0;
+      }
+      .resume-rule-card strong { font-size: 14px; color: var(--text-primary); display: block; margin-bottom: 4px; }
+      .resume-rule-card span { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+
+      .advanced-link-row { margin: 16px 0 0; }
+      .text-link { color: var(--blue); font-size: 13px; font-weight: 500; }
+      .text-link:hover { text-decoration: underline; }
+
+      /* ===== Candidate preview card ===== */
+      .candidate-preview-card {
+        padding: 28px; border-radius: var(--radius-card-lg);
+        border: 1px solid var(--border);
+        background: linear-gradient(135deg, #FAFBFF, #F0FDF6);
+        position: relative; overflow: hidden;
+      }
+      .candidate-preview-card::before {
+        content: ''; position: absolute; top: -30%; right: -10%;
+        width: 200px; height: 200px; border-radius: 50%;
+        background: radial-gradient(circle, rgba(0,112,255,.06), transparent 70%);
+        pointer-events: none;
+      }
+      .candidate-preview-card h3 { font-size: 20px; font-weight: 700; color: var(--text-primary); margin-bottom: 18px; position: relative; }
+      .preview-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 18px; position: relative; }
+      .preview-info-grid article {
+        padding: 14px; border-radius: var(--radius-btn);
+        background: var(--bg-card); border: 1px solid var(--border);
+        transition: box-shadow .2s;
+      }
+      .preview-info-grid article:hover { box-shadow: var(--s2); }
+      .preview-info-grid article.full { grid-column: 1 / -1; }
+      .preview-info-grid article span { font-size: 12px; color: var(--text-aux); display: block; margin-bottom: 4px; }
+      .preview-info-grid article strong, .preview-info-grid article p { font-size: 14px; color: var(--text-primary); }
+      .preview-info-grid article p, .preview-info-grid .preserve-lines { white-space: pre-line; line-height: 1.75; }
+      .candidate-flow-note {
+        padding: 16px 18px; border-radius: var(--radius-card);
+        background: rgba(0,214,143,.05); border: 1px solid rgba(0,214,143,.12);
+        margin-bottom: 14px; display: flex; gap: 12px; align-items: flex-start;
+      }
+      .candidate-flow-note .note-icon {
+        width: 28px; height: 28px; border-radius: 50%;
+        background: rgba(0,214,143,.12);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 14px; flex-shrink: 0;
+      }
+      .candidate-flow-note strong { font-size: 13px; color: #059669; display: block; margin-bottom: 4px; }
+      .candidate-flow-note span { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+
+      /* ===== Link result ===== */
+      .link-result {
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 22px; border-radius: var(--radius-card);
+        border: 1.5px dashed rgba(0,112,255,.2);
+        background: rgba(0,112,255,.02); margin-bottom: 18px;
+      }
+      .link-result .link-info span { font-size: 12px; color: var(--text-aux); display: block; margin-bottom: 4px; }
+      .link-result .link-info strong { font-size: 14px; color: var(--blue); word-break: break-all; }
+      .invite-qr {
+        width: 116px; height: 116px; border-radius: var(--radius-card);
+        border: 1.5px solid var(--border); background: #fff;
+        display: flex; align-items: center; justify-content: center;
+        color: var(--text-aux); font-size: 12px; font-weight: 600;
+        flex-shrink: 0; margin-left: 18px; padding: 8px;
+        text-align: center; line-height: 1.4;
+      }
+      .invite-qr svg, .invite-qr img { width: 100%; height: 100%; display: block; }
+      .sms-template {
+        padding: 16px 18px; border-radius: var(--radius-card);
+        background: var(--bg-main); border: 1px solid var(--border);
+        font-size: 13px; color: var(--text-secondary); line-height: 1.7;
+        margin-bottom: 20px;
+      }
+      .actions { display: flex; gap: 10px; flex-wrap: wrap; }
+      .save-action-row {
+        display: grid; grid-template-columns: 1fr auto;
+        align-items: start; gap: 12px 24px; margin-top: 18px;
+      }
+      .save-action-side {
+        display: flex; flex-direction: column; align-items: flex-end; gap: 8px;
+        min-width: 220px;
+      }
+      .auto-draft-status {
+        display: block; color: var(--text-secondary); font-size: 13px;
+        line-height: 1.5; text-align: right;
+      }
+      .question-count-tip { font-size: 13px; color: var(--text-secondary); font-weight: 600; }
+      .question-count-tip.warn { color: #D97706; }
+      .save-confirm-mask {
+        position: fixed; inset: 0; z-index: 80;
+        background: rgba(15, 23, 42, .42);
+        display: flex; align-items: center; justify-content: center;
+        padding: 24px;
+      }
+      .save-confirm-dialog {
+        width: min(420px, 100%); background: #fff;
+        border-radius: var(--radius-card);
+        box-shadow: 0 24px 70px rgba(15, 23, 42, .22);
+        border: 1px solid var(--border);
+        padding: 28px;
+      }
+      .save-confirm-dialog h3 {
+        margin: 0 0 10px; color: var(--text-main);
+        font-size: 22px; line-height: 1.35;
+      }
+      .save-confirm-dialog p {
+        margin: 0 0 22px; color: var(--text-secondary);
+        font-size: 15px; line-height: 1.7;
+      }
+      .save-confirm-actions {
+        display: flex; justify-content: flex-end;
+      }
+      @media (max-width: 720px) {
+        .save-action-row { grid-template-columns: 1fr; }
+        .save-action-side { align-items: stretch; min-width: 0; }
+        .auto-draft-status { text-align: left; }
+      }
+      .link-refresh-note {
+        padding: 12px 14px; border-radius: var(--radius-btn);
+        border: 1px solid rgba(245,158,11,.25);
+        background: rgba(245,158,11,.06);
+        color: #B45309; font-size: 13px; margin-bottom: 14px;
+      }
+      .link-refresh-note[hidden] { display: none; }
+
+      /* ===== Form message ===== */
+      .form-message {
+        padding: 12px 16px; border-radius: var(--radius-btn);
+        font-size: 13px; font-weight: 600; margin-bottom: 14px;
+        background: rgba(239,68,68,.07); border: 1px solid rgba(239,68,68,.2); color: #B91C1C;
+        transition: all .25s;
+      }
+      .form-message.ok {
+        background: rgba(0,214,143,.07); border-color: rgba(0,214,143,.25); color: #047857;
+      }
+
+      @media (max-width: 980px) {
+        .preview-info-grid { grid-template-columns: 1fr; }
+      }
+    .salary-field .salary-range-row{grid-template-columns:minmax(0,1fr) auto minmax(0,1fr) minmax(104px,124px);}
+.salary-field input{height:46px;border:1px solid var(--line);border-radius:10px;padding:0 14px;font-size:15px;background:#fff;}
+.salary-unit-select{min-width:104px;}
+.salary-range-row.is-negotiable input{background:#eef3f8;color:#94a3b8;}
+@media(max-width:720px){.salary-field .salary-range-row{grid-template-columns:1fr auto 1fr;}.salary-unit-select{grid-column:1 / -1;}}
+</style>
+  <style id="site-footer-unified-style">
+.site-footer{background:#fff;border-top:1px solid #E2E8F0;padding:40px;color:#94A3B8;font-size:12px;}
+.site-footer-inner{max-width:1200px;margin:0 auto;display:flex;align-items:flex-start;justify-content:space-between;gap:32px;}
+.site-footer-brand{display:flex;align-items:center;gap:12px;color:#0F172A;font-weight:600;}
+.site-footer-logo{width:32px;height:32px;border-radius:8px;object-fit:contain;display:block;flex-shrink:0;}
+.site-footer-info{text-align:right;}
+.site-footer-info p{margin:0;font-size:12px;color:#94A3B8;line-height:1.8;}
+.site-footer-info a{color:#94A3B8;text-decoration:none;display:inline-flex;align-items:center;gap:4px;vertical-align:middle;}
+.site-footer-info a:hover{color:#0070FF;}
+.site-footer-info img{width:16px;height:16px;flex-shrink:0;}
+@media(max-width:760px){.site-footer{padding:32px 20px;}.site-footer-inner{flex-direction:column;align-items:center;text-align:center;gap:14px;}.site-footer-brand{justify-content:center;}.site-footer-info{text-align:center;}.site-footer-info p{line-height:2;}}
+</style>
+</head>
+  <body>
+    <div class="shell">
+      <aside class="side">
+        <div class="brand">
+          <img class="brand-logo" src="./assets/logo-icon.svg" alt="hi AI初面" style="background:none;padding:0;" />
+          <span><strong>AI全量初面系统</strong><small>泓泽数字旗下产品</small></span>
+        </div>
+        <nav class="nav">
+          <a href="./dashboard.html">🏠 首页</a>
+          <a class="active" href="./create-interview-flow.html?v=20260615cachefix">✦ 创建初面</a>
+          <a href="./job-management.html">📋 初面管理</a>
+          <a href="./candidate-list.html">👥 候选人</a>
+          <a href="./report-review-list.html">📊 报告复核</a>
+          <a href="./question-bank.html">📝 题库管理</a>
+          <div class="nav-sep"></div>
+          <a href="./membership.html">💎 会员中心</a>
+          <a href="./profile.html">⚙ 设置</a>
+        </nav>
+      </aside>
+
+      <main class="main">
+        <div class="topbar">
+          <div class="page-title">
+            <span class="crumb">HR端 / 创建初面</span>
+            <h1 id="flowPageTitle">创建AI初面</h1>
+            <p>岗位、问题、候选人预览和链接发布都在这里完成，避免来回跳转。</p>
+          </div>
+          <div class="topbar-account">
+            <a class="btn" href="./job-management.html">查看初面管理</a>
+            <a class="user-mini" href="./profile.html"><div class="avatar">HR</div><div><strong>当前HR</strong><span>个人中心</span></div></a>
+            <a class="btn" href="./login.html">退出</a>
+          </div>
+        </div>
+
+        <section class="wizard-shell" id="createInterviewWizard" style="margin-top: 24px;">
+          <aside class="wizard-steps" aria-label="创建初面步骤">
+            <button class="active" type="button" data-step="1"><span class="step-num">1</span><strong>岗位信息</strong><small>候选人先看到什么</small></button>
+            <button type="button" data-step="2"><span class="step-num">2</span><strong>面试问题</strong><small>这场初面要问什么</small></button>
+            <button type="button" data-step="3"><span class="step-num">3</span><strong>候选人预览</strong><small>确认完整展示内容</small></button>
+            <button type="button" data-step="4"><span class="step-num">4</span><strong>生成链接</strong><small>复制邀请给候选人</small></button>
+          </aside>
+
+          <div class="wizard-content">
+            <div class="form-message" id="flowMessage" hidden></div>
+
+            <!-- ===== Step 1: Job Info ===== -->
+            <section class="panel wizard-panel active" data-panel="1">
+              <div class="section-title">
+                <h2><span class="icon">📋</span> 岗位信息</h2>
+                <p class="hint">这些信息会展示给候选人，也会影响AI开场介绍、岗位匹配题和候选人端预览。</p>
+              </div>
+              <form class="form-grid" id="interviewJobForm" autocomplete="off">
+                <div class="field"><label>公司名称</label><input name="company_name" placeholder="请输入公司名称" autocomplete="off" autocapitalize="off" spellcheck="false" /></div>
+                <div class="field"><label>岗位名称</label><input name="job_title" placeholder="请输入岗位名称" autocomplete="off" autocapitalize="off" spellcheck="false" /></div>
+                <div class="field">
+                  <label>工作地点</label>
+                  <input name="work_location" list="workLocationOptions" placeholder="请输入或选择城市，例如：深圳、全国、远程" autocomplete="off" autocapitalize="off" spellcheck="false" />
+                  <datalist id="workLocationOptions"></datalist>
+                </div>
+                <div class="field salary-field">
+                  <label>薪资范围</label>
+                  <div class="range-row salary-range-row">
+                    <input name="salary_min_k" type="number" min="0" step="1" placeholder="最低" />
+                    <span>—</span>
+                    <input name="salary_max_k" type="number" min="0" step="1" placeholder="最高" />
+                    <select name="salary_unit" class="salary-unit-select" aria-label="薪资单位">
+                      <option value="K/月">K/月</option>
+                      <option value="元/天">元/天</option>
+                      <option value="面议">面议</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="field full">
+                  <label>福利待遇</label>
+                  <div class="benefit-picker">
+                    <input type="hidden" name="benefits" autocomplete="off" />
+                    <div class="benefit-groups" aria-label="福利待遇快捷选择">
+                      <div class="benefit-group">
+                        <span class="benefit-group-title">社保保障</span>
+                        <div class="benefit-tags">
+                          <button class="benefit-tag" type="button">五险一金</button>
+                          <button class="benefit-tag" type="button">补充医疗</button>
+                          <button class="benefit-tag" type="button">定期体检</button>
+                        </div>
+                      </div>
+                      <div class="benefit-group">
+                        <span class="benefit-group-title">奖金补贴</span>
+                        <div class="benefit-tags">
+                          <button class="benefit-tag" type="button">年终奖</button>
+                          <button class="benefit-tag" type="button">绩效奖金</button>
+                          <button class="benefit-tag" type="button">全勤奖</button>
+                          <button class="benefit-tag" type="button">餐补</button>
+                          <button class="benefit-tag" type="button">交通补贴</button>
+                          <button class="benefit-tag" type="button">通讯补贴</button>
+                          <button class="benefit-tag" type="button">住房补贴</button>
+                        </div>
+                      </div>
+                      <div class="benefit-group">
+                        <span class="benefit-group-title">假期作息</span>
+                        <div class="benefit-tags">
+                          <button class="benefit-tag" type="button">周末双休</button>
+                          <button class="benefit-tag" type="button">带薪年假</button>
+                          <button class="benefit-tag" type="button">弹性工作</button>
+                          <button class="benefit-tag" type="button">节日福利</button>
+                        </div>
+                      </div>
+                      <div class="benefit-group">
+                        <span class="benefit-group-title">员工关怀</span>
+                        <div class="benefit-tags">
+                          <button class="benefit-tag" type="button">员工旅游</button>
+                          <button class="benefit-tag" type="button">专业培训</button>
+                          <button class="benefit-tag" type="button">下午茶</button>
+                          <button class="benefit-tag" type="button">团建活动</button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="benefit-custom">
+                      <input class="benefit-custom-input" type="text" placeholder="自定义补充，例如 股票期权、包午餐" autocomplete="off" />
+                      <button class="benefit-custom-add" type="button">添加</button>
+                    </div>
+                    <div class="benefit-summary" aria-live="polite">已选福利会在候选人预览中展示</div>
+                  </div>
+                </div>
+                <div class="field full"><label>公司介绍</label><textarea name="company_intro" placeholder="请填写企业真实介绍，这些内容会展示给候选人"></textarea></div>
+                <div class="field full"><label>岗位职责</label><textarea name="responsibilities" placeholder="请填写岗位职责"></textarea></div>
+                <div class="field full"><label>任职要求</label><textarea name="requirements" placeholder="请填写任职要求"></textarea></div>
+              </form>
+              <div class="save-action-row">
+                <span class="question-count-tip">保存后再进入面试问题，避免岗位信息未同步。</span>
+                <div class="save-action-side">
+                  <button class="btn primary" type="button" id="flowSaveJob">保存岗位信息</button>
+                </div>
+              </div>
+              <div class="step-standard"><strong>✓ 本步完成标准</strong><span>公司、岗位、地点、薪资、福利、职责、要求均已填写，可直接展示给候选人。</span></div>
+            </section>
+
+            <!-- ===== Step 2: Questions ===== -->
+            <section class="panel wizard-panel" data-panel="2">
+              <div class="section-title">
+                <h2><span class="icon">Q</span> 面试问题</h2>
+                <p class="hint">先确认固定要问什么，再让AI补岗位相关问题。简历追问题会在候选人上传简历后生成或匹配。</p>
+              </div>
+
+              <div class="question-editor-section">
+                <div class="section-head">
+                  <div><h3><span class="q-icon basic">必</span> 基础必问题</h3><p>建议3-5题，HR可直接编辑、删除或添加。</p></div>
+                  <div class="actions"><button class="btn" type="button" id="flowAddBasicQuestion">＋ 手动添加问题</button></div>
+                </div>
+                <div class="editable-question-list" id="flowBasicQuestions"></div>
+              </div>
+
+              <div class="question-editor-section">
+                <div class="section-head">
+                  <div><h3><span class="q-icon ai">AI</span> 岗位匹配题</h3><p>根据岗位职责和任职要求生成，HR确认后进入预览。</p></div>
+                  <div class="actions"><button class="btn primary" type="button" id="flowGenerateQuestions">✦ AI生成岗位题</button></div>
+                </div>
+                <div class="editable-question-list" id="flowJobQuestions">
+                  <article class="empty-question">保存岗位信息后，可点击"AI生成岗位题"。</article>
+                </div>
+              </div>
+
+              <div class="question-editor-section muted-section">
+                <div class="section-head">
+                  <div><h3><span class="q-icon resume">追</span> 简历追问题</h3><p>候选人上传简历后，系统根据简历关键词自动生成或匹配；HR可在报告中反馈问题质量。</p></div>
+                </div>
+                <div class="resume-rule-card">
+                  <div class="rule-icon">🔍</div>
+                  <div><strong>追问规则</strong><span>围绕项目细节、个人贡献、时间线、结果口径和异常点追问，帮助识别过度包装，也给表达慢热但有经验的人补充说明机会。</span></div>
+                </div>
+              </div>
+
+              <div class="advanced-link-row">
+                <a class="text-link" id="flowOpenQuestionBank" href="./question-bank.html" hidden>高级题库管理 →</a>
+              </div>
+              <div class="save-action-row">
+                <span class="question-count-tip" id="flowQuestionCount">当前共 0 题，建议 1-13 题。</span>
+                <button class="btn primary" type="button" id="flowSaveQuestions">保存面试问题</button>
+              </div>
+              <div class="step-standard"><strong>✓ 本步完成标准</strong><span>基础必问题已确认，岗位匹配题已生成或手动补充，简历追问规则已明确。</span></div>
+            </section>
+
+            <!-- ===== Step 3: Preview ===== -->
+            <section class="panel wizard-panel" data-panel="3">
+              <div class="section-title">
+                <h2><span class="icon">👁</span> 候选人端预览</h2>
+                <p class="hint">确认候选人会看到的岗位信息、授权说明和流程顺序。</p>
+              </div>
+              <div class="candidate-preview-card full-preview">
+                <span class="badge">线上初面 · 预计8-12分钟</span>
+                <h3 id="flowPreviewJobTitle">待填写岗位名称</h3>
+                <div class="preview-info-grid">
+                  <article><span>公司名称</span><strong id="flowPreviewCompanyName">待填写</strong></article>
+                  <article><span>薪资范围</span><strong id="flowPreviewSalary">待填写</strong></article>
+                  <article><span>福利待遇</span><strong id="flowPreviewBenefits">待填写</strong></article>
+                  <article><span>公司介绍</span><strong class="preserve-lines" id="flowPreviewCompanyIntro">待填写</strong></article>
+                  <article class="full"><span>岗位职责</span><p id="flowPreviewResponsibilities">待填写</p></article>
+                  <article class="full"><span>任职要求</span><p id="flowPreviewRequirements">待填写</p></article>
+                </div>
+                <div class="candidate-flow-note">
+                  <div class="note-icon">✓</div>
+                  <div><strong>面试前提示</strong><span>需要手机号验证、实名授权、上传简历，并开启麦克风和摄像头权限。摄像头仅做人像在场监测，不开放面试视频给HR。</span></div>
+                </div>
+                <p class="notice compact"><span class="notice-icon">ℹ</span>候选人会确认：本次面试中看到的岗位薪资、福利和公司信息将作为双方沟通记录留痕。</p>
+              </div>
+              <div class="step-standard"><strong>✓ 本步完成标准</strong><span>公司、岗位、地点、薪资、福利、职责、要求和授权流程都已完整展示。</span></div>
+            </section>
+
+            <!-- ===== Step 4: Link ===== -->
+            <section class="panel wizard-panel" data-panel="4">
+              <div class="section-title">
+                <h2><span class="icon">🔗</span> 生成或更新链接</h2>
+                <p class="hint">确认后生成本场AI初面链接。候选人完成后，报告进入"报告复核"。</p>
+              </div>
+              <div class="link-refresh-note" id="flowLinkRefreshNote" hidden>岗位信息或面试问题已更新，请重新生成链接后再发送给候选人。</div>
+              <div class="link-result">
+                <div class="link-info">
+                  <span>面试链接</span>
+                  <strong id="flowInviteLink">点击下方按钮后生成正式候选人链接</strong>
+                </div>
+                <div class="invite-qr" id="flowInviteQr">生成后显示二维码</div>
+              </div>
+              <div class="sms-template" id="flowInviteText">您好，您收到一份线上初面邀请。请在有效期内完成手机号验证、实名授权、简历上传与AI初面。</div>
+              <div class="actions">
+                <button class="btn primary" type="button" id="flowCreateInvite">生成正式面试链接</button>
+                <button class="btn" type="button" data-copy-source="flowInviteLink">复制链接</button>
+                <button class="btn" type="button" data-copy-source="flowInviteText">复制邀请话术</button>
+                <a class="btn" href="./job-management.html">完成并进入初面管理</a>
+              </div>
+              <div class="step-standard"><strong>✓ 本步完成标准</strong><span>链接和邀请话术已生成，可复制给候选人，后续状态在初面管理和候选人列表处理。</span></div>
+            </section>
+
+            <div class="wizard-actions">
+              <button class="btn" type="button" id="wizardPrev">← 上一步</button>
+              <button class="btn primary" type="button" id="wizardNext">下一步 →</button>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <footer class="site-footer">
+  <div class="site-footer-inner">
+    <div class="site-footer-brand"><img class="site-footer-logo" src="./assets/mother-company-symbol-cropped.png" alt="泓泽数字" /><span>泓泽数字</span></div>
+    <div class="site-footer-info">
+      <p>AI全量初面系统 &middot; Powered by <a href="https://www.hongzedigital.com">泓泽数字</a></p>
+      <p><a href="../help.html">使用说明</a> &middot; <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">粤ICP备2026055553号</a> &middot; <a href="https://www.beian.gov.cn/portal/registerSystemInfo?recordcode=44010302111445" target="_blank" rel="noreferrer"><img src="./assets/beian.png" alt="公安备案图标" />粤公网安备44010302111445号</a></p>
+    </div>
+  </div>
+</footer>
+    <a href="./login.html" style="display:none" aria-hidden="true">退出</a>
+    <script src="./assets/qrcode-generator.js"></script>
+    <script src="./auth-flow.js?v=20260615cachefix"></script>
+    <script>
+    (() => {
+      const API = '../api';
+
+      /* ===== API helpers ===== */
+      async function post(path, payload) {
+        const res = await fetch(`${API}/${path}`, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          credentials: 'include',
+          body: JSON.stringify(payload || {})
+        });
+        const data = await res.json().catch(() => ({ok: false, message: '接口返回格式错误'}));
+        if (data?.data?.need_login) { location.href = './login.html'; return new Promise(() => {}); }
+        if (!res.ok || !data.ok) throw new Error((data.message || '请求失败') + (data.data && data.data.error ? `：${data.data.error}` : ''));
+        return data;
+      }
+
+      async function get(path) {
+        const res = await fetch(`${API}/${path}`, { credentials: 'include' });
+        const data = await res.json().catch(() => ({ok: false, message: '接口返回格式错误'}));
+        if (data?.data?.need_login) { location.href = './login.html'; return new Promise(() => {}); }
+        if (!res.ok || !data.ok) throw new Error((data.message || '请求失败') + (data.data && data.data.error ? `：${data.data.error}` : ''));
+        return data;
+      }
+
+      function $(sel, root = document) { return root.querySelector(sel); }
+
+      /* ===== Message ===== */
+      function showMessage(text, ok = false) {
+        const box = $('#flowMessage') || $('.form-message');
+        if (!box) { if (text) alert(text); return; }
+        box.hidden = false;
+        box.textContent = text;
+        box.classList.toggle('ok', ok);
+      }
+
+      /* ===== Autocomplete ===== */
+      function disableAutocomplete(form) {
+        if (!form) return;
+        form.setAttribute('autocomplete', 'off');
+        form.querySelectorAll('input, textarea').forEach((field) => {
+          field.setAttribute('autocomplete', 'off');
+          field.setAttribute('autocapitalize', 'off');
+          field.setAttribute('spellcheck', 'false');
+          field.addEventListener('focus', () => {
+            field.setAttribute('readonly', 'readonly');
+            setTimeout(() => field.removeAttribute('readonly'), 0);
+          }, { once: true });
+        });
+      }
+
+      /* ===== Benefit picker ===== */
+      function setupBenefitPicker(root = document) {
+        root.querySelectorAll('.benefit-picker').forEach((picker) => {
+          if (picker.dataset.benefitReady) return;
+          picker.dataset.benefitReady = '1';
+          const input = picker.querySelector('input[name="benefits"]');
+          const tags = Array.from(picker.querySelectorAll('.benefit-tag'));
+          const customInput = picker.querySelector('.benefit-custom-input');
+          const addButton = picker.querySelector('.benefit-custom-add');
+          const summary = picker.querySelector('.benefit-summary');
+          if (!input || !tags.length) return;
+          const parse = () => String(input.value || '').split(/[\u3001\uFF0C,\s]+/).map((item) => item.trim()).filter(Boolean);
+          const setSelected = (items) => {
+            input.value = Array.from(new Set(items.filter(Boolean))).join(' ');
+            input.dispatchEvent(new Event('input', {bubbles: true}));
+          };
+          const sync = () => {
+            const selectedItems = parse();
+            const selected = new Set(selectedItems);
+            tags.forEach((tag) => tag.classList.toggle('active', selected.has(tag.textContent.trim())));
+            if (summary) {
+              summary.textContent = selectedItems.length ? `已选：${selectedItems.join('、')}` : '已选福利会在候选人预览中展示';
+              summary.classList.toggle('has-value', selectedItems.length > 0);
+            }
+          };
+          tags.forEach((tag) => {
+            tag.addEventListener('click', () => {
+              const text = tag.textContent.trim();
+              const selected = parse();
+              const index = selected.indexOf(text);
+              if (index >= 0) selected.splice(index, 1);
+              else selected.push(text);
+              setSelected(selected);
+            });
+          });
+          const addCustom = () => {
+            const text = (customInput?.value || '').trim();
+            if (!text) return;
+            setSelected([...parse(), text]);
+            customInput.value = '';
+            customInput.focus();
+          };
+          addButton?.addEventListener('click', addCustom);
+          customInput?.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') { event.preventDefault(); addCustom(); }
+          });
+          input.addEventListener('input', sync);
+          sync();
+        });
+      }
+
+      /* ===== Copy ===== */
+      async function copyText(text) {
+        if (!text || text === '-') return;
+        if (navigator.clipboard?.writeText) { await navigator.clipboard.writeText(text); return; }
+        const temp = document.createElement('textarea');
+        temp.value = text;
+        document.body.appendChild(temp);
+        temp.select();
+        document.execCommand('copy');
+        temp.remove();
+      }
+
+      function setupCopyButtons() {
+        document.querySelectorAll('[data-copy-source]').forEach((button) => {
+          button.addEventListener('click', async () => {
+            const source = document.getElementById(button.dataset.copySource);
+            const text = source ? source.textContent.trim() : '';
+            try {
+              await copyText(text);
+              const old = button.textContent;
+              button.textContent = '已复制';
+              setTimeout(() => { button.textContent = old || '复制'; }, 1200);
+            } catch (_) { alert('复制失败，请手动复制。'); }
+          });
+        });
+      }
+
+      /* ===== Form helpers ===== */
+      function readForm(form) {
+        return Object.fromEntries(new FormData(form).entries());
+      }
+
+      function validateJob(payload) {
+        const required = [
+          ['company_name', '公司名称'],
+          ['job_title', '岗位名称'],
+          ['responsibilities', '岗位职责'],
+          ['requirements', '任职要求']
+        ];
+        const missing = required.find(([key]) => !String(payload[key] || '').trim());
+        if (missing) throw new Error(`请填写${missing[1]}`);
+      }
+
+      function questionItem(question, type = '基础必问题', required = true) {
+        return {
+          question: question,
+          type: type,
+          difficulty: type === '基础必问题' ? '基础' : '中等',
+          purpose: type === '基础必问题' ? '确认基础情况和求职意向' : '验证岗位匹配度',
+          is_required: required
+        };
+      }
+
+      const defaultBasicQuestions = [
+        questionItem('请做一个1-2分钟的自我介绍，重点说你和这个岗位相关的经历。'),
+        questionItem('你为什么离开上一份工作，或者为什么正在考虑新的机会？'),
+        questionItem('你为什么考虑这个岗位？你理解这个岗位最重要的工作是什么？'),
+        questionItem('你的期望薪资和最快到岗时间是怎样的？')
+      ];
+
+      /* ===== Render editable questions ===== */
+      function renderEditableQuestions(container, questions, onChange, offset = 0) {
+        if (!container) return;
+        container.innerHTML = '';
+        if (!questions.length) {
+          container.innerHTML = '<article class="empty-question">暂无问题，请添加或使用AI生成。</article>';
+          return;
+        }
+        questions.forEach((item, index) => {
+          const row = document.createElement('article');
+          row.className = 'editable-question';
+          row.innerHTML = `
+            <div class="question-meta">
+              <span>第 ${offset + index + 1} 题</span>
+              <small>${item.type || '面试问题'} · ${item.difficulty || '中等'}</small>
+              <small>${item.is_required ? '必问' : '备选'}</small>
+            </div>
+            <textarea aria-label="面试问题">${item.question || item.question_text || ''}</textarea>
+            <div class="question-tools">
+              <button type="button" data-action="required">${item.is_required ? '取消必问' : '设为必问'}</button>
+              <button type="button" data-action="delete">删除</button>
+            </div>`;
+          const textarea = row.querySelector('textarea');
+          textarea.addEventListener('input', () => {
+            item.question = textarea.value.trim();
+            onChange?.();
+          });
+          row.querySelector('[data-action="required"]').addEventListener('click', () => {
+            item.is_required = !item.is_required;
+            renderEditableQuestions(container, questions, onChange, offset);
+            onChange?.();
+          });
+          row.querySelector('[data-action="delete"]').addEventListener('click', () => {
+            questions.splice(index, 1);
+            renderEditableQuestions(container, questions, onChange, offset);
+            onChange?.();
+          });
+          container.appendChild(row);
+        });
+      }
+
+      /* ===== Preview update ===== */
+      function textOrPending(value) {
+        const clean = String(value || '').trim();
+        return clean || '待填写';
+      }
+
+      function formatSalary(payload) {
+        const unit = payload.salary_unit || 'K/月';
+        if (unit === '面议') return '面议';
+        const min = String(payload.salary_min_k || '').trim();
+        const max = String(payload.salary_max_k || '').trim();
+        if (!min || !max) return '待填写';
+        return unit === '元/天' ? (min + '-' + max + '元/天') : (min + '-' + max + 'K/月');
+      }
+
+      function updateCandidatePreview(payload) {
+        const map = {
+          flowPreviewJobTitle: textOrPending(payload.job_title),
+          flowPreviewCompanyName: textOrPending(payload.company_name),
+          flowPreviewLocation: textOrPending(payload.work_location),
+          flowPreviewSalary: formatSalary(payload),
+          flowPreviewBenefits: textOrPending(payload.benefits),
+          flowPreviewCompanyIntro: textOrPending(payload.company_intro),
+          flowPreviewResponsibilities: textOrPending(payload.responsibilities),
+          flowPreviewRequirements: textOrPending(payload.requirements)
+        };
+        Object.entries(map).forEach(([id, value]) => {
+          const el = document.getElementById(id);
+          if (el) el.textContent = value;
+        });
+      }
+
+      /* ===== QR code ===== */
+      function renderInviteQr(link) {
+        const box = document.getElementById('flowInviteQr');
+        if (!box) return;
+        const clean = String(link || '').trim();
+        if (!clean) { box.textContent = '生成后显示二维码'; return; }
+        if (typeof qrcode !== 'function') { box.textContent = '二维码库加载失败'; return; }
+        const qr = qrcode(0, 'M');
+        qr.addData(clean);
+        qr.make();
+        box.innerHTML = qr.createSvgTag(4, 0, '候选人面试二维码', '候选人面试二维码');
+      }
+
+      /* ===== Wizard ===== */
+      function setupLocationInput(form) {
+        const list = document.getElementById('workLocationOptions');
+        if (!list || !Array.isArray(window.CHINA_CITIES)) return;
+        list.innerHTML = window.CHINA_CITIES.map((city) => `<option value="${city}"></option>`).join('');
+      }
+
+      function setupSalaryUnit(form) {
+        const unit = form.querySelector('[name="salary_unit"]');
+        const min = form.querySelector('[name="salary_min_k"]');
+        const max = form.querySelector('[name="salary_max_k"]');
+        const row = form.querySelector('.salary-range-row');
+        const sync = () => {
+          const negotiable = unit?.value === '面议';
+          if (min) min.disabled = negotiable;
+          if (max) max.disabled = negotiable;
+          if (row) row.classList.toggle('is-negotiable', negotiable);
+          updateCandidatePreview(readForm(form));
+        };
+        unit?.addEventListener('change', sync);
+        sync();
+      }
+
+      function setupCreateInterviewWizard() {
+        const wizard = $('#createInterviewWizard');
+        const form = $('#interviewJobForm');
+        if (!wizard || !form) return;
+        disableAutocomplete(form);
+        setupBenefitPicker(form);
+        setupLocationInput(form);
+        setupSalaryUnit(form);
+
+        const stepButtons = Array.from(wizard.querySelectorAll('[data-step]'));
+        const panels = Array.from(wizard.querySelectorAll('[data-panel]'));
+        const prev = $('#wizardPrev');
+        const next = $('#wizardNext');
+        const generateBtn = $('#flowGenerateQuestions');
+        const addBasicBtn = $('#flowAddBasicQuestion');
+        const saveJobBtn = $('#flowSaveJob');
+        const saveQuestionsBtn = $('#flowSaveQuestions');
+        const questionCountTip = $('#flowQuestionCount');
+        const linkRefreshNote = $('#flowLinkRefreshNote');
+        const openBank = $('#flowOpenQuestionBank');
+        const createInviteBtn = $('#flowCreateInvite');
+        const inviteLink = $('#flowInviteLink');
+        const inviteText = $('#flowInviteText');
+        const basicList = $('#flowBasicQuestions');
+        const jobList = $('#flowJobQuestions');
+        const params = new URLSearchParams(location.search);
+
+        let current = Math.min(4, Math.max(1, Number(params.get('step') || 1)));
+        let jobId = params.get('job_id') || '';
+        let savedPayload = null;
+        let basicQuestions = defaultBasicQuestions.map((item) => ({...item}));
+        let jobQuestions = [];
+        let inviteGenerated = false;
+        let jobSaved = !!jobId;
+        let questionsSaved = false;
+        let contentDirtyAfterInvite = false;
+        let draftTimer = null;
+        let applyingDraft = false;
+        const draftFields = ['job_id', 'company_name', 'job_title', 'work_location', 'question_bank', 'salary_min_k', 'salary_max_k', 'salary_unit', 'benefits', 'company_intro', 'responsibilities', 'requirements'];
+        const draftKeyFor = (id = jobId) => id ? `job:${id}` : 'new';
+        const localDraftKeyFor = (id = jobId) => `hi_hr_job_draft_${draftKeyFor(id)}`;
+        const draftStatus = document.createElement('small');
+        draftStatus.className = 'auto-draft-status';
+        (saveJobBtn?.closest('.save-action-side') || saveJobBtn?.closest('.save-action-row') || form).appendChild(draftStatus);
+
+        const setDraftStatus = (text, ok = true) => {
+          draftStatus.textContent = text;
+          draftStatus.style.color = ok ? '#64748b' : '#ef4444';
+        };
+
+        const showSavedDialog = () => new Promise((resolve) => {
+          const mask = document.createElement('div');
+          mask.className = 'save-confirm-mask';
+          mask.setAttribute('role', 'dialog');
+          mask.setAttribute('aria-modal', 'true');
+          mask.innerHTML = `
+            <div class="save-confirm-dialog">
+              <h3>岗位信息已保存</h3>
+              <p>现在可以进入“面试问题”步骤。</p>
+              <div class="save-confirm-actions">
+                <button class="btn primary" type="button">确认，进入面试问题</button>
+              </div>
+            </div>`;
+          document.body.appendChild(mask);
+          const button = mask.querySelector('button');
+          const close = () => {
+            mask.remove();
+            resolve();
+          };
+          button?.addEventListener('click', close, {once: true});
+          button?.focus();
+        });
+
+        const normalizeDraftPayload = (payload = {}) => {
+          const normalized = {};
+          draftFields.forEach((key) => {
+            if (payload[key] !== undefined && payload[key] !== null) normalized[key] = payload[key];
+          });
+          normalized._saved_at = payload._saved_at || new Date().toISOString();
+          return normalized;
+        };
+
+        const hasMeaningfulDraft = (payload) => !!payload && draftFields.some((key) => String(payload[key] || '').trim());
+
+        const saveDraftLocal = (payload, id = jobId) => {
+          try {
+            localStorage.setItem(localDraftKeyFor(id), JSON.stringify(normalizeDraftPayload(payload)));
+          } catch (err) {}
+        };
+
+        const loadDraftLocal = (id = jobId) => {
+          try {
+            return JSON.parse(localStorage.getItem(localDraftKeyFor(id)) || 'null');
+          } catch (err) {
+            return null;
+          }
+        };
+
+        const saveDraftRemote = async (payload, id = jobId) => {
+          await post('hr/job_draft.php', {draft_key: draftKeyFor(id), payload: normalizeDraftPayload(payload)});
+        };
+
+        const loadDraftRemote = async (id = jobId) => {
+          try {
+            const res = await get(`hr/job_draft.php?draft_key=${encodeURIComponent(draftKeyFor(id))}`);
+            return res.data?.payload || res.data?.draft || null;
+          } catch (err) {
+            return null;
+          }
+        };
+
+        const clearDraft = async (id = jobId) => {
+          try { localStorage.removeItem(localDraftKeyFor(id)); } catch (err) {}
+          try { await post('hr/job_draft.php', {action: 'clear', draft_key: draftKeyFor(id)}); } catch (err) {}
+        };
+
+        const applyDraftToForm = (payload) => {
+          if (!hasMeaningfulDraft(payload)) return false;
+          applyingDraft = true;
+          draftFields.forEach((key) => {
+            if (key === 'job_id') return;
+            const field = form.querySelector(`[name="${key}"]`);
+            if (field && payload[key] !== undefined && payload[key] !== null) {
+              field.value = payload[key];
+              if (key === 'benefits') field.dispatchEvent(new Event('input', {bubbles: true}));
+              if (key === 'salary_unit') field.dispatchEvent(new Event('change', {bubbles: true}));
+            }
+          });
+          savedPayload = readForm(form);
+          jobSaved = !!jobId;
+          updateCandidatePreview(savedPayload);
+          applyingDraft = false;
+          return true;
+        };
+
+        const newestDraft = (items) => items
+          .filter(hasMeaningfulDraft)
+          .sort((a, b) => new Date(b._saved_at || b.saved_at || 0) - new Date(a._saved_at || a.saved_at || 0))[0] || null;
+
+        const restoreDraftIfAny = async () => {
+          const draft = newestDraft([loadDraftLocal(), await loadDraftRemote()]);
+          if (draft && applyDraftToForm(draft)) setDraftStatus('已恢复上次未保存的草稿，点击“保存岗位信息”后正式生效。');
+          else setDraftStatus('草稿自动保存已开启。');
+        };
+
+        const scheduleAutoDraft = () => {
+          if (applyingDraft) return;
+          const payload = readForm(form);
+          saveDraftLocal(payload);
+          setDraftStatus('草稿已自动保存到本机，正在同步到账号...');
+          clearTimeout(draftTimer);
+          draftTimer = setTimeout(async () => {
+            try {
+              await saveDraftRemote(payload);
+              setDraftStatus('草稿已自动保存。');
+            } catch (err) {
+              setDraftStatus('草稿已保存在本机，网络恢复后请再次编辑或保存。', false);
+            }
+          }, 800);
+        };
+
+        const questionCount = () => [...basicQuestions, ...jobQuestions]
+          .filter((item) => String(item.question || item.question_text || '').trim()).length;
+
+        const markContentChanged = () => {
+          if (inviteGenerated) {
+            contentDirtyAfterInvite = true;
+            if (linkRefreshNote) linkRefreshNote.hidden = false;
+          }
+        };
+
+        const updateQuestionCount = () => {
+          const count = questionCount();
+          if (questionCountTip) {
+            questionCountTip.textContent = `当前共 ${count} 题，保存范围 1-13 题。`;
+            questionCountTip.classList.toggle('warn', count > 13 || count < 1);
+          }
+        };
+
+        const onQuestionsChanged = () => {
+          questionsSaved = false;
+          markContentChanged();
+          updateQuestionCount();
+        };
+
+        const renderQuestionLists = () => {
+          renderEditableQuestions(basicList, basicQuestions, onQuestionsChanged, 0);
+          renderEditableQuestions(jobList, jobQuestions, onQuestionsChanged, basicQuestions.length);
+          updateQuestionCount();
+        };
+
+        const render = () => {
+          stepButtons.forEach((button) => {
+            const step = Number(button.dataset.step);
+            button.classList.toggle('active', step === current);
+            button.classList.toggle('done', step < current);
+            const num = button.querySelector('span');
+            if (num) num.textContent = step < current ? '✓' : String(step);
+          });
+          panels.forEach((panel) => panel.classList.toggle('active', Number(panel.dataset.panel) === current));
+          if (prev) prev.disabled = current === 1;
+          if (next) next.textContent = current === panels.length ? '完成并进入初面管理' : '下一步 →';
+          if (linkRefreshNote) linkRefreshNote.hidden = !contentDirtyAfterInvite;
+          const url = new URL(location.href);
+          if (jobId) url.searchParams.set('job_id', jobId);
+          url.searchParams.set('step', String(current));
+          history.replaceState(null, '', url.pathname + url.search);
+        };
+
+        const saveJobIfNeeded = async () => {
+          const payload = readForm(form);
+          validateJob(payload);
+          const oldJobId = jobId;
+          const wasUpdate = !!jobId;
+          if (wasUpdate) payload.job_id = jobId;
+          showMessage(wasUpdate ? '正在更新岗位信息...' : '正在保存岗位信息...', true);
+          const res = await post('hr/create_job.php', payload);
+          jobId = String(res.data.job_id);
+          savedPayload = payload;
+          jobSaved = true;
+          markContentChanged();
+          updateCandidatePreview(payload);
+          if (openBank) {
+            openBank.href = `./question-bank.html?job_id=${encodeURIComponent(jobId)}`;
+            openBank.hidden = false;
+          }
+          await clearDraft(oldJobId);
+          await clearDraft(jobId);
+          setDraftStatus('岗位信息已保存，临时草稿已清除。');
+          showMessage(wasUpdate ? '岗位信息已保存。现在可以确认面试问题。' : '岗位信息已保存。现在可以确认面试问题。', true);
+          return jobId;
+        };
+
+        const loadExistingJob = async () => {
+          if (!jobId) return;
+          try {
+            const res = await get(`hr/job_detail.php?job_id=${encodeURIComponent(jobId)}`);
+            const job = res.data.job || {};
+            applyingDraft = true;
+            Object.keys(job).forEach((key) => {
+              const field = form.querySelector(`[name="${key}"]`);
+              if (field) {
+                field.value = job[key] || '';
+                if (key === 'benefits') field.dispatchEvent(new Event('input', {bubbles: true}));
+                if (key === 'salary_unit') field.dispatchEvent(new Event('change', {bubbles: true}));
+              }
+            });
+            applyingDraft = false;
+            savedPayload = readForm(form);
+            jobSaved = true;
+            updateCandidatePreview(savedPayload);
+            if (openBank) {
+              openBank.href = `./question-bank.html?job_id=${encodeURIComponent(jobId)}`;
+              openBank.hidden = false;
+            }
+            const savedQuestions = (await get(`ai/list_questions.php?job_id=${encodeURIComponent(jobId)}`)).data.questions || [];
+            if (savedQuestions.length) {
+              basicQuestions = savedQuestions
+                .filter((item) => (item.question_type || '').includes('基础') || (item.question_type || '').includes('必问'))
+                .map((item) => ({
+                  question: item.question_text,
+                  type: item.question_type || '基础必问题',
+                  difficulty: item.difficulty || '基础',
+                  purpose: item.purpose || '确认基础情况和求职意向',
+                  is_required: Number(item.is_required) === 1
+                }));
+              jobQuestions = savedQuestions
+                .filter((item) => !((item.question_type || '').includes('基础') || (item.question_type || '').includes('必问')))
+                .map((item) => ({
+                  question: item.question_text,
+                  type: item.question_type || '岗位匹配题',
+                  difficulty: item.difficulty || '中等',
+                  purpose: item.purpose || '验证岗位匹配度',
+                  is_required: Number(item.is_required) === 1
+                }));
+              questionsSaved = true;
+            } else {
+              questionsSaved = false;
+            }
+            renderQuestionLists();
+          } catch (err) {
+            applyingDraft = false;
+            showMessage(err.message);
+          }
+        };
+
+        const generateQuestions = async () => {
+          if (!jobSaved || !jobId) throw new Error('请先保存岗位信息，再生成面试问题');
+          if (!generateBtn) return;
+          generateBtn.disabled = true;
+          generateBtn.textContent = 'AI生成中...';
+          showMessage('AI正在生成岗位匹配题，请稍等。', true);
+          try {
+            const res = await post('ai/generate_questions.php', {job_id: jobId});
+            const remaining = Math.max(0, 13 - basicQuestions.filter((item) => String(item.question || '').trim()).length);
+            if (remaining <= 0) throw new Error('基础问题已达到13题，请先删除部分题目后再生成岗位题');
+            jobQuestions = (res.data.questions || []).slice(0, remaining).map((item) => ({
+              question: item.question,
+              type: item.type || '岗位匹配题',
+              difficulty: item.difficulty || '中等',
+              purpose: item.purpose || '验证岗位匹配度',
+              is_required: !!item.is_required
+            }));
+            questionsSaved = false;
+            markContentChanged();
+            renderQuestionLists();
+            showMessage('AI岗位题已生成，可以在本页直接编辑。', true);
+            generateBtn.textContent = '重新生成岗位题';
+          } finally {
+            generateBtn.disabled = false;
+            if (generateBtn.textContent === 'AI生成中...') generateBtn.textContent = '✦ AI生成岗位题';
+          }
+        };
+
+        const saveQuestions = async (askConfirm = false) => {
+          const questions = [...basicQuestions, ...jobQuestions]
+            .map((item) => ({...item, question: String(item.question || '').trim()}))
+            .filter((item) => item.question);
+          if (questions.length < 1) throw new Error('请至少保留1道有效问题');
+          if (questions.length > 13) throw new Error(`当前共 ${questions.length} 题，一场初面最多13题，请删除部分题目后再保存`);
+          if (askConfirm && !window.confirm(`该岗位初面题目一共 ${questions.length} 题，请确认。`)) return false;
+          await post('ai/save_questions.php', {job_id: jobId, questions});
+          questionsSaved = true;
+          markContentChanged();
+          showMessage(`面试问题已保存，共 ${questions.length} 题。`, true);
+          return true;
+        };
+
+        const createInvite = async () => {
+          if (!jobSaved || !jobId) throw new Error('请先保存岗位信息，再生成链接');
+          if (!questionsSaved) throw new Error('请先保存面试问题，再生成链接');
+          if (!createInviteBtn) return;
+          createInviteBtn.disabled = true;
+          createInviteBtn.textContent = '正在生成...';
+          try {
+            const res = await post('hr/create_invite.php', {job_id: jobId});
+            const link = res.data.link || '';
+            if (inviteLink) inviteLink.textContent = link;
+            renderInviteQr(link);
+            if (inviteText) {
+              const title = savedPayload?.job_title || form.querySelector('[name="job_title"]')?.value || '岗位';
+              inviteText.textContent = `您好，您收到一份${title}的线上初面邀请。请在有效期内完成手机号验证、实名授权、简历上传与AI初面：${link}`;
+            }
+            inviteGenerated = true;
+            contentDirtyAfterInvite = false;
+            if (linkRefreshNote) linkRefreshNote.hidden = true;
+            showMessage('正式面试链接已生成。', true);
+          } finally {
+            createInviteBtn.disabled = false;
+            createInviteBtn.textContent = inviteGenerated ? '重新生成一个链接' : '生成正式面试链接';
+          }
+        };
+
+        /* ---- Event bindings ---- */
+        addBasicBtn?.addEventListener('click', () => {
+          if (questionCount() >= 13) { showMessage('一场初面最多13题，请先删除部分题目。'); return; }
+          basicQuestions.push(questionItem('请填写你想固定询问的问题。', '基础必问题', true));
+          questionsSaved = false;
+          markContentChanged();
+          renderQuestionLists();
+        });
+
+        saveJobBtn?.addEventListener('click', async () => {
+          try {
+            saveJobBtn.disabled = true;
+            await saveJobIfNeeded();
+            await showSavedDialog();
+            current = 2;
+            render();
+          } catch (err) { showMessage(err.message); }
+          finally { saveJobBtn.disabled = false; }
+        });
+
+        saveQuestionsBtn?.addEventListener('click', async () => {
+          try {
+            if (!jobSaved || !jobId) throw new Error('请先保存岗位信息，再保存面试问题');
+            saveQuestionsBtn.disabled = true;
+            await saveQuestions(true);
+          } catch (err) { showMessage(err.message); }
+          finally { saveQuestionsBtn.disabled = false; }
+        });
+
+        stepButtons.forEach((button) => {
+          button.addEventListener('click', async () => {
+            const target = Number(button.dataset.step);
+            try {
+              if (target > 1 && (!jobSaved || !jobId)) throw new Error('请先点击"保存岗位信息"，再进入下一步');
+              if (target > 2 && !questionsSaved) throw new Error('请先点击"保存面试问题"，确认题目数量后再进入下一步');
+              current = target;
+              render();
+            } catch (err) { showMessage(err.message); }
+          });
+        });
+
+        prev?.addEventListener('click', () => { current = Math.max(1, current - 1); render(); });
+
+        next?.addEventListener('click', async () => {
+          try {
+            if (current === 1 && (!jobSaved || !jobId)) throw new Error('请先点击"保存岗位信息"，再进入下一步');
+            if (current === 2 && !questionsSaved) throw new Error('请先点击"保存面试问题"，确认题目数量后再进入下一步');
+            if (current === panels.length) { location.href = './job-management.html'; return; }
+            current = Math.min(panels.length, current + 1);
+            render();
+          } catch (err) { showMessage(err.message); }
+        });
+
+        form.addEventListener('input', () => {
+          savedPayload = readForm(form);
+          jobSaved = false;
+          markContentChanged();
+          updateCandidatePreview(savedPayload);
+          scheduleAutoDraft();
+        });
+
+        form.addEventListener('change', () => {
+          savedPayload = readForm(form);
+          jobSaved = false;
+          markContentChanged();
+          updateCandidatePreview(savedPayload);
+          scheduleAutoDraft();
+        });
+
+        generateBtn?.addEventListener('click', () => {
+          generateQuestions().catch((err) => showMessage(err.message));
+        });
+
+        createInviteBtn?.addEventListener('click', () => {
+          createInvite().catch((err) => showMessage(err.message));
+        });
+
+        setupCopyButtons();
+        renderQuestionLists();
+        loadExistingJob().then(restoreDraftIfAny).then(render);
+        render();
+      }
+
+      setupCreateInterviewWizard();
+    })();
+    </script>
+  </body>
+</html>

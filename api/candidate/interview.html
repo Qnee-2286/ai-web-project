@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI语音初面 - AI全量初面系统</title>
+    <link rel="stylesheet" href="./styles.css" />
+</head>
+  <body class="interview-body">
+    <header class="top interview-top">
+      <div class="brand">
+        <img class="brand-logo" src="./assets/logo-icon.svg" alt="hi AI初面" />
+        <span><strong>AI全量初面系统</strong><small>泓泽数字旗下产品</small></span>
+      </div>
+      <span class="badge">面试进行中</span>
+    </header>
+    <main class="interview-stage">
+      <section class="interview-shell single-screen">
+        <div class="interview-status">
+          <span id="questionProgress">第 1 题 / -- 题</span>
+          <strong id="interviewTimer">15:00</strong>
+        </div>
+
+        <div class="interview-core">
+          <div class="interview-camera-preview">
+            <video id="interviewVideoPreview" autoplay muted playsinline></video>
+            <span>摄像头仅用于本人在场检测，不向HR展示视频</span>
+          </div>
+
+          <div class="question-box">
+            <span>AI提问</span>
+            <strong id="questionText">请稍候，系统正在准备本次初面问题。</strong>
+            <a class="btn replay" href="javascript:void(0)">重听问题</a>
+          </div>
+        </div>
+
+        <div class="answer-panel">
+          <p class="voice-only-note">请用语音回答。说错了先点"重录本题"；确认说完后点"说完了，下一题"。</p>
+          <div class="recording-state" id="recordingState">请先听完问题</div>
+          <audio id="answerPlayback" controls hidden></audio>
+          <div class="actions compact recording-actions">
+            <button class="btn primary answer-main-btn" id="answerMainBtn" type="button" disabled>请听完问题</button>
+            <button class="btn redo-btn" id="redoRecordBtn" type="button" disabled>重录本题</button>
+          </div>
+        </div>
+
+        <div class="interview-submit">
+          <button class="btn primary" id="submitInterview" type="button" disabled>提交面试</button>
+          <p>全部题目完成后，系统会整理本次面试转写和录音材料。</p>
+        </div>
+      </section>
+    </main>
+    <div class="mps-beian">
+      <a href="https://beian.mps.gov.cn/#/query/webSearch?code=44010302111445" rel="noreferrer" target="_blank">
+        <img src="./assets/beian.png" alt="公安备案图标" />
+        <span>粤公网安备44010302111445号</span>
+      </a>
+    </div>
+    <script src="./auth-flow.js"></script>
+    <script src="./candidate-progress.js"></script>
+  </body>
+</html>

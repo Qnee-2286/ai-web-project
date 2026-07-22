@@ -1,0 +1,80 @@
+﻿<?php
+// Copy this file to api/config.php on the server and fill real values there.
+// Do not commit api/config.php or any real secret keys to GitHub.
+return [
+    'app' => [
+        'timezone' => 'Asia/Shanghai',
+        'session_name' => 'HI_INTERVIEW_SESSION',
+        'base_url' => 'https://your-domain.example.com',
+    ],
+    'db' => [
+        'host' => '127.0.0.1',
+        'port' => 3306,
+        'name' => 'your_database_name',
+        'user' => 'your_database_user',
+        'password' => 'your_database_password',
+        'charset' => 'utf8mb4',
+    ],
+    'llm' => [
+        'provider' => 'dashscope',
+        'api_key' => 'your_dashscope_api_key',
+        'endpoint' => 'https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions',
+        'model' => 'qwen-plus',
+        'temperature' => 0.3,
+    ],
+    'oss' => [
+        'provider' => 'aliyun',
+        'endpoint' => 'https://oss-your-region.aliyuncs.com',
+        'bucket' => 'your_bucket_name',
+        'prefix' => 'interview-audio/',
+        'access_key_id' => 'your_aliyun_access_key_id',
+        'access_key_secret' => 'your_aliyun_access_key_secret',
+    ],
+    'smtp' => [
+        'host' => 'smtp.example.com',
+        'port' => 465,
+        'username' => 'noreply@example.com',
+        'password' => 'your_smtp_password',
+        'from_email' => 'noreply@example.com',
+        'from_name' => 'AI Interview System',
+    ],
+    'sms' => [
+        'provider' => 'aliyun',
+        'access_key_id' => 'your_sms_access_key_id',
+        'access_key_secret' => 'your_sms_access_key_secret',
+        'sign_name' => 'your_sms_sign_name',
+        'template_code' => 'your_sms_template_code',
+    ],
+    'realname' => [
+        'provider' => 'tencent',
+        'secret_id' => 'your_tencent_secret_id',
+        'secret_key' => 'your_tencent_secret_key',
+        'rule_id' => 'your_rule_id',
+        'redirect_base' => 'https://your-domain.example.com',
+        'endpoint' => 'faceid.tencentcloudapi.com',
+        'app_id' => '',
+        'app_secret' => '',
+        'callback_secret' => 'your_callback_secret',
+    ],
+    'payment' => [
+        'alipay' => [
+            'app_id' => 'your_alipay_app_id',
+            'merchant_private_key' => '/path/to/alipay_private_key.pem',
+            'alipay_public_key' => 'your_alipay_public_key',
+            'notify_url' => 'https://your-domain.example.com/api/payment/alipay_notify.php',
+            'return_url' => 'https://your-domain.example.com/hr/payment-success.html',
+            'gateway' => 'https://openapi.alipay.com/gateway.do',
+        ],
+        'wechat' => [
+            'appid' => 'your_wechat_appid',
+            'mchid' => 'your_wechat_mchid',
+            'merchant_serial_no' => 'your_merchant_serial_no',
+            'merchant_private_key' => '/path/to/apiclient_key.pem',
+            'api_v3_key' => 'your_api_v3_key',
+            'platform_public_key' => '/path/to/pub_key.pem',
+            'platform_serial_no' => 'your_platform_serial_no',
+            'notify_url' => 'https://your-domain.example.com/api/payment/wechat_notify.php',
+            'gateway' => 'https://api.mch.weixin.qq.com',
+        ],
+    ],
+];

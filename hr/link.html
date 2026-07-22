@@ -1,0 +1,201 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta name="hi-build" content="20260615cachefix" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>面试链接｜AI全量初面系统</title>
+    <link rel="stylesheet" href="./v2-design-system.css?v=20260615cachefix" />
+    <style>
+      .link-display { display: flex; align-items: center; gap: 12px; padding: 16px 20px; background: var(--bg-main); border: 1px solid var(--border); border-radius: var(--radius-btn); margin-bottom: 20px; }
+      .link-box { flex: 1; font-size: 14px; color: var(--text-primary); word-break: break-all; font-family: 'SF Mono', 'Cascadia Code', 'Consolas', monospace; line-height: 1.6; }
+      .link-box span { display: block; }
+      .link-copy-btn { flex-shrink: 0; }
+      .qr-section { text-align: center; }
+      .qr-section h2 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+      .qr-section p { font-size: 13px; color: var(--text-secondary); margin-bottom: 16px; }
+      .qr-box { display: inline-flex; align-items: center; justify-content: center; width: 200px; height: 200px; border: 1px solid var(--border); border-radius: var(--radius-card); background: var(--bg-card); }
+      .qr-box img { max-width: 100%; max-height: 100%; }
+      .qr-box svg { max-width: 100%; max-height: 100%; }
+      .invite-tip { margin-top: 16px; font-size: 13px; color: var(--text-secondary); text-align: center; }
+    </style>
+  <style id="site-footer-unified-style">
+.site-footer{background:#fff;border-top:1px solid #E2E8F0;padding:40px;color:#94A3B8;font-size:12px;}
+.site-footer-inner{max-width:1200px;margin:0 auto;display:flex;align-items:flex-start;justify-content:space-between;gap:32px;}
+.site-footer-brand{display:flex;align-items:center;gap:12px;color:#0F172A;font-weight:600;}
+.site-footer-logo{width:32px;height:32px;border-radius:8px;object-fit:contain;display:block;flex-shrink:0;}
+.site-footer-info{text-align:right;}
+.site-footer-info p{margin:0;font-size:12px;color:#94A3B8;line-height:1.8;}
+.site-footer-info a{color:#94A3B8;text-decoration:none;display:inline-flex;align-items:center;gap:4px;vertical-align:middle;}
+.site-footer-info a:hover{color:#0070FF;}
+.site-footer-info img{width:16px;height:16px;flex-shrink:0;}
+@media(max-width:760px){.site-footer{padding:32px 20px;}.site-footer-inner{flex-direction:column;align-items:center;text-align:center;gap:14px;}.site-footer-brand{justify-content:center;}.site-footer-info{text-align:center;}.site-footer-info p{line-height:2;}}
+</style>
+</head>
+  <body>
+    <div class="shell">
+      <aside class="side">
+        <div class="brand">
+          <img class="brand-logo" src="./assets/logo-icon.svg" alt="hi AI初面" style="background:none;padding:0;" />
+          <span><strong>AI全量初面系统</strong><small>泓泽数字旗下产品</small></span>
+        </div>
+        <nav class="nav">
+          <a href="./dashboard.html">🏠 首页</a>
+          <a href="./create-interview-flow.html?v=20260615cachefix">✦ 创建初面</a>
+          <a class="active" href="./job-management.html">📋 初面管理</a>
+          <a href="./candidate-list.html">👥 候选人</a>
+          <a href="./report-review-list.html">📊 报告复核</a>
+          <a href="./question-bank.html">📝 题库管理</a>
+          <div class="nav-sep"></div>
+          <a href="./membership.html">💎 会员中心</a>
+          <a href="./profile.html">⚙ 设置</a>
+        </nav>
+      </aside>
+      <main class="main">
+        <div class="topbar">
+          <div class="page-title">
+            <span class="crumb">HR端 / 初面管理 / 面试链接</span>
+            <h1 id="linkPageTitle">面试链接</h1>
+            <p>将以下链接发送给候选人，候选人打开链接后需完成手机号验证、实名授权、简历上传与AI初面。</p>
+          </div>
+          <div class="topbar-account">
+            <a class="btn" href="./job-management.html">返回初面管理</a>
+            <a class="user-mini" href="./profile.html"><div class="avatar">HR</div><div><strong>当前HR</strong><span>个人中心</span></div></a>
+            <a class="btn" href="./login.html">退出</a>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top:20px;">
+          <div class="section-title"><h2>面试邀请链接</h2></div>
+          <div class="link-display">
+            <div class="link-box"><span id="inviteLinkText">正在生成链接，请稍候...</span></div>
+            <button class="btn primary link-copy-btn" id="copyLinkBtn" type="button">复制</button>
+          </div>
+          <div class="notice compact">链接包含候选人身份验证机制，每个链接仅供一位候选人使用。请勿将同一链接转发给多人。</div>
+        </div>
+
+        <div class="panel qr-section">
+          <h2>二维码</h2>
+          <p>候选人可扫描二维码直接进入面试页面</p>
+          <div class="qr-box" id="inviteQrCode">
+            <span style="color:var(--text-aux);font-size:12px;">生成后显示二维码</span>
+          </div>
+          <p class="invite-tip">建议使用微信或手机浏览器扫码</p>
+        </div>
+
+      </main>
+    </div>
+    <footer class="site-footer">
+  <div class="site-footer-inner">
+    <div class="site-footer-brand"><img class="site-footer-logo" src="./assets/mother-company-symbol-cropped.png" alt="泓泽数字" /><span>泓泽数字</span></div>
+    <div class="site-footer-info">
+      <p>AI全量初面系统 &middot; Powered by <a href="https://www.hongzedigital.com">泓泽数字</a></p>
+      <p><a href="../help.html">使用说明</a> &middot; <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">粤ICP备2026055553号</a> &middot; <a href="https://www.beian.gov.cn/portal/registerSystemInfo?recordcode=44010302111445" target="_blank" rel="noreferrer"><img src="./assets/beian.png" alt="公安备案图标" />粤公网安备44010302111445号</a></p>
+    </div>
+  </div>
+</footer>
+    <script src="./common.js?v=20260615cachefix"></script>
+    <script src="./auth-flow.js?v=20260615cachefix"></script>
+    <script>
+    (function(){
+      var API = '../api';
+      function get(path) {
+        return fetch(API + '/' + path, { credentials: 'include' })
+          .then(function(r){ return r.json(); })
+          .then(function(data){
+            if (data && data.data && data.data.need_login) { location.href = './login.html'; return new Promise(function(){}); }
+            if (!data.ok) throw new Error(data.message || '请求失败');
+            return data;
+          });
+      }
+      function post(path, payload) {
+        return fetch(API + '/' + path, {
+          method: 'POST', headers: {'Content-Type':'application/json'}, credentials: 'include', body: JSON.stringify(payload)
+        }).then(function(r){ return r.json(); })
+        .then(function(data){
+          if (data && data.data && data.data.need_login) { location.href = './login.html'; return new Promise(function(){}); }
+          if (!data.ok) throw new Error(data.message || '请求失败');
+          return data;
+        });
+      }
+
+      // === setupInviteLink logic ===
+      var params = new URLSearchParams(location.search);
+      var jobId = params.get('job_id');
+      var linkText = document.getElementById('inviteLinkText');
+      var title = document.getElementById('linkPageTitle');
+      var copyBtn = document.getElementById('copyLinkBtn');
+      var qrBox = document.getElementById('inviteQrCode');
+
+      function renderQr(link) {
+        if (!qrBox || !link) return;
+        if (typeof qrcode !== 'function') {
+          qrBox.innerHTML = '<span style="color:var(--text-aux);font-size:12px;">二维码库加载失败</span>';
+          return;
+        }
+        try {
+          var qr = qrcode(0, 'M');
+          qr.addData(link);
+          qr.make();
+          qrBox.innerHTML = qr.createSvgTag(4, 0, '候选人面试二维码', '候选人面试二维码');
+        } catch(e) {
+          qrBox.innerHTML = '<span style="color:var(--text-aux);font-size:12px;">二维码生成失败</span>';
+        }
+      }
+
+      if (!jobId) {
+        if (linkText) linkText.textContent = '请先从初面管理页选择岗位生成链接';
+        return;
+      }
+
+      post('hr/create_invite.php', { job_id: jobId }).then(function(res){
+        var data = res.data;
+        if (title) title.textContent = '面试链接已生成';
+        if (linkText) linkText.textContent = data.link;
+        renderQr(data.link);
+      }).catch(function(err){
+        if (linkText) linkText.textContent = err.message;
+      });
+
+      // Copy button
+      if (copyBtn) {
+        copyBtn.addEventListener('click', function(){
+          var text = linkText ? linkText.textContent.trim() : '';
+          if (!text || text.includes('正在') || text.includes('请先')) return;
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function(){
+              copyBtn.textContent = '已复制';
+              setTimeout(function(){ copyBtn.textContent = '复制'; }, 1200);
+            }).catch(function(){ alert('复制失败，请手动复制。'); });
+          } else {
+            var temp = document.createElement('textarea');
+            temp.value = text;
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand('copy');
+            temp.remove();
+            copyBtn.textContent = '已复制';
+            setTimeout(function(){ copyBtn.textContent = '复制'; }, 1200);
+          }
+        });
+      }
+
+      // Logout
+      document.querySelectorAll('a[href="./login.html"]').forEach(function(a){
+        if ((a.textContent || '').includes('退出')) {
+          a.addEventListener('click', function(e){
+            e.preventDefault();
+            post('auth/logout.php', {}).catch(function(){}).then(function(){ location.href = './login.html'; });
+          });
+        }
+      });
+
+      // Auth guard
+      get('auth/me.php').catch(function(){ location.href = './login.html'; });
+    })();
+    </script>
+  </body>
+</html>

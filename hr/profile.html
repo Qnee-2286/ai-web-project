@@ -1,0 +1,348 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta name="hi-build" content="20260615cachefix" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>个人中心 - AI全量初面系统</title>
+    <link rel="stylesheet" href="./v2-design-system.css?v=20260615cachefix" />
+    <style>
+      .profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 24px 0 0; }
+      .profile-grid .wide { grid-column: 1 / -1; }
+      .profile-section-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+      .profile-section-head h2 { font-size: 17px; font-weight: 700; color: var(--text-primary); margin-bottom: 2px; }
+      .profile-section-head .hint { margin-top: 0; }
+      .status-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+      .status-grid article { padding: 16px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg-main); }
+      .status-grid article span { display: block; margin-bottom: 8px; }
+      .status-grid article strong { font-size: 15px; color: var(--text-primary); display: block; margin-bottom: 4px; }
+      .status-grid article small { font-size: 12px; color: var(--text-secondary); display: block; }
+      .info-list { display: grid; gap: 10px; margin: 12px 0 16px; }
+      .info-list p { display: flex; justify-content: space-between; gap: 12px; margin: 0; padding: 11px 0; border-bottom: 1px solid var(--border); }
+      .info-list p:last-child { border-bottom: none; }
+      .info-list span { color: var(--text-secondary); }
+      .info-list strong { color: var(--text-primary); font-weight: 500; }
+      .company-auth-card { padding: 20px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg-main); margin-bottom: 16px; }
+      .company-auth-card strong { display: block; font-size: 14px; color: var(--text-primary); margin-bottom: 6px; }
+      .company-auth-card p { font-size: 13px; color: var(--text-secondary); margin-bottom: 12px; }
+      .setting-list { display: flex; flex-direction: column; gap: 1px; }
+      .setting-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid #F1F5F9; cursor: pointer; }
+      .setting-row:last-child { border-bottom: none; }
+      .setting-row strong { font-size: 14px; color: var(--text-primary); display: block; margin-bottom: 2px; }
+      .setting-row small { font-size: 12px; color: var(--text-secondary); display: block; }
+      .setting-row input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--gradient-start); flex-shrink: 0; }
+      @media (max-width: 980px) {
+        .profile-grid { grid-template-columns: 1fr; }
+        .status-grid { grid-template-columns: 1fr 1fr; }
+      }
+    </style>
+  <style id="site-footer-unified-style">
+.site-footer{background:#fff;border-top:1px solid #E2E8F0;padding:40px;color:#94A3B8;font-size:12px;}
+.site-footer-inner{max-width:1200px;margin:0 auto;display:flex;align-items:flex-start;justify-content:space-between;gap:32px;}
+.site-footer-brand{display:flex;align-items:center;gap:12px;color:#0F172A;font-weight:600;}
+.site-footer-logo{width:32px;height:32px;border-radius:8px;object-fit:contain;display:block;flex-shrink:0;}
+.site-footer-info{text-align:right;}
+.site-footer-info p{margin:0;font-size:12px;color:#94A3B8;line-height:1.8;}
+.site-footer-info a{color:#94A3B8;text-decoration:none;display:inline-flex;align-items:center;gap:4px;vertical-align:middle;}
+.site-footer-info a:hover{color:#0070FF;}
+.site-footer-info img{width:16px;height:16px;flex-shrink:0;}
+@media(max-width:760px){.site-footer{padding:32px 20px;}.site-footer-inner{flex-direction:column;align-items:center;text-align:center;gap:14px;}.site-footer-brand{justify-content:center;}.site-footer-info{text-align:center;}.site-footer-info p{line-height:2;}}
+</style>
+</head>
+  <body>
+    <div class="shell">
+      <aside class="side">
+        <div class="brand">
+          <img class="brand-logo" src="./assets/logo-icon.svg" alt="hi AI初面" style="background:none;padding:0;" />
+          <span><strong>AI全量初面系统</strong><small>泓泽数字旗下产品</small></span>
+        </div>
+        <nav class="nav">
+          <a href="./dashboard.html">🏠 首页</a>
+          <a href="./create-interview-flow.html?v=20260615cachefix">✦ 创建初面</a>
+          <a href="./job-management.html">📋 初面管理</a>
+          <a href="./candidate-list.html">👥 候选人</a>
+          <a href="./report-review-list.html">📊 报告复核</a>
+          <a href="./question-bank.html">📝 题库管理</a>
+          <div class="nav-sep"></div>
+          <a href="./membership.html">💎 会员中心</a>
+          <a href="./profile.html" class="active">⚙ 设置</a>
+        </nav>
+      </aside>
+      <main class="main">
+        <div class="topbar">
+          <div class="page-title">
+            <span class="crumb">HR端 / 个人中心</span>
+            <h1>个人中心</h1>
+            <p>管理账号资料、认证状态、会员权益、消息提醒和账号安全。</p>
+          </div>
+          <div class="topbar-account">
+            <div class="user-mini"><div class="avatar" id="avatarText">HR</div><div><strong id="miniName">当前HR</strong><span id="miniStatus">正在读取账号状态</span></div></div>
+            <a class="btn" href="./login.html">退出</a>
+          </div>
+        </div>
+
+        <section class="profile-grid">
+          <!-- Account status -->
+          <section class="panel wide account-overview">
+            <div class="profile-section-head">
+              <div>
+                <h2>账号状态</h2>
+                <p class="hint">这些状态决定HR可使用的功能范围。</p>
+              </div>
+              <a class="btn" href="./dashboard.html">返回首页</a>
+            </div>
+            <div class="status-grid">
+              <article><span class="tag gray" id="profilePhoneTag">读取中</span><strong>手机</strong><small id="profilePhoneText">-</small></article>
+              <article><span class="tag gray" id="profileEmailTag">未绑定</span><strong>邮箱</strong><small id="profileEmailText">-</small></article>
+              <article><span class="tag gray" id="profileRealnameTag">未实名</span><strong>个人实名</strong><small id="profileRealnameText">未完成实名认证</small></article>
+              <article><span class="tag orange" id="profileCompanyTag">待认证</span><strong>企业认证</strong><small id="profileCompanyText">认证后展示企业资料</small></article>
+            </div>
+          </section>
+
+          <!-- Personal info form -->
+          <form class="panel" id="profileForm">
+            <h2>个人信息</h2>
+            <div class="field"><label>姓名</label><input name="name" placeholder="请输入真实姓名" /></div>
+            <div class="field"><label>头像地址</label><input name="avatar_url" placeholder="后续支持头像上传" /></div>
+            <div class="field"><label>招聘身份</label><select name="role_title"><option>HRBP</option><option>招聘负责人</option><option>老板/业务负责人</option></select></div>
+            <p class="notice compact">手机号和邮箱涉及账号安全，当前版本通过绑定流程修改，不在这里直接改。</p>
+            <button class="btn primary" type="submit">保存个人信息</button>
+          </form>
+
+          <!-- Realname auth -->
+          <section class="panel">
+            <h2>实名认证</h2>
+            <div class="info-list">
+              <p><span>认证状态</span><strong id="profileRealnameStatus">未实名</strong></p>
+              <p><span>认证方式</span><strong>腾讯云实名核身</strong></p>
+              <p><span>认证用途</span><strong>仅用于确认HR账号身份</strong></p>
+            </div>
+            <a class="btn" href="./realname.html">查看实名信息</a>
+          </section>
+
+          <!-- Company auth -->
+          <section class="panel wide" id="companyAuthPanel">
+            <div class="profile-section-head">
+              <div>
+                <h2>企业认证</h2>
+                <p class="hint">未完成企业认证前，不展示企业资料，也不能把企业信息作为已认证信息展示给候选人。</p>
+              </div>
+              <span class="tag orange">待认证</span>
+            </div>
+            <div class="company-auth-card">
+              <strong>完成企业认证后可查看和维护企业信息</strong>
+              <p>认证通过后，系统将展示公司名称、统一社会信用代码、营业执照状态、企业联系人、公司介绍、更新时间等内容，并用于创建岗位时自动带出。</p>
+              <button class="btn primary" type="button">去企业认证</button>
+            </div>
+          </section>
+
+          <!-- Membership info -->
+          <section class="panel">
+            <h2>会员信息</h2>
+            <div class="info-list">
+              <p><span>当前版本</span><strong>体验版</strong></p>
+              <p><span>面试次数</span><strong>1/5</strong></p>
+              <p><span>报告保存</span><strong>默认15天</strong></p>
+            </div>
+            <a class="btn primary" href="./membership.html">查看会员权益</a>
+          </section>
+
+          <!-- Password form -->
+          <form class="panel" id="passwordForm">
+            <h2>安全设置</h2>
+            <div class="field"><label>原密码</label><input name="old_password" type="password" placeholder="请输入原密码" /></div>
+            <div class="field"><label>新密码</label><input name="new_password" type="password" placeholder="至少6位" /></div>
+            <div class="field"><label>确认新密码</label><input name="confirm_password" type="password" placeholder="再次输入新密码" /></div>
+            <button class="btn primary" type="submit">重置密码</button>
+          </form>
+
+          <!-- Notification settings -->
+          <section class="panel wide">
+            <h2>消息与邮件设置</h2>
+            <div class="setting-list">
+              <label class="setting-row"><span><strong>面试报告生成后邮件通知</strong><small>发送到当前绑定邮箱，便于HR及时复核。</small></span><input type="checkbox" checked /></label>
+              <label class="setting-row"><span><strong>候选人完成面试后邮件通知</strong><small>候选人完成后通过邮件提示，不默认短信。</small></span><input type="checkbox" checked /></label>
+              <label class="setting-row"><span><strong>每日面试汇总邮件</strong><small>汇总当天完成、待复核和未完成的面试情况。</small></span><input type="checkbox" /></label>
+            </div>
+            <p class="notice compact">候选人未完成提醒已放到候选人列表，由HR手动点击"提醒"处理；可复制链接文本，也可在后续短信接口接通后发送短信。</p>
+          </section>
+
+          <!-- Login history -->
+          <section class="panel wide">
+            <h2>登录记录</h2>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>时间</th><th>方式</th><th>设备</th><th>结果</th></tr></thead>
+                <tbody>
+                  <tr><td colspan="4">暂无登录记录展示。后续接入登录日志后在这里显示。</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+      </main>
+    </div>
+    <footer class="site-footer">
+  <div class="site-footer-inner">
+    <div class="site-footer-brand"><img class="site-footer-logo" src="./assets/mother-company-symbol-cropped.png" alt="泓泽数字" /><span>泓泽数字</span></div>
+    <div class="site-footer-info">
+      <p>AI全量初面系统 &middot; Powered by <a href="https://www.hongzedigital.com">泓泽数字</a></p>
+      <p><a href="../help.html">使用说明</a> &middot; <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">粤ICP备2026055553号</a> &middot; <a href="https://www.beian.gov.cn/portal/registerSystemInfo?recordcode=44010302111445" target="_blank" rel="noreferrer"><img src="./assets/beian.png" alt="公安备案图标" />粤公网安备44010302111445号</a></p>
+    </div>
+  </div>
+</footer>
+
+    <script src="./auth-flow.js?v=20260615cachefix"></script>
+    <script>
+    // ===== Profile v2 — Inline setupProfile logic =====
+    // Reimplements setupProfile from auth-flow.js because that script checks
+    // page === 'profile.html' which won't match 'profile.html'.
+    (function() {
+      var API = '../api';
+
+      function fillForm(form, data) {
+        if (!form) return;
+        Object.keys(data || {}).forEach(function(k) {
+          var el = form.querySelector('[name="' + k + '"]');
+          if (el) el.value = data[k] || '';
+        });
+      }
+
+      function formPayload(form) {
+        return Object.fromEntries(new FormData(form).entries());
+      }
+
+      function message(form, text, ok) {
+        var box = form.querySelector('.form-message');
+        if (!box) {
+          box = document.createElement('div');
+          box.className = 'form-message';
+          form.prepend(box);
+        }
+        box.textContent = text;
+        box.classList.toggle('ok', !!ok);
+      }
+
+      async function post(path, payload) {
+        var res = await fetch(API + '/' + path, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify(payload)
+        });
+        var data = await res.json().catch(function() { return { ok: false, message: '接口返回格式错误' }; });
+        if (data && data.data && data.data.need_login) {
+          location.href = './login.html';
+          return new Promise(function() {});
+        }
+        if (!res.ok || !data.ok) throw new Error((data.message || '请求失败') + (data.data && data.data.error ? '：' + data.data.error : ''));
+        return data;
+      }
+
+      async function get(path) {
+        var res = await fetch(API + '/' + path, { credentials: 'include' });
+        var data = await res.json().catch(function() { return { ok: false, message: '接口返回格式错误' }; });
+        if (data && data.data && data.data.need_login) {
+          location.href = './login.html';
+          return new Promise(function() {});
+        }
+        if (!res.ok || !data.ok) throw new Error((data.message || '请求失败') + (data.data && data.data.error ? '：' + data.data.error : ''));
+        return data;
+      }
+
+      function setupProfile() {
+        var profileForm = document.getElementById('profileForm');
+        var passwordForm = document.getElementById('passwordForm');
+        var companyForm = document.getElementById('companyForm');
+
+        get('auth/me.php').then(function(res) {
+          var data = res.data;
+          fillForm(profileForm, data);
+
+          var name = document.getElementById('miniName');
+          var status = document.getElementById('miniStatus');
+          var avatar = document.getElementById('avatarText');
+          if (name) name.textContent = data.name || 'HR用户';
+          if (status) status.textContent = (data.email_verified ? '邮箱已绑定' : '邮箱未绑定') + ' · ' + (data.realname_status === 'verified' ? '已实名' : '未实名');
+          if (avatar) avatar.textContent = (data.name || 'HR').slice(0, 2).toUpperCase();
+
+          var phoneTag = document.getElementById('profilePhoneTag');
+          var phoneText = document.getElementById('profilePhoneText');
+          var emailTag = document.getElementById('profileEmailTag');
+          var emailText = document.getElementById('profileEmailText');
+          var realnameTag = document.getElementById('profileRealnameTag');
+          var realnameTextEl = document.getElementById('profileRealnameText');
+          var realnameStatus = document.getElementById('profileRealnameStatus');
+          var companyTag = document.getElementById('profileCompanyTag');
+          var companyText = document.getElementById('profileCompanyText');
+
+          if (phoneTag) { phoneTag.textContent = data.phone_verified ? '已验证' : '未验证'; phoneTag.className = 'tag ' + (data.phone_verified ? 'green' : 'gray'); }
+          if (phoneText) phoneText.textContent = data.phone || '-';
+          if (emailTag) { emailTag.textContent = data.email_verified ? '已绑定' : '未绑定'; emailTag.className = 'tag ' + (data.email_verified ? 'green' : 'gray'); }
+          if (emailText) emailText.textContent = data.email || '-';
+
+          var isReal = data.realname_status === 'verified';
+          if (realnameTag) { realnameTag.textContent = isReal ? '已实名' : '未实名'; realnameTag.className = 'tag ' + (isReal ? 'green' : 'gray'); }
+          if (realnameTextEl) realnameTextEl.textContent = isReal ? '已完成HR本人实名核验' : '未完成实名认证';
+          if (realnameStatus) realnameStatus.textContent = isReal ? '已实名' : '未实名';
+
+          var companyVerified = data.company_verification_status === 'verified';
+          if (companyTag) { companyTag.textContent = companyVerified ? '已认证' : '待认证'; companyTag.className = 'tag ' + (companyVerified ? 'green' : 'orange'); }
+          if (companyText) companyText.textContent = companyVerified ? '企业认证已完成' : '认证后展示企业资料';
+        }).catch(function() {});
+
+        profileForm && profileForm.addEventListener('submit', async function(e) {
+          e.preventDefault();
+          try {
+            var res = await post('auth/update_profile.php', formPayload(profileForm));
+            message(profileForm, res.message, true);
+          } catch (err) {
+            message(profileForm, err.message);
+          }
+        });
+
+        passwordForm && passwordForm.addEventListener('submit', async function(e) {
+          e.preventDefault();
+          try {
+            var res = await post('auth/reset_password.php', formPayload(passwordForm));
+            message(passwordForm, res.message, true);
+            passwordForm.reset();
+          } catch (err) {
+            message(passwordForm, err.message);
+          }
+        });
+
+        companyForm && companyForm.addEventListener('submit', async function(e) {
+          e.preventDefault();
+          try {
+            var res = await post('auth/save_company.php', formPayload(companyForm));
+            message(companyForm, res.message, true);
+          } catch (err) {
+            message(companyForm, err.message);
+          }
+        });
+      }
+
+      // ===== Logout =====
+      function setupLogout() {
+        document.querySelectorAll('a[href="./login.html"]').forEach(function(a) {
+          if ((a.textContent || '').includes('退出')) {
+            a.addEventListener('click', function(e) {
+              e.preventDefault();
+              post('auth/logout.php', {}).catch(function() {}).then(function() {
+                location.href = './login.html';
+              });
+            });
+          }
+        });
+      }
+
+      setupProfile();
+      setupLogout();
+    })();
+    </script>
+  </body>
+</html>

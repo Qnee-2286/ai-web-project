@@ -1,0 +1,342 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta name="hi-build" content="20260615cachefix" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HR实名认证 - AI全量初面系统</title>
+    <link rel="stylesheet" href="./v2-design-system.css?v=20260615cachefix" />
+    <style>
+      body { min-height: 100vh; display: flex; flex-direction: column; }
+      .auth-layout { flex: 1; }
+      .auth-panel { max-width: 480px; }
+      .auth-panel h2 { margin-bottom: 6px; }
+
+      /* --- 信息列表 --- */
+      .info-list { background: var(--bg-main); border: 1px solid var(--border); border-radius: var(--radius-btn); padding: 16px; margin: 16px 0; }
+      .info-list p { display: flex; justify-content: space-between; align-items: flex-start; padding: 8px 0; border-bottom: 1px solid #F1F5F9; font-size: 13px; }
+      .info-list p:last-child { border-bottom: none; }
+      .info-list span { color: var(--text-aux); flex-shrink: 0; margin-right: 16px; }
+      .info-list strong { color: var(--text-primary); text-align: right; font-weight: 500; }
+
+      /* --- 微信核身区域 --- */
+      .wechat-verify { display: flex; gap: 20px; align-items: flex-start; margin: 20px 0; padding: 20px; background: var(--bg-main); border-radius: var(--radius-btn); border: 1px solid var(--border); }
+      .wechat-qr { width: 160px; height: 160px; border-radius: var(--radius-btn); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-aux); font-size: 13px; background: var(--bg-card); flex-shrink: 0; flex-direction: column; gap: 6px; }
+      .wechat-qr img { max-width: 100%; max-height: 100%; border-radius: 4px; }
+      .wechat-qr strong { font-size: 12px; color: var(--text-secondary); }
+      .wechat-qr span { font-size: 11px; color: var(--text-aux); }
+      .wechat-verify strong { display: block; font-size: 14px; color: var(--text-primary); margin-bottom: 6px; }
+      .wechat-verify .hint { margin-top: 4px; }
+
+      /* --- 操作按钮组 --- */
+      .actions { display: flex; gap: 8px; margin-top: 20px; }
+      .actions.stack { flex-direction: column; }
+      .actions .btn { justify-content: center; }
+
+      /* --- 弹窗 --- */
+      .modal-mask { position: fixed; inset: 0; background: rgba(0,0,0,.45); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+      .modal-mask[hidden] { display: none !important; }
+      .modal-card { background: var(--bg-card); border-radius: var(--radius-card); padding: 32px; width: 90%; max-width: 440px; position: relative; box-shadow: 0 20px 60px rgba(0,0,0,.15); }
+      .modal-card h2 { font-size: 20px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; }
+      .modal-close { position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 20px; color: var(--text-aux); cursor: pointer; width: 32px; height: 32px; border-radius: var(--radius-btn); display: flex; align-items: center; justify-content: center; }
+      .modal-close:hover { background: var(--bg-main); color: var(--text-secondary); }
+      .checkline { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; color: var(--text-secondary); margin: 20px 0; line-height: 1.6; cursor: pointer; }
+      .checkline input { margin-top: 3px; width: 16px; height: 16px; accent-color: var(--gradient-start); flex-shrink: 0; }
+      .checkline span { flex: 1; }
+
+      /* --- 响应式 --- */
+      @media (max-width: 640px) {
+        .wechat-verify { flex-direction: column; }
+        .wechat-qr { width: 100%; height: auto; aspect-ratio: 1; }
+      }
+    </style>
+  <style id="site-footer-unified-style">
+.site-footer{background:#fff;border-top:1px solid #E2E8F0;padding:40px;color:#94A3B8;font-size:12px;}
+.site-footer-inner{max-width:1200px;margin:0 auto;display:flex;align-items:flex-start;justify-content:space-between;gap:32px;}
+.site-footer-brand{display:flex;align-items:center;gap:12px;color:#0F172A;font-weight:600;}
+.site-footer-logo{width:32px;height:32px;border-radius:8px;object-fit:contain;display:block;flex-shrink:0;}
+.site-footer-info{text-align:right;}
+.site-footer-info p{margin:0;font-size:12px;color:#94A3B8;line-height:1.8;}
+.site-footer-info a{color:#94A3B8;text-decoration:none;display:inline-flex;align-items:center;gap:4px;vertical-align:middle;}
+.site-footer-info a:hover{color:#0070FF;}
+.site-footer-info img{width:16px;height:16px;flex-shrink:0;}
+@media(max-width:760px){.site-footer{padding:32px 20px;}.site-footer-inner{flex-direction:column;align-items:center;text-align:center;gap:14px;}.site-footer-brand{justify-content:center;}.site-footer-info{text-align:center;}.site-footer-info p{line-height:2;}}
+</style>
+</head>
+  <body>
+    <main class="auth-layout">
+      <!-- ====== 左侧品牌展示 ====== -->
+      <section class="auth-hero">
+        <div class="brand">
+          <img class="brand-logo" src="./assets/logo-icon.svg" alt="hi AI初面" style="background:none;padding:0;" />
+          <span><strong>AI全量初面系统</strong><small>泓泽数字旗下产品</small></span>
+        </div>
+        <h1>HR实名认证</h1>
+        <p>通过腾讯云实名核身确认发起面试的HR为真实本人。候选人端仅展示"HR已实名"，不展示个人身份信息。</p>
+        <ul class="hero-features">
+          <li><span class="feat-icon">&#9878;</span>AI语音初面，自动追问与记录</li>
+          <li><span class="feat-icon">&#9733;</span>智能匹配报告，辅助人才筛选</li>
+          <li><span class="feat-icon">&#9873;</span>候选人数据加密，合规可控</li>
+        </ul>
+      </section>
+
+      <!-- ====== 右侧实名认证 ====== -->
+      <section class="auth-card">
+        <div class="auth-panel">
+          <h2>第三方扫码核身</h2>
+          <p class="notice">请使用本人微信完成腾讯云实名核身。平台仅保存认证状态、认证时间、认证流水号和HR账号ID。</p>
+
+          <form>
+            <div class="info-list">
+              <p><span>当前状态</span><strong id="hrRealnameStatusText">未认证</strong></p>
+              <p><span>第三方核身方式</span><strong>腾讯云实名核身</strong></p>
+              <p><span>平台保存</span><strong>认证状态、认证时间、认证流水号、HR账号ID</strong></p>
+              <p><span>平台不保存</span><strong>完整身份证号、人脸影像、身份证照片</strong></p>
+              <p><span>候选人可见</span><strong>仅展示"HR已实名"</strong></p>
+            </div>
+
+            <section class="wechat-verify" id="hrRealnameQrPanel" hidden>
+              <div class="wechat-qr" id="hrRealnameQr">待生成</div>
+              <div>
+                <strong>请使用本人微信扫码完成认证</strong>
+                <p class="hint">二维码有效期以腾讯云返回为准。完成后请回到本页刷新认证状态。</p>
+                <a class="btn" id="hrRealnameOpenLink" href="#" target="_blank" rel="noreferrer" hidden style="margin-top:10px;width:auto;display:inline-flex;">打开实名核身链接</a>
+              </div>
+            </section>
+
+            <div class="actions stack">
+              <button class="btn primary" id="hrRealnameAction" type="button">生成微信实名核身二维码</button>
+              <button class="btn" id="hrRealnameRefresh" type="button" hidden>我已完成，刷新认证状态</button>
+              <button class="btn" id="hrRealnameRegenerate" type="button" hidden>重新生成二维码</button>
+              <a class="btn" id="hrRealnameDashboard" href="./dashboard.html" hidden>进入工作台</a>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <!-- ====== 实名核身弹窗 ====== -->
+    <section class="modal-mask" id="hrRealnameModal" hidden aria-hidden="true">
+      <div class="modal-card">
+        <button class="modal-close" id="hrRealnameModalClose" type="button" aria-label="关闭">&times;</button>
+        <h2>发起腾讯云实名核身</h2>
+        <p class="hint">为生成腾讯云实名核身二维码，请填写本人姓名和身份证号。该信息仅用于本次核身请求，平台不保存完整证件号。</p>
+        <form id="hrRealnameModalForm" style="margin-top:16px;">
+          <div class="field">
+            <label>真实姓名</label>
+            <input name="name" autocomplete="name" placeholder="请输入本人真实姓名" />
+          </div>
+          <div class="field">
+            <label>身份证号</label>
+            <input name="id_card" autocomplete="off" placeholder="请输入本人身份证号" />
+          </div>
+          <label class="checkline">
+            <input type="checkbox" name="agreement" />
+            <span>我已阅读并同意实名认证授权，知悉本次核身由腾讯云提供能力，平台不保存完整身份证号、人脸影像和身份证照片。</span>
+          </label>
+          <div class="actions">
+            <button class="btn primary" type="submit">生成二维码</button>
+            <button class="btn" id="hrRealnameModalCancel" type="button">取消</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- 公安备案 -->
+    <footer class="site-footer">
+  <div class="site-footer-inner">
+    <div class="site-footer-brand"><img class="site-footer-logo" src="./assets/mother-company-symbol-cropped.png" alt="泓泽数字" /><span>泓泽数字</span></div>
+    <div class="site-footer-info">
+      <p>AI全量初面系统 &middot; Powered by <a href="https://www.hongzedigital.com">泓泽数字</a></p>
+      <p><a href="../help.html">使用说明</a> &middot; <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">粤ICP备2026055553号</a> &middot; <a href="https://www.beian.gov.cn/portal/registerSystemInfo?recordcode=44010302111445" target="_blank" rel="noreferrer"><img src="./assets/beian.png" alt="公安备案图标" />粤公网安备44010302111445号</a></p>
+    </div>
+  </div>
+</footer>
+
+    <script src="./assets/qrcode-generator.js?v=20260615cachefix"></script>
+    <script>
+    (() => {
+      const API = '../api';
+      const form = document.querySelector('.auth-panel form');
+      if (!form) return;
+
+      const modal = document.getElementById('hrRealnameModal');
+      const modalForm = document.getElementById('hrRealnameModalForm');
+      const statusText = document.getElementById('hrRealnameStatusText');
+      const qrPanel = document.getElementById('hrRealnameQrPanel');
+      const qr = document.getElementById('hrRealnameQr');
+      const openLink = document.getElementById('hrRealnameOpenLink');
+      const refreshBtn = document.getElementById('hrRealnameRefresh');
+      const regenerateBtn = document.getElementById('hrRealnameRegenerate');
+      const dashboardBtn = document.getElementById('hrRealnameDashboard');
+      const actionBtn = document.getElementById('hrRealnameAction');
+      const closeBtn = document.getElementById('hrRealnameModalClose');
+      const cancelBtn = document.getElementById('hrRealnameModalCancel');
+      const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+
+      function message(formEl, text, ok) {
+        let box = formEl.querySelector('.form-message');
+        if (!box) {
+          box = document.createElement('div');
+          box.className = 'form-message';
+          formEl.prepend(box);
+        }
+        box.textContent = text;
+        box.classList.toggle('ok', !!ok);
+      }
+      async function post(path, payload) {
+        const res = await fetch(API + '/' + path, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          credentials: 'include',
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json().catch(() => ({ok:false, message:'接口返回格式错误'}));
+        if (data && data.data && data.data.need_login) {
+          location.href = './login.html';
+          return new Promise(() => {});
+        }
+        if (!res.ok || !data.ok) throw new Error((data.message || '请求失败') + (data.data && data.data.error ? '：' + data.data.error : ''));
+        return data;
+      }
+      async function get(path) {
+        const res = await fetch(API + '/' + path, { credentials: 'include' });
+        const data = await res.json().catch(() => ({ok:false, message:'接口返回格式错误'}));
+        if (data && data.data && data.data.need_login) {
+          location.href = './login.html';
+          return new Promise(() => {});
+        }
+        if (!res.ok || !data.ok) throw new Error((data.message || '请求失败') + (data.data && data.data.error ? '：' + data.data.error : ''));
+        return data;
+      }
+
+      /* --- 弹窗控制 --- */
+      const showModal = () => {
+        if (!modal) return;
+        modal.hidden = false;
+        modal.style.display = 'flex';
+        modal.setAttribute('aria-hidden', 'false');
+      };
+      const hideModal = () => {
+        if (!modal) return;
+        modal.hidden = true;
+        modal.style.display = 'none';
+        modal.setAttribute('aria-hidden', 'true');
+      };
+
+      /* --- QR 码渲染 --- */
+      const renderQr = (url) => {
+        if (!qr) return;
+        qr.innerHTML = '';
+        const qrFactory = window.qrcode || (typeof qrcode !== 'undefined' ? qrcode : null);
+        if (qrFactory) {
+          try {
+            const code = qrFactory(0, 'L');
+            code.addData(url);
+            code.make();
+            const img = document.createElement('img');
+            img.alt = '微信实名核身二维码';
+            img.src = code.createDataURL(6, 6);
+            qr.appendChild(img);
+          } catch (err) {
+            qr.innerHTML = '<strong>二维码生成失败</strong><span>请点右侧链接打开</span>';
+            return;
+          }
+          const label = document.createElement('span');
+          label.textContent = '微信扫码';
+          qr.appendChild(label);
+        } else {
+          qr.innerHTML = '<strong>二维码组件未加载</strong><span>请点右侧链接打开</span>';
+        }
+      };
+
+      /* --- 显示待认证状态 --- */
+      const showPending = (data) => {
+        const url = data.redirect_url;
+        if (statusText) statusText.textContent = '认证中';
+        if (qrPanel) qrPanel.hidden = false;
+        if (openLink) { openLink.href = url; openLink.hidden = false; }
+        renderQr(url);
+        if (refreshBtn) refreshBtn.hidden = false;
+        if (regenerateBtn) regenerateBtn.hidden = false;
+        if (actionBtn) actionBtn.hidden = true;
+        if (dashboardBtn) dashboardBtn.hidden = true;
+        if (data.expires_at) message(form, '实名核身已发起，二维码有效期至 ' + data.expires_at, true);
+      };
+
+      /* --- 检查认证状态 --- */
+      const checkStatus = async () => {
+        const res = await get('auth/hr_realname_status.php');
+        const status = res.data.realname_status;
+        if (status === 'verified') {
+          if (statusText) statusText.textContent = '已实名';
+          message(form, '实名认证已通过，正在进入工作台', true);
+          if (qrPanel) qrPanel.hidden = true;
+          if (refreshBtn) refreshBtn.hidden = true;
+          if (regenerateBtn) regenerateBtn.hidden = true;
+          if (dashboardBtn) dashboardBtn.hidden = false;
+          setTimeout(() => { location.href = './dashboard.html'; }, 800);
+          return;
+        }
+        if (status === 'failed' || status === 'expired') {
+          if (statusText) statusText.textContent = status === 'expired' ? '已过期' : '认证未通过';
+          message(form, res.data.fail_reason || (status === 'expired' ? '实名核身链接已过期，请重新生成二维码。' : '实名认证未通过，请重新生成二维码。'));
+          if (actionBtn) {
+            actionBtn.hidden = false;
+            actionBtn.textContent = '重新生成二维码';
+          }
+          if (refreshBtn) refreshBtn.hidden = true;
+          return;
+        }
+        if (statusText) statusText.textContent = '认证中';
+        message(form, '暂未查询到通过结果，请完成微信核身后再刷新。');
+      };
+
+      /* --- 按钮事件绑定 --- */
+      actionBtn?.addEventListener('click', (e) => { e.preventDefault(); showModal(); });
+      regenerateBtn?.addEventListener('click', (e) => { e.preventDefault(); showModal(); });
+      closeBtn?.addEventListener('click', hideModal);
+      cancelBtn?.addEventListener('click', hideModal);
+      modal?.addEventListener('click', (e) => { if (e.target === modal) hideModal(); });
+
+      /* --- 弹窗表单提交 --- */
+      modalForm?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        try {
+          const fd = new FormData(modalForm);
+          const res = await post('auth/hr_realname_start.php', {
+            name: String(fd.get('name') || '').trim(),
+            id_card: String(fd.get('id_card') || '').trim(),
+            agreement: !!fd.get('agreement')
+          });
+          if (res.data && res.data.redirect_url) {
+            hideModal();
+            showPending(res.data);
+            if (isMobile) setTimeout(() => { location.href = res.data.redirect_url; }, 600);
+            return;
+          }
+          if (res.data && res.data.realname_status === 'verified') {
+            location.href = './dashboard.html';
+            return;
+          }
+          message(form, res.message || '实名核身已发起', true);
+        } catch (err) { message(form, err.message); }
+      });
+
+      /* --- 刷新状态 --- */
+      refreshBtn?.addEventListener('click', async (e) => {
+        e.preventDefault();
+        try { await checkStatus(); }
+        catch (err) { message(form, err.message); }
+      });
+
+      /* --- 初始检查 --- */
+      checkStatus().catch(() => {});
+    })();
+    </script>
+  </body>
+</html>
+

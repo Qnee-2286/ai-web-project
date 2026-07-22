@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta name="hi-build" content="20260615cachefix" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI题库初稿确认｜AI全量初面系统</title>
+    <link rel="stylesheet" href="./styles.css?v=20260615cachefix" />
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif; background: #F7FAFC; color: #0F172A; }
+      .shell { display: flex; min-height: 100vh; }
+      .side { width: 240px; background: #0D1B2A; display: flex; flex-direction: column; flex-shrink: 0; }
+      .brand { padding: 20px 16px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+      .brand-icon { width: 36px; height: 36px; border-radius: 8px; background: linear-gradient(135deg, #0070FF, #00D68F); flex-shrink: 0; }
+      .brand strong { display: block; color: #fff; font-size: 14px; font-weight: 700; line-height: 1.3; }
+      .brand small { display: block; color: #94A3B8; font-size: 11px; margin-top: 2px; }
+      .nav { padding: 8px 0; flex: 1; }
+      .nav a { display: block; padding: 10px 16px 10px 13px; color: #94A3B8; text-decoration: none; font-size: 13px; border-left: 3px solid transparent; transition: all .15s; }
+      .nav a:hover { color: #fff; background: rgba(255,255,255,0.04); }
+      .nav a.active { color: #fff; border-left-color: #0070FF; background: rgba(0,112,255,0.08); }
+      .main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+      .topbar { background: #fff; border-bottom: 1px solid #E2E8F0; padding: 16px 28px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+      .page-title .crumb { font-size: 12px; color: #94A3B8; }
+      .page-title h1 { font-size: 18px; font-weight: 700; margin: 4px 0 2px; }
+      .page-title p { font-size: 13px; color: #475569; }
+      .btn { display: inline-flex; align-items: center; justify-content: center; padding: 7px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; text-decoration: none; border: 1px solid #E2E8F0; background: #fff; color: #0F172A; cursor: pointer; transition: all .15s; }
+      .btn:hover { border-color: #CBD5E1; }
+      .btn.primary { background: linear-gradient(135deg, #0070FF, #00D68F); color: #fff; border: none; }
+      .btn.primary:hover { opacity: .9; }
+      .content { flex: 1; padding: 24px 28px; }
+      .panel { background: #fff; border: 1px solid #E2E8F0; border-radius: 12px; padding: 20px; margin-bottom: 16px; }
+      .notice { background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; font-size: 13px; color: #1E40AF; }
+      .question-job-card .job-card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+      .question-job-card .label { font-size: 12px; color: #94A3B8; }
+      .question-job-card h2 { font-size: 18px; font-weight: 700; margin: 4px 0; }
+      .question-job-card p { font-size: 13px; color: #475569; }
+      .question-summary { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 12px; padding-top: 12px; border-top: 1px solid #F1F5F9; }
+      .question-summary span { font-size: 12px; color: #475569; padding: 4px 10px; background: #F8FAFC; border-radius: 6px; }
+      .actions { display: flex; gap: 8px; }
+      .review-mode-tabs { display: flex; flex-wrap: wrap; gap: 10px; margin: 16px 0; }
+      .review-mode-tabs button { min-height: 36px; padding: 0 14px; border: 1px solid #E2E8F0; border-radius: 999px; background: #fff; color: #0070FF; font-weight: 800; cursor: pointer; transition: all .15s; }
+      .review-mode-tabs button.active { border-color: rgba(0,112,255,0.35); background: linear-gradient(135deg, rgba(0,112,255,0.06), rgba(0,214,143,0.06)); color: #0070FF; }
+      .review-layout { display: grid; grid-template-columns: minmax(0, 1fr) 330px; gap: 16px; }
+      .section-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+      .section-head h2 { font-size: 15px; font-weight: 700; }
+      .section-head p { font-size: 12px; color: #94A3B8; margin-top: 2px; }
+      .review-card { display: grid; gap: 12px; padding: 16px; border: 1px solid #E2E8F0; border-radius: 8px; background: #fff; }
+      .review-card-head { display: grid; grid-template-columns: 28px 1fr auto; align-items: start; gap: 10px; }
+      .review-num { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 8px; background: linear-gradient(135deg, rgba(0,112,255,0.08), rgba(0,214,143,0.08)); color: #0070FF; font-weight: 900; font-size: 13px; }
+      .review-card strong { color: #0F172A; line-height: 1.6; }
+      .review-card p, .review-rule p { margin: 0; color: #94A3B8; }
+      .review-tags { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; }
+      .review-tags span { padding: 4px 8px; border-radius: 6px; background: rgba(0,112,255,0.06); color: #0070FF; font-size: 12px; font-weight: 800; }
+      .review-tags .must { background: #FEF3C7; color: #92400E; }
+      .review-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+      .review-actions button { min-height: 30px; padding: 0 10px; border: 1px solid #E2E8F0; border-radius: 6px; background: #fff; color: #0070FF; font-weight: 800; cursor: pointer; transition: all .15s; }
+      .review-actions button:hover { border-color: #0070FF; }
+      .review-actions button.danger { color: #c0392b; }
+      .review-actions button.danger:hover { border-color: #c0392b; }
+      .review-card textarea, .review-rule textarea { width: 100%; min-height: 78px; padding: 10px 12px; border: 1px solid #E2E8F0; border-radius: 8px; font: inherit; resize: vertical; }
+      .review-card textarea:focus, .review-rule textarea:focus { outline: none; border-color: #0070FF; box-shadow: 0 0 0 3px rgba(0,112,255,0.1); }
+      .review-rule { display: grid; gap: 10px; padding: 16px; border: 1px solid #E2E8F0; border-radius: 8px; background: #fff; }
+      .review-rule-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+      .review-rule h3 { margin: 0; color: #0070FF; }
+      .side-stack { display: grid; gap: 12px; }
+      .side-note { padding: 16px; border: 1px solid #E2E8F0; border-radius: 8px; background: #fff; }
+      .side-note h3 { margin: 0 0 10px; color: #0070FF; }
+      .side-note p, .side-note li { color: #475569; }
+      .side-note ul { margin: 0; padding-left: 18px; }
+      .review-toast { position: fixed; right: 24px; bottom: 24px; display: none; padding: 12px 16px; border-radius: 8px; background: linear-gradient(135deg, #0070FF, #00D68F); color: #fff; box-shadow: 0 4px 12px rgba(0,112,255,0.3); z-index: 10; font-size: 13px; }
+      .review-toast.show { display: block; }
+      .mps-beian { text-align: center; padding: 16px; font-size: 12px; color: #94A3B8; }
+      .mps-beian a { color: #94A3B8; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; }
+      .mps-beian img { width: 14px; height: 14px; }
+      @media (max-width: 980px) { .review-layout { grid-template-columns: 1fr; } }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="side">
+        <div class="brand"><img class="brand-icon" src="./assets/logo-icon.svg" alt="hi AI初面" style="background:none;padding:0;" /><span><strong>AI全量初面系统</strong><small>泓泽数字旗下产品</small></span></div>
+        <nav class="nav">
+          <a href="./dashboard.html">首页</a>
+          <a href="./create-interview-flow.html?v=20260615cachefix">创建初面</a>
+          <a href="./job-management.html">初面管理</a>
+          <a href="./candidate-list.html">候选人</a>
+          <a href="./report-review-list.html">报告复核</a>
+          <a class="active" href="./question-bank.html">题库管理</a>
+          <a href="./profile.html">设置</a>
+        </nav>
+      </aside>
+
+      <main class="main">
+        <div class="topbar">
+          <div class="page-title">
+            <span class="crumb">HR端 / 面试题库 / AI题库初稿确认</span>
+            <h1>AI题库初稿确认</h1>
+            <p id="reviewHint">当前展示静态追问预览。HR确认后，面试过程AI按这些题目询问候选人，不临场改题。</p>
+          </div>
+          <div class="actions">
+            <a class="btn" href="./create-interview-flow.html?v=20260615cachefix">返回创建初面</a>
+            <button class="btn" id="regenBtn" type="button">重新生成</button>
+            <button class="btn primary" id="confirmBtn" type="button">确认使用</button>
+          </div>
+        </div>
+        <div class="content">
+          <section class="job-card panel question-job-card">
+            <div class="job-card-head">
+              <div>
+                <span class="label">当前岗位</span>
+                <h2>销售专员</h2>
+                <p>基础题目由HR编辑，不同公司、不同岗位可以定制。</p>
+              </div>
+              <div class="question-summary">
+                <span>基础题目：HR可编辑</span>
+                <span id="modeSummary">追问方式：静态追问</span>
+                <span>候选人体验：10-15分钟</span>
+              </div>
+            </div>
+          </section>
+
+          <div class="notice">这里确认的是该岗位题库和追问规则。动态追问只确认问题结构和边界，具体追问会在候选人上传简历后，根据简历关键词生成。</div>
+
+          <div class="review-mode-tabs">
+            <button class="active" data-mode="static" type="button">静态追问：确认具体问题</button>
+            <button data-mode="dynamic" type="button">动态追问：确认问题结构</button>
+          </div>
+
+          <section class="review-layout">
+            <div class="question-section">
+              <div class="section-head">
+                <div>
+                  <h2 id="reviewTitle">待确认题目</h2>
+                  <p id="reviewSubtitle">HR可以编辑、删除、设为必答、调整顺序。</p>
+                </div>
+              </div>
+              <div class="question-stack" id="staticList"></div>
+              <div class="question-stack" id="dynamicList" hidden></div>
+            </div>
+
+            <aside class="side-stack">
+              <section class="side-note">
+                <h3>两种追问模式</h3>
+                <p><strong>静态追问：</strong>HR确认具体题目，AI按题询问，不根据候选人回答临场变题。</p>
+                <p><strong>动态追问：</strong>HR确认结构和边界，AI根据候选人简历关键词匹配追问。</p>
+              </section>
+              <section class="side-note">
+                <h3>面试后HR反馈</h3>
+                <ul>
+                  <li>本次问题质量：高 / 中 / 低</li>
+                  <li>是否问到关心信息：是 / 部分 / 否</li>
+                  <li>下次同类岗位还想补充了解什么</li>
+                  <li>是否需要调整该岗位题库</li>
+                </ul>
+              </section>
+            </aside>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <div class="mps-beian">
+      <a href="https://beian.mps.gov.cn/#/query/webSearch?code=44010302111445" rel="noreferrer" target="_blank">
+        <img src="./assets/beian.png" alt="公安备案图标" />
+        <span>粤公网安备44010302111445号</span>
+      </a>
+    </div>
+    <div class="review-toast" id="reviewToast"></div>
+
+    <script>
+      const staticSeed = [
+        { text: '请结合你过去一次真实销售经历，说明你是如何从陌生客户推进到有效沟通的。', desc: '考察候选人是否真的做过客户开发，而不是只会说善于沟通。', tags: ['必答', '经历验证', '中等'], must: true },
+        { text: '如果客户连续三次没有回复，你会如何判断是否继续跟进，下一步会做什么。', desc: '考察销售判断、跟进节奏和资源分配，避免候选人只给口号式回答。', tags: ['情景题', '中等'], must: false },
+        { text: '你简历中提到客户转化率提升，请说明当时基数是多少、你做了哪些动作、结果如何计算。', desc: '用于核验简历中的结果表达。若候选人无法说清数据来源和计算方式，报告会标记为需HR复核。', tags: ['数据核验', '较难'], must: false },
+        { text: '请说一次你没有达成销售目标的经历，当时原因是什么，你后面做了什么调整。', desc: '让候选人展示真实判断和复盘能力，不只看包装好的成功案例。', tags: ['失败复盘', '中等'], must: false },
+        { text: '如果你进入我们公司，第一个月你会如何熟悉产品、客户和成交流程。', desc: '考察候选人是否有主动学习和落地计划，也帮助HR判断后续培养成本。', tags: ['入职适应', '基础'], must: false }
+      ];
+      let staticQuestions = JSON.parse(JSON.stringify(staticSeed));
+      const dynamicRules = [
+        { title: '经历核验', text: '围绕候选人简历中的项目、客户、岗位职责追问，确认候选人具体做了什么。', enabled: true },
+        { title: '数据核验', text: '当候选人提到提升、增长、降低、完成率等结果时，追问数据来源、计算方式和个人贡献边界。', enabled: true },
+        { title: '岗位动机', text: '结合岗位要求和候选人过往经历，追问为什么选择该岗位、入职后的适应计划。', enabled: true },
+        { title: '禁止边界', text: '不询问婚育、年龄歧视、疾病隐私、家庭负担等与岗位无关或不合规内容。', enabled: true }
+      ];
+      const staticList = document.getElementById('staticList');
+      const dynamicList = document.getElementById('dynamicList');
+      const toast = document.getElementById('reviewToast');
+      let mode = 'static';
+
+      function showToast(text) {
+        toast.textContent = text;
+        toast.classList.add('show');
+        clearTimeout(window.reviewToastTimer);
+        window.reviewToastTimer = setTimeout(() => toast.classList.remove('show'), 1800);
+      }
+
+      function renderStatic() {
+        staticList.innerHTML = '';
+        staticQuestions.forEach((q, index) => {
+          const card = document.createElement('article');
+          card.className = 'review-card';
+          card.innerHTML = `
+            <div class="review-card-head">
+              <span class="review-num">${index + 1}</span>
+              <strong>${q.text}</strong>
+              <div class="review-tags">${q.tags.map((tag, i) => `<span class="${q.must && i === 0 ? 'must' : ''}">${tag}</span>`).join('')}</div>
+            </div>
+            <p>${q.desc}</p>
+            <div class="review-actions">
+              <button type="button" data-action="edit">编辑</button>
+              <button type="button" data-action="must">${q.must ? '取消必答' : '设为必答'}</button>
+              <button type="button" data-action="up">上移</button>
+              <button type="button" data-action="down">下移</button>
+              <button class="danger" type="button" data-action="delete">删除</button>
+            </div>
+          `;
+          card.querySelectorAll('button').forEach(btn => btn.addEventListener('click', () => handleStatic(btn.dataset.action, index, card)));
+          staticList.appendChild(card);
+        });
+      }
+
+      function handleStatic(action, index, card) {
+        if (action === 'delete') {
+          staticQuestions.splice(index, 1);
+          renderStatic();
+          showToast('已删除该题目');
+          return;
+        }
+        if (action === 'must') {
+          staticQuestions[index].must = !staticQuestions[index].must;
+          if (staticQuestions[index].must && !staticQuestions[index].tags.includes('必答')) staticQuestions[index].tags.unshift('必答');
+          if (!staticQuestions[index].must) staticQuestions[index].tags = staticQuestions[index].tags.filter(tag => tag !== '必答');
+          renderStatic();
+          showToast(staticQuestions[index].must ? '已设为必答' : '已取消必答');
+          return;
+        }
+        if (action === 'up' && index > 0) {
+          [staticQuestions[index - 1], staticQuestions[index]] = [staticQuestions[index], staticQuestions[index - 1]];
+          renderStatic();
+          showToast('题目顺序已调整');
+          return;
+        }
+        if (action === 'down' && index < staticQuestions.length - 1) {
+          [staticQuestions[index + 1], staticQuestions[index]] = [staticQuestions[index], staticQuestions[index + 1]];
+          renderStatic();
+          showToast('题目顺序已调整');
+          return;
+        }
+        if (action === 'edit') {
+          const q = staticQuestions[index];
+          card.innerHTML = `
+            <textarea id="editText">${q.text}</textarea>
+            <textarea id="editDesc">${q.desc}</textarea>
+            <div class="review-actions">
+              <button type="button" id="saveEdit">保存修改</button>
+              <button type="button" id="cancelEdit">取消</button>
+            </div>
+          `;
+          card.querySelector('#saveEdit').addEventListener('click', () => {
+            staticQuestions[index].text = card.querySelector('#editText').value.trim() || q.text;
+            staticQuestions[index].desc = card.querySelector('#editDesc').value.trim() || q.desc;
+            renderStatic();
+            showToast('题目已修改');
+          });
+          card.querySelector('#cancelEdit').addEventListener('click', renderStatic);
+        }
+      }
+
+      function renderDynamic() {
+        dynamicList.innerHTML = '';
+        dynamicRules.forEach((rule, index) => {
+          const card = document.createElement('article');
+          card.className = 'review-rule';
+          card.innerHTML = `
+            <div class="review-rule-head">
+              <h3>${rule.title}</h3>
+              <label><input type="checkbox" ${rule.enabled ? 'checked' : ''}> 启用</label>
+            </div>
+            <textarea>${rule.text}</textarea>
+          `;
+          const checkbox = card.querySelector('input');
+          checkbox.addEventListener('change', () => {
+            dynamicRules[index].enabled = checkbox.checked;
+            showToast(checkbox.checked ? '已启用该结构' : '已停用该结构');
+          });
+          card.querySelector('textarea').addEventListener('input', e => {
+            dynamicRules[index].text = e.target.value;
+          });
+          dynamicList.appendChild(card);
+        });
+      }
+
+      function switchMode(nextMode) {
+        mode = nextMode;
+        document.querySelectorAll('.review-mode-tabs button').forEach(btn => btn.classList.toggle('active', btn.dataset.mode === mode));
+        staticList.hidden = mode !== 'static';
+        dynamicList.hidden = mode !== 'dynamic';
+        document.getElementById('modeSummary').textContent = mode === 'static' ? '追问方式：静态追问' : '追问方式：动态追问';
+        document.getElementById('reviewTitle').textContent = mode === 'static' ? '待确认题目' : '待确认问题结构';
+        document.getElementById('reviewSubtitle').textContent = mode === 'static' ? 'HR可以编辑、删除、设为必答、调整顺序。' : 'HR确认的是结构、关键词方向和禁止边界，候选人上传简历后再生成具体追问。';
+        document.getElementById('reviewHint').textContent = mode === 'static' ? '当前展示静态追问预览。HR确认后，面试过程AI按这些题目询问候选人，不临场改题。' : '当前展示动态追问预览。HR不需要逐题确认，只确认追问结构和边界。';
+        showToast(mode === 'static' ? '已切换到静态追问' : '已切换到动态追问');
+      }
+
+      document.querySelectorAll('.review-mode-tabs button').forEach(btn => btn.addEventListener('click', () => switchMode(btn.dataset.mode)));
+      document.getElementById('regenBtn').addEventListener('click', () => {
+        staticQuestions = JSON.parse(JSON.stringify(staticSeed));
+        renderStatic();
+        showToast('已重新生成题库初稿');
+      });
+      document.getElementById('confirmBtn').addEventListener('click', () => {
+        showToast(mode === 'static' ? '静态题库已确认使用' : '动态追问结构已确认使用');
+      });
+      renderStatic();
+      renderDynamic();
+    </script>
+  </body>
+</html>

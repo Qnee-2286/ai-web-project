@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>会员支付上线自检</title>
+  <style>
+    body{margin:0;background:#f5f8fc;color:#10233f;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",Arial,sans-serif}
+    .wrap{max-width:920px;margin:40px auto;padding:0 20px}
+    h1{font-size:28px;margin:0 0 8px}
+    p{color:#5d6b82;line-height:1.7}
+    .panel{background:#fff;border:1px solid #dce6f2;border-radius:12px;box-shadow:0 12px 30px rgba(15,35,70,.06);padding:22px;margin-top:18px}
+    .row{display:grid;grid-template-columns:220px 90px 1fr;gap:14px;align-items:center;border-bottom:1px solid #edf2f7;padding:14px 0}
+    .row:last-child{border-bottom:0}
+    .tag{display:inline-flex;align-items:center;justify-content:center;min-width:58px;height:28px;border-radius:999px;font-size:13px;font-weight:700}
+    .ok{background:#e8fff5;color:#05835b}.warn{background:#fff7dd;color:#9a6500}.bad{background:#ffecec;color:#c22a2a}.wait{background:#eef4ff;color:#2667d8}
+    code{background:#f1f5f9;border:1px solid #e2e8f0;border-radius:6px;padding:2px 6px;color:#29415f}
+    button{height:42px;border:0;border-radius:8px;background:linear-gradient(135deg,#0b7cff,#10c995);color:#fff;font-weight:700;padding:0 18px;cursor:pointer}
+    .hint{font-size:13px;color:#718096;margin-top:12px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>会员支付上线自检</h1>
+    <p>这个页面只检查“文件有没有放到正确位置、接口有没有 404”。如果这里有红色，支付页就一定会报错。</p>
+    <button id="runBtn">重新检测</button>
+    <div class="panel" id="result"></div>
+    <p class="hint">正常结果：接口状态不是 404，且返回内容不是 404 HTML 页面。部分接口提示 Method Not Allowed、请先登录、Invalid plan 都说明文件已存在。</p>
+  </div>
+  <script>
+    const checks = [
+      {name:'下单接口', url:'/api/hr/create_order.php', method:'GET', mustExist:true},
+      {name:'会员状态接口', url:'/api/hr/membership_status.php', method:'GET', mustExist:true},
+      {name:'订单详情接口', url:'/api/hr/order_detail.php', method:'GET', mustExist:true},
+      {name:'订单记录接口', url:'/api/hr/order_list.php', method:'GET', mustExist:true},
+      {name:'创建初面链接接口', url:'/api/hr/create_invite.php', method:'GET', mustExist:true},
+      {name:'微信回调接口', url:'/api/payment/wechat_notify.php', method:'GET', mustExist:true},
+      {name:'支付宝回调接口', url:'/api/payment/alipay_notify.php', method:'GET', mustExist:true},
+      {name:'支付页', url:'/hr/payment.html', method:'GET', mustExist:true},
+      {name:'会员中心页', url:'/hr/membership.html', method:'GET', mustExist:true}
+    ];
+
+    function badge(type, text){ return `<span class="tag ${type}">${text}</span>`; }
+    function esc(s){ return String(s || '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+
+    async function probe(item){
+      try {
+        const res = await fetch(item.url, {method:item.method, credentials:'include', cache:'no-store'});
+        const text = await res.text();
+        const is404Html = res.status === 404 || /<title>\\s*404 Not Found/i.test(text) || /404 Not Found/i.test(text.slice(0, 300));
+        if (is404Html) return {type:'bad', label:'失败', msg:`404，文件没有在正确位置：${item.url}`};
+        if (/SQLSTATE|Base table|Unknown column|Table .* doesn't exist/i.test(text)) return {type:'warn', label:'表结构', msg:`接口存在，但数据库表/字段可能没升级：${esc(text.slice(0, 160))}`};
+        if (/Server API error|接口异常|Fatal error|Parse error/i.test(text)) return {type:'warn', label:'接口异常', msg:`接口存在，但运行时报错：${esc(text.slice(0, 160))}`};
+        return {type:'ok', label:'存在', msg:`HTTP ${res.status}，接口文件已命中`};
+      } catch (err) {
+        return {type:'bad', label:'失败', msg:err.message || '请求失败'};
+      }
+    }
+
+    async function run(){
+      const box = document.getElementById('result');
+      box.innerHTML = checks.map(c => `<div class="row"><strong>${c.name}</strong>${badge('wait','检测中')}<code>${c.url}</code></div>`).join('');
+      const rows = [];
+      for (const c of checks) {
+        const r = await probe(c);
+        rows.push(`<div class="row"><strong>${c.name}</strong>${badge(r.type,r.label)}<span>${r.msg}</span></div>`);
+        box.innerHTML = rows.join('');
+      }
+    }
+    document.getElementById('runBtn').addEventListener('click', run);
+    run();
+  </script>
+</body>
+</html>

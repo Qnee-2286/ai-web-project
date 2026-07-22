@@ -1,0 +1,529 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>创建初面｜AI全量初面系统</title>
+    <style>
+/* ===== Reset & Variables ===== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --b1:#0070FF;--b2:#00D68F;
+  --bg:#F7FAFC;--card:#FFFFFF;
+  --t1:#0F172A;--t2:#475569;--t3:#94A3B8;
+  --bd:#E2E8F0;--bd-h:#CBD5E1;
+  --side:#0D1B2A;
+  --g:linear-gradient(135deg,#0070FF,#00D68F);
+  --s1:0 1px 3px rgba(0,0,0,.04);
+  --s2:0 4px 16px rgba(0,0,0,.06);
+  --s3:0 8px 32px rgba(0,112,255,.10);
+  --r8:8px;--r12:12px;--r16:16px;
+}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--t1);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+input,select,textarea,button{font:inherit}
+
+/* ===== Shell Layout ===== */
+.shell{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
+
+/* ===== Sidebar ===== */
+.side{position:sticky;top:0;height:100vh;background:var(--side);padding:0;display:flex;flex-direction:column;overflow-y:auto}
+.side .brand{display:flex;align-items:center;gap:12px;padding:24px 20px 20px;border-bottom:1px solid rgba(255,255,255,.06)}
+.side .brand-logo{height:44px;width:auto;max-width:205px;border-radius:0;background:transparent;display:block;flex-shrink:0;object-fit:contain;padding:0;box-shadow:none}
+.side .brand strong{color:#fff;font-size:15px;font-weight:600;display:block;line-height:1.3}
+.side .brand small{color:var(--t3);font-size:11px;display:block}
+
+.side .nav{display:flex;flex-direction:column;gap:2px;padding:12px 12px;flex:1}
+.side .nav a{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:var(--r8);color:rgba(255,255,255,.5);font-size:14px;font-weight:500;transition:all .2s;position:relative;border-left:3px solid transparent;margin-left:-3px}
+.side .nav a:hover{color:rgba(255,255,255,.8);background:rgba(255,255,255,.04)}
+.side .nav a.active{color:#fff;background:rgba(0,112,255,.1);border-left-color:var(--b1)}
+.side .nav-icon{width:18px;height:18px;opacity:.5;flex-shrink:0}
+.side .nav a.active .nav-icon{opacity:1}
+.side .nav .nav-sep{height:1px;background:rgba(255,255,255,.06);margin:8px 0}
+
+.side .side-footer{margin-top:auto;padding:16px 20px 0;border-top:1px solid rgba(255,255,255,.06)}
+.side .side-footer a{display:flex;align-items:center;gap:8px;padding:8px 14px;border-radius:var(--r8);color:rgba(255,255,255,.35);font-size:13px;transition:all .2s}
+.side .side-footer a:hover{color:rgba(255,255,255,.65);background:rgba(255,255,255,.04)}
+
+/* ===== Main ===== */
+.main{min-width:0;background:var(--bg);display:flex;flex-direction:column;min-height:100vh}
+
+/* ===== Topbar ===== */
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:16px 32px;background:var(--card);border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:50}
+.topbar .page-title .crumb{font-size:12px;color:var(--t3);display:block;margin-bottom:2px}
+.topbar .page-title h1{font-size:20px;font-weight:700;color:var(--t1);letter-spacing:-.3px}
+.topbar .page-title p{font-size:13px;color:var(--t2);margin-top:2px}
+
+/* ===== Buttons ===== */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 18px;border-radius:var(--r8);font-size:13px;font-weight:500;border:1px solid var(--bd);background:var(--card);color:var(--t1);cursor:pointer;transition:all .2s;white-space:nowrap}
+.btn:hover{border-color:var(--bd-h);background:var(--bg)}
+.btn.primary{background:var(--g);color:#fff;border:none;box-shadow:0 2px 8px rgba(0,112,255,.25);font-weight:600}
+.btn.primary:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,112,255,.35)}
+.btn.sm{padding:5px 12px;font-size:12px}
+
+/* ===== Wizard Layout ===== */
+.wizard-shell{display:grid;grid-template-columns:220px 1fr;gap:28px;padding:28px 32px 32px;flex:1}
+.wizard-steps{position:sticky;top:72px;height:fit-content;display:flex;flex-direction:column;gap:8px}
+.wizard-steps button{display:grid;grid-template-columns:36px 1fr;gap:10px 14px;width:100%;padding:14px 16px;border-radius:var(--r12);border:1.5px solid var(--bd);background:var(--card);text-align:left;cursor:pointer;transition:all .25s}
+.wizard-steps button:hover{border-color:var(--bd-h);box-shadow:var(--s1)}
+.wizard-steps button.active{border-color:rgba(0,112,255,.35);background:rgba(0,112,255,.03);box-shadow:0 0 0 3px rgba(0,112,255,.06)}
+.wizard-steps button.done{border-color:rgba(0,214,143,.25);background:rgba(0,214,143,.02)}
+.wizard-steps button .step-num{grid-row:1/3;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#F1F5F9;color:var(--t3);font-size:14px;font-weight:700;transition:all .25s}
+.wizard-steps button.active .step-num{background:var(--g);color:#fff;box-shadow:0 2px 8px rgba(0,112,255,.3)}
+.wizard-steps button.done .step-num{background:var(--b2);color:#fff}
+.wizard-steps button strong{font-size:14px;font-weight:600;color:var(--t1);display:block;line-height:1.3}
+.wizard-steps button small{font-size:11px;color:var(--t3);display:block}
+.wizard-steps button.active strong{background:var(--g);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+.wizard-content{min-width:0}
+
+/* ===== Panel ===== */
+.panel{background:var(--card);border:1px solid var(--bd);border-radius:var(--r12);padding:28px;box-shadow:var(--s1);transition:box-shadow .25s}
+
+/* ===== Section Title ===== */
+.section-title{margin-bottom:20px}
+.section-title h2{font-size:17px;font-weight:700;color:var(--t1);display:flex;align-items:center;gap:10px}
+.section-title h2 .icon{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;background:var(--g);color:#fff;font-size:13px}
+.section-title .hint{font-size:13px;color:var(--t2);margin-top:6px;line-height:1.6}
+
+/* ===== Form ===== */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:20px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field.full{grid-column:1/-1}
+.field label{font-size:13px;font-weight:600;color:var(--t2)}
+.field input,.field select{width:100%;padding:10px 14px;border-radius:var(--r8);border:1.5px solid var(--bd);font-size:14px;color:var(--t1);background:var(--card);transition:border .2s,box-shadow .2s;outline:none}
+.field input:focus,.field select:focus{border-color:var(--b1);box-shadow:0 0 0 3px rgba(0,112,255,.08)}
+.field input::placeholder{color:var(--t3)}
+.field textarea{width:100%;padding:10px 14px;border-radius:var(--r8);border:1.5px solid var(--bd);font-size:14px;color:var(--t1);background:var(--card);min-height:88px;resize:vertical;font-family:inherit;outline:none;transition:border .2s,box-shadow .2s}
+.field textarea:focus{border-color:var(--b1);box-shadow:0 0 0 3px rgba(0,112,255,.08)}
+.range-row{display:flex;align-items:center;gap:8px}
+.range-row select{flex:1}
+.range-row span{color:var(--t3);font-size:13px;font-weight:600}
+
+/* Benefit Tags */
+.benefit-picker{margin-top:4px}
+.benefit-groups{display:grid;gap:12px}
+.benefit-group{padding:12px 14px;border:1px solid var(--bd);border-radius:var(--r8);background:rgba(247,250,252,.55)}
+.benefit-group-title{display:block;margin-bottom:8px;font-size:12px;font-weight:700;color:var(--t2)}
+.benefit-tags{display:flex;flex-wrap:wrap;gap:8px}
+.benefit-tag{
+  appearance:none;
+  -webkit-appearance:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:6px 14px;
+  border-radius:999px;
+  border:1.5px solid var(--bd);
+  background:var(--card);
+  color:var(--t1);
+  font-size:13px;
+  font-weight:500;
+  line-height:1.5;
+  cursor:pointer;
+  transition:all .2s;
+  user-select:none;
+}
+.benefit-tag:hover{border-color:var(--bd-h)}
+.benefit-tag.active{border-color:rgba(0,214,143,.4);background:rgba(0,214,143,.06);color:#059669}
+.benefit-custom{display:flex;gap:8px;margin-top:12px}
+.benefit-custom input{flex:1}
+.benefit-custom button{
+  min-width:96px;
+  border:1px solid var(--bd);
+  border-radius:var(--r8);
+  background:var(--card);
+  color:var(--b1);
+  font-size:13px;
+  font-weight:700;
+  cursor:pointer;
+}
+.benefit-custom button:hover{border-color:var(--bd-h);background:rgba(0,112,255,.04)}
+.benefit-summary{min-height:20px;margin-top:8px;font-size:12px;color:var(--t3)}
+.benefit-summary.has-value{color:var(--t2)}
+
+/* ===== Step Standard ===== */
+.step-standard{margin-top:22px;padding:14px 18px;border-radius:var(--r12);background:linear-gradient(135deg,rgba(0,112,255,.04),rgba(0,214,143,.04));border:1px solid rgba(0,112,255,.08);display:flex;gap:8px;font-size:13px;color:var(--t2);align-items:flex-start}
+.step-standard strong{color:var(--b1);white-space:nowrap;flex-shrink:0}
+
+/* ===== Question Section ===== */
+.question-editor-section{margin-bottom:24px}
+.section-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:14px}
+.section-head h3{font-size:15px;font-weight:700;color:var(--t1);display:flex;align-items:center;gap:8px}
+.section-head h3 .q-icon{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:6px;font-size:11px;font-weight:700;color:#fff;flex-shrink:0}
+.section-head h3 .q-icon.basic{background:var(--b1)}
+.section-head h3 .q-icon.ai{background:var(--b2)}
+.section-head h3 .q-icon.resume{background:#F59E0B}
+.section-head p{font-size:12px;color:var(--t2);margin-top:2px}
+
+.editable-question-list{min-height:40px}
+.empty-question{padding:20px;text-align:center;color:var(--t3);font-size:13px;border:1.5px dashed var(--bd);border-radius:var(--r8);background:rgba(247,250,252,.5)}
+.editable-question{display:grid;grid-template-columns:minmax(92px,120px) 1fr auto;align-items:center;gap:12px;padding:14px 16px;border-radius:var(--r8);border:1px solid var(--bd);background:var(--card);margin-bottom:10px}
+.question-meta{display:flex;flex-direction:column;gap:2px}
+.question-meta span{display:inline-flex;align-items:center;justify-content:center;width:42px;height:24px;border-radius:999px;background:var(--g);color:#fff;font-size:12px;font-weight:700}
+.question-meta small{font-size:11px;color:var(--t3)}
+.editable-question textarea{width:100%;min-height:44px;border:0;background:transparent;color:var(--t1);font-size:14px;line-height:1.6;resize:vertical;outline:none}
+.question-tools{display:flex;gap:8px;white-space:nowrap}
+.question-tools button{border:0;background:transparent;color:var(--b1);font-size:12px;font-weight:600;cursor:pointer}
+.question-tools button[data-action="delete"]{color:#EF4444}
+
+.muted-section{opacity:.75}
+.resume-rule-card{padding:16px 18px;border-radius:var(--r12);border:1px solid rgba(245,158,11,.15);background:rgba(245,158,11,.03);display:flex;gap:12px;align-items:flex-start}
+.resume-rule-card .rule-icon{width:32px;height:32px;border-radius:8px;background:rgba(245,158,11,.1);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.resume-rule-card strong{font-size:14px;color:var(--t1);display:block;margin-bottom:4px}
+.resume-rule-card span{font-size:13px;color:var(--t2);line-height:1.6}
+
+.advanced-link-row{margin:16px 0 0}
+.text-link{color:var(--b1);font-size:13px;font-weight:500}
+.text-link:hover{text-decoration:underline}
+
+/* ===== Candidate Preview ===== */
+.candidate-preview-card{padding:28px;border-radius:var(--r16);border:1px solid var(--bd);background:linear-gradient(135deg,#FAFBFF,#F0FDF6);position:relative;overflow:hidden}
+.candidate-preview-card::before{content:'';position:absolute;top:-30%;right:-10%;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(0,112,255,.06),transparent 70%);pointer-events:none}
+.candidate-preview-card .badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:999px;font-size:12px;font-weight:600;background:rgba(0,112,255,.08);color:var(--b1);margin-bottom:14px}
+.candidate-preview-card h3{font-size:20px;font-weight:700;color:var(--t1);margin-bottom:18px;position:relative}
+.preview-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px;position:relative}
+.preview-info-grid article{padding:14px;border-radius:var(--r8);background:var(--card);border:1px solid var(--bd);transition:box-shadow .2s}
+.preview-info-grid article:hover{box-shadow:var(--s2)}
+.preview-info-grid article.full{grid-column:1/-1}
+.preview-info-grid article span{font-size:12px;color:var(--t3);display:block;margin-bottom:4px}
+.preview-info-grid article strong,.preview-info-grid article p{font-size:14px;color:var(--t1)}
+.preview-info-grid article p,.preview-info-grid .preserve-lines{white-space:pre-line;line-height:1.75}
+.candidate-flow-note{padding:16px 18px;border-radius:var(--r12);background:rgba(0,214,143,.05);border:1px solid rgba(0,214,143,.12);margin-bottom:14px;display:flex;gap:12px;align-items:flex-start}
+.candidate-flow-note .note-icon{width:28px;height:28px;border-radius:50%;background:rgba(0,214,143,.12);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.candidate-flow-note strong{font-size:13px;color:#059669;display:block;margin-bottom:4px}
+.candidate-flow-note span{font-size:13px;color:var(--t2);line-height:1.6}
+.notice{font-size:13px;color:var(--t2);padding:12px 16px;background:var(--bg);border-radius:var(--r8);border:1px solid var(--bd);display:flex;align-items:center;gap:8px}
+.notice.compact{padding:10px 14px;font-size:12px}
+.notice .notice-icon{font-size:16px;flex-shrink:0}
+
+/* ===== Link Result ===== */
+.link-result{display:flex;justify-content:space-between;align-items:center;padding:22px;border-radius:var(--r12);border:1.5px dashed rgba(0,112,255,.2);background:rgba(0,112,255,.02);margin-bottom:18px}
+.link-result .link-info span{font-size:12px;color:var(--t3);display:block;margin-bottom:4px}
+.link-result .link-info strong{font-size:14px;color:var(--b1);word-break:break-all}
+.invite-qr{width:116px;height:116px;border-radius:var(--r12);border:1.5px solid var(--bd);background:#fff;display:flex;align-items:center;justify-content:center;color:var(--t3);font-size:12px;font-weight:600;flex-shrink:0;margin-left:18px;padding:8px;text-align:center;line-height:1.4}
+.invite-qr svg,.invite-qr img{width:100%;height:100%;display:block}
+
+.sms-template{padding:16px 18px;border-radius:var(--r12);background:var(--bg);border:1px solid var(--bd);font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:20px}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+.save-action-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:18px;flex-wrap:wrap}
+.question-count-tip{font-size:13px;color:var(--t2);font-weight:600}
+.question-count-tip.warn{color:#D97706}
+.link-refresh-note{padding:12px 14px;border-radius:var(--r8);border:1px solid rgba(245,158,11,.25);background:rgba(245,158,11,.06);color:#B45309;font-size:13px;margin-bottom:14px}
+.link-refresh-note[hidden]{display:none}
+
+/* ===== Wizard Actions ===== */
+.wizard-actions{display:flex;justify-content:flex-end;gap:12px;padding:20px 0 0;border-top:1px solid var(--bd);margin-top:24px}
+
+/* ===== Beian ===== */
+.mps-beian{text-align:center;padding:20px;font-size:12px;color:var(--t3);background:var(--bg)}
+.mps-beian a{color:var(--t3);display:inline-flex;align-items:center;gap:6px;transition:color .2s}
+.mps-beian a:hover{color:var(--b1)}
+.mps-beian img{width:14px;height:14px;opacity:.5}
+.wizard-panel{display:none}
+.wizard-panel.active{display:block}
+.form-message{padding:12px 16px;border-radius:var(--r8);font-size:13px;margin-bottom:16px}
+.quota-modal-mask{position:fixed;inset:0;z-index:300;display:none;place-items:center;padding:24px;background:rgba(15,23,42,.5)}
+.quota-modal-mask.show{display:grid}
+.quota-modal{width:min(420px,100%);background:#fff;border-radius:16px;padding:32px;text-align:center;box-shadow:0 18px 48px rgba(15,23,42,.22)}
+.quota-modal-icon{width:54px;height:54px;border-radius:50%;background:#FEF2F2;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:24px}
+.quota-modal h3{font-size:18px;margin-bottom:8px}.quota-modal p{font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:20px}.quota-modal-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+
+/* ===== Responsive ===== */
+@media(max-width:900px){
+  .shell{grid-template-columns:1fr}
+  .side{display:none}
+  .wizard-shell{grid-template-columns:1fr;padding:16px}
+  .wizard-steps{position:static;flex-direction:row;overflow-x:auto;gap:8px}
+  .wizard-steps button{min-width:140px}
+  .form-grid{grid-template-columns:1fr}
+  .topbar{padding:12px 16px}
+}
+</style>
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="side">
+        <div class="brand">
+          <img class="brand-logo brand-logo-wide" src="./assets/hi-logo-horizontal-white.svg" alt="hi AI初面" />
+        </div>
+        <nav class="nav">
+          <a href="./dashboard.html">🏠 首页</a>
+          <a class="active" href="./create-interview-flow.html?v=20260610b">✦ 创建初面</a>
+          <a href="./job-management.html">📋 初面管理</a>
+          <a href="./candidate-list.html">👥 候选人</a>
+          <a href="./report-review-list.html">📊 报告复核</a>
+          <a href="./question-bank.html">📝 题库管理</a>
+          <div class="nav-sep"></div>
+          <a href="./membership.html">💎 会员中心</a>
+          <a href="./profile.html">⚙ 设置</a>
+        </nav>
+      </aside>
+
+      <main class="main">
+        <div class="topbar">
+          <div class="page-title">
+            <span class="crumb">HR端 / 创建初面</span>
+            <h1 id="flowPageTitle">创建一场AI初面</h1>
+            <p>岗位、问题、候选人预览和链接发布都在这里完成，避免来回跳转。</p>
+          </div>
+          <a class="btn" href="./job-management.html">查看初面管理</a>
+        </div>
+
+        <section class="wizard-shell" id="createInterviewWizard">
+          <aside class="wizard-steps" aria-label="创建初面步骤">
+            <button class="active" type="button" data-step="1"><span class="step-num">1</span><strong>岗位信息</strong><small>候选人先看到什么</small></button>
+            <button type="button" data-step="2"><span class="step-num">2</span><strong>面试问题</strong><small>这场初面要问什么</small></button>
+            <button type="button" data-step="3"><span class="step-num">3</span><strong>候选人预览</strong><small>确认完整展示内容</small></button>
+            <button type="button" data-step="4"><span class="step-num">4</span><strong>生成链接</strong><small>复制邀请给候选人</small></button>
+          </aside>
+
+          <div class="wizard-content">
+            <div class="form-message" id="flowMessage" hidden></div>
+
+            <section class="panel wizard-panel active" data-panel="1">
+              <div class="section-title">
+                <h2><span class="icon">📋</span> 岗位信息</h2>
+                <p class="hint">这些信息会展示给候选人，也会影响AI开场介绍、岗位匹配题和候选人端预览。</p>
+              </div>
+              <form class="form-grid" id="interviewJobForm" autocomplete="off">
+                <div class="field"><label>公司名称</label><input name="company_name" placeholder="请输入公司名称" autocomplete="off" autocapitalize="off" spellcheck="false" /></div>
+                <div class="field"><label>岗位名称</label><input name="job_title" placeholder="请输入岗位名称" autocomplete="off" autocapitalize="off" spellcheck="false" /></div>
+                <div class="field">
+                  <label>岗位大类</label>
+                  <select name="job_type" data-taxonomy-type>
+                    <option value="">请选择岗位大类</option>
+                    <option value="sales_business">销售/商务</option>
+                    <option value="marketing_operation">市场/运营</option>
+                    <option value="customer_service">客服/服务</option>
+                    <option value="retail_store">门店/零售</option>
+                    <option value="logistics_delivery">物流/仓储/配送</option>
+                    <option value="production_manufacturing">生产/制造</option>
+                    <option value="food_hospitality">餐饮/酒店</option>
+                    <option value="life_property_service">家政/生活服务</option>
+                    <option value="administration">职能/行政</option>
+                    <option value="human_resources">人力资源</option>
+                    <option value="finance_legal">财务/法务</option>
+                    <option value="tech_rd">技术/研发</option>
+                    <option value="product_design">产品/设计</option>
+                    <option value="education_training">教育/培训</option>
+                    <option value="medical_health">医疗/健康</option>
+                    <option value="construction_property">建筑/工程/物业</option>
+                    <option value="flexible_parttime">灵活用工/兼职</option>
+                    <option value="other">其他</option>
+                    <option value="custom">自定义大类</option>
+                  </select>
+                  <input name="job_type_custom" data-taxonomy-type-custom placeholder="填写自定义岗位大类" hidden />
+                </div>
+                <div class="field">
+                  <label>岗位方向</label>
+                  <select name="job_direction" data-taxonomy-direction>
+                    <option value="">请先选择岗位大类</option>
+                  </select>
+                  <input name="job_direction_custom" data-taxonomy-direction-custom placeholder="填写自定义岗位方向" hidden />
+                </div>
+                <div class="field">
+                  <label>岗位层级</label>
+                  <select name="job_level">
+                    <option value="intern_parttime">实习/兼职</option>
+                    <option value="entry_staff" selected>基层员工</option>
+                    <option value="senior_staff">资深员工</option>
+                    <option value="lead_supervisor">主管/组长</option>
+                    <option value="manager">经理</option>
+                    <option value="director_plus">总监及以上</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>薪资范围</label>
+                  <div class="range-row">
+                    <select name="salary_min_k"><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select>
+                    <span>—</span>
+                    <select name="salary_max_k"><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option><option>19</option><option>20</option></select>
+                    <span>K</span>
+                  </div>
+                </div>
+                <div class="field full">
+                  <label>福利待遇</label>
+                  <div class="benefit-picker">
+                    <input type="hidden" name="benefits" autocomplete="off" />
+                    <div class="benefit-groups" aria-label="福利待遇快捷选择">
+                      <div class="benefit-group">
+                        <span class="benefit-group-title">社保保障</span>
+                        <div class="benefit-tags">
+                          <button class="benefit-tag" type="button">五险一金</button>
+                          <button class="benefit-tag" type="button">补充医疗</button>
+                          <button class="benefit-tag" type="button">定期体检</button>
+                        </div>
+                      </div>
+                      <div class="benefit-group">
+                        <span class="benefit-group-title">奖金补贴</span>
+                        <div class="benefit-tags">
+                          <button class="benefit-tag" type="button">年终奖</button>
+                          <button class="benefit-tag" type="button">绩效奖金</button>
+                          <button class="benefit-tag" type="button">全勤奖</button>
+                          <button class="benefit-tag" type="button">餐补</button>
+                          <button class="benefit-tag" type="button">交通补贴</button>
+                          <button class="benefit-tag" type="button">通讯补贴</button>
+                          <button class="benefit-tag" type="button">住房补贴</button>
+                        </div>
+                      </div>
+                      <div class="benefit-group">
+                        <span class="benefit-group-title">假期作息</span>
+                        <div class="benefit-tags">
+                          <button class="benefit-tag" type="button">周末双休</button>
+                          <button class="benefit-tag" type="button">带薪年假</button>
+                          <button class="benefit-tag" type="button">弹性工作</button>
+                          <button class="benefit-tag" type="button">节日福利</button>
+                        </div>
+                      </div>
+                      <div class="benefit-group">
+                        <span class="benefit-group-title">员工关怀</span>
+                        <div class="benefit-tags">
+                          <button class="benefit-tag" type="button">员工旅游</button>
+                          <button class="benefit-tag" type="button">专业培训</button>
+                          <button class="benefit-tag" type="button">下午茶</button>
+                          <button class="benefit-tag" type="button">团建活动</button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="benefit-custom">
+                      <input class="benefit-custom-input" type="text" placeholder="自定义补充，例如 股票期权、包午餐" autocomplete="off" />
+                      <button class="benefit-custom-add" type="button">添加</button>
+                    </div>
+                    <div class="benefit-summary" aria-live="polite">已选福利会在候选人预览中展示</div>
+                  </div>
+                </div>
+                <div class="field full"><label>公司介绍</label><textarea name="company_intro" placeholder="请填写企业真实介绍，这些内容会展示给候选人"></textarea></div>
+                <div class="field full"><label>岗位职责</label><textarea name="responsibilities" placeholder="请填写岗位职责"></textarea></div>
+                <div class="field full"><label>任职要求</label><textarea name="requirements" placeholder="请填写任职要求"></textarea></div>
+              </form>
+              <div class="save-action-row">
+                <span class="question-count-tip">保存后再进入面试问题，避免岗位信息未同步。</span>
+                <button class="btn primary" type="button" id="flowSaveJob">保存岗位信息</button>
+              </div>
+              <div class="step-standard"><strong>✓ 本步完成标准</strong><span>公司、岗位、薪资、福利、职责、要求均已填写，可直接展示给候选人。</span></div>
+            </section>
+
+            <section class="panel wizard-panel" data-panel="2">
+              <div class="section-title">
+                <h2><span class="icon">Q</span> 面试问题</h2>
+                <p class="hint">先确认固定要问什么，再让AI补岗位相关问题。简历追问题会在候选人上传简历后生成或匹配。</p>
+              </div>
+
+              <div class="question-editor-section">
+                <div class="section-head compact-head">
+                  <div><h3><span class="q-icon basic">必</span> 基础必问题</h3><p>建议3-5题，HR可直接编辑、删除或添加。</p></div>
+                  <div class="actions"><button class="btn" type="button" id="flowAddBasicQuestion">＋ 手动添加问题</button></div>
+                </div>
+                <div class="editable-question-list" id="flowBasicQuestions"></div>
+              </div>
+
+              <div class="question-editor-section">
+                <div class="section-head compact-head">
+                  <div><h3><span class="q-icon ai">AI</span> 岗位匹配题</h3><p>根据岗位职责和任职要求生成，HR确认后进入预览。</p></div>
+                  <div class="actions"><button class="btn primary" type="button" id="flowGenerateQuestions">✦ AI生成岗位题</button></div>
+                </div>
+                <div class="editable-question-list" id="flowJobQuestions">
+                  <article class="empty-question">保存岗位信息后，可点击"AI生成岗位题"。</article>
+                </div>
+              </div>
+
+              <div class="question-editor-section muted-section">
+                <div class="section-head compact-head">
+                  <div><h3><span class="q-icon resume">追</span> 简历追问题</h3><p>候选人上传简历后，系统根据简历关键词自动生成或匹配；HR可在报告中反馈问题质量。</p></div>
+                </div>
+                <div class="resume-rule-card">
+                  <div class="rule-icon">🔍</div>
+                  <div><strong>追问规则</strong><span>围绕项目细节、个人贡献、时间线、结果口径和异常点追问，帮助识别过度包装，也给表达慢热但有经验的人补充说明机会。</span></div>
+                </div>
+              </div>
+
+              <div class="advanced-link-row">
+                <a class="text-link" id="flowOpenQuestionBank" href="./question-bank.html" hidden>高级题库管理 →</a>
+              </div>
+              <div class="save-action-row">
+                <span class="question-count-tip" id="flowQuestionCount">当前共 0 题，建议 1-13 题。</span>
+                <button class="btn primary" type="button" id="flowSaveQuestions">保存面试问题</button>
+              </div>
+              <div class="step-standard"><strong>✓ 本步完成标准</strong><span>基础必问题已确认，岗位匹配题已生成或手动补充，简历追问规则已明确。</span></div>
+            </section>
+
+            <section class="panel wizard-panel" data-panel="3">
+              <div class="section-title">
+                <h2><span class="icon">👁</span> 候选人端预览</h2>
+                <p class="hint">确认候选人会看到的岗位信息、授权说明和流程顺序。</p>
+              </div>
+              <div class="candidate-preview-card full-preview">
+                <span class="badge">线上初面 · 预计8-12分钟</span>
+                <h3 id="flowPreviewJobTitle">待填写岗位名称</h3>
+                <div class="preview-info-grid">
+                  <article><span>公司名称</span><strong id="flowPreviewCompanyName">待填写</strong></article>
+                  <article><span>薪资范围</span><strong id="flowPreviewSalary">待填写</strong></article>
+                  <article><span>福利待遇</span><strong id="flowPreviewBenefits">待填写</strong></article>
+                  <article><span>公司介绍</span><strong class="preserve-lines" id="flowPreviewCompanyIntro">待填写</strong></article>
+                  <article class="full"><span>岗位职责</span><p id="flowPreviewResponsibilities">待填写</p></article>
+                  <article class="full"><span>任职要求</span><p id="flowPreviewRequirements">待填写</p></article>
+                </div>
+                <div class="candidate-flow-note">
+                  <div class="note-icon">✓</div>
+                  <div><strong>面试前提示</strong><span>需要手机号验证、实名授权、上传简历，并开启麦克风和摄像头权限。摄像头仅做人像在场监测，不开放面试视频给HR。</span></div>
+                </div>
+                <p class="notice compact"><span class="notice-icon">ℹ</span>候选人会确认：本次面试中看到的岗位薪资、福利和公司信息将作为双方沟通记录留痕。</p>
+              </div>
+              <div class="step-standard"><strong>✓ 本步完成标准</strong><span>公司、岗位、薪资、福利、职责、要求和授权流程都已完整展示。</span></div>
+            </section>
+
+            <section class="panel wizard-panel" data-panel="4">
+              <div class="section-title">
+                <h2><span class="icon">🔗</span> 生成或更新链接</h2>
+                <p class="hint">确认后生成本场AI初面链接。候选人完成后，报告进入"报告复核"。</p>
+              </div>
+              <div class="link-refresh-note" id="flowLinkRefreshNote" hidden>岗位信息或面试问题已更新，请重新生成链接后再发送给候选人。</div>
+              <div class="link-result">
+                <div class="link-info">
+                  <span>面试链接</span>
+                  <strong id="flowInviteLink">点击下方按钮后生成正式候选人链接</strong>
+                </div>
+                <div class="invite-qr" id="flowInviteQr">生成后显示二维码</div>
+              </div>
+              <div class="sms-template" id="flowInviteText">您好，您收到一份线上初面邀请。请在有效期内完成手机号验证、实名授权、简历上传与AI初面。</div>
+              <div class="actions">
+                <button class="btn primary" type="button" id="flowCreateInvite">生成正式面试链接</button>
+                <button class="btn" type="button" data-copy-source="flowInviteLink">复制链接</button>
+                <button class="btn" type="button" data-copy-source="flowInviteText">复制邀请话术</button>
+                <a class="btn" href="./job-management.html">完成并进入初面管理</a>
+              </div>
+              <div class="step-standard"><strong>✓ 本步完成标准</strong><span>链接和邀请话术已生成，可复制给候选人，后续状态在初面管理和候选人列表处理。</span></div>
+            </section>
+
+            <div class="wizard-actions">
+              <button class="btn" type="button" id="wizardPrev">← 上一步</button>
+              <button class="btn primary" type="button" id="wizardNext">下一步 →</button>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+    <div class="quota-modal-mask" id="quotaModal">
+      <div class="quota-modal">
+        <div class="quota-modal-icon">!</div>
+        <h3>面试额度不足</h3>
+        <p>生成正式候选人链接需要消耗 1 次 AI 初面额度。请开通会员或购买加量包后继续。</p>
+        <div class="quota-modal-actions">
+          <a class="btn" href="./membership.html">去会员中心</a>
+          <a class="btn primary" href="./payment.html">购买会员 / 加量包</a>
+          <button class="btn" type="button" onclick="document.getElementById('quotaModal').classList.remove('show')">稍后再说</button>
+        </div>
+      </div>
+    </div>
+    <div class="mps-beian"><a href="https://beian.mps.gov.cn/#/query/webSearch?code=44010302111445" rel="noreferrer" target="_blank"><img src="./assets/beian.png" alt="公安备案图标" /><span>粤公网安备44010302111445号</span></a></div>
+    <script src="./assets/qrcode-generator.js?v=20260610b"></script>
+    <script src="./auth-flow.js?v=20260610b"></script>
+    <script src="./common.js?v=20260610b"></script>
+  </body>
+</html>
+
+
+
+

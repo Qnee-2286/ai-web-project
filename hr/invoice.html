@@ -1,0 +1,244 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>开具发票 — AI全量初面系统</title>
+<style>
+:root{--brand-blue:#0070ff;--brand-green:#00d68f;--brand-gradient:linear-gradient(135deg,#0070ff,#00d68f);--bg-page:#f7fafc;--bg-card:#fff;--bg-soft:#f8fafc;--text-primary:#0f172a;--text-secondary:#475569;--text-tertiary:#94a3b8;--border-default:#e2e8f0;--radius-sm:8px;--radius-md:12px;--radius-lg:16px;--shadow-card:0 1px 3px rgba(15,23,42,.04);--font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC","Microsoft YaHei",sans-serif}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--bg-page);color:var(--text-primary);min-height:100vh;font-size:14px;line-height:1.6}
+
+.nav{background:var(--bg-card);border-bottom:1px solid var(--border-default);padding:0 20px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-brand img{height:34px;width:auto;max-width:170px;border-radius:0;object-fit:contain;flex-shrink:0;background:transparent;padding:0;box-shadow:none}
+.nav-brand strong{font-size:15px;font-weight:700;color:var(--text-primary)}
+.nav-brand small{font-size:11px;color:var(--text-tertiary);display:block;line-height:1.2}
+.nav-back{display:flex;align-items:center;gap:4px;color:var(--text-secondary);text-decoration:none;font-size:14px;padding:6px 12px;border-radius:var(--radius-sm);transition:background .2s}
+.nav-back:hover{background:var(--bg-soft)}
+
+.page-container{max-width:560px;margin:0 auto;padding:24px 16px 48px}
+.page-header{margin-bottom:20px}
+.page-header h1{font-size:22px;font-weight:700;color:var(--text-primary);margin-bottom:4px}
+.page-header p{color:var(--text-secondary);font-size:14px}
+.section-title{font-size:13px;font-weight:600;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px}
+
+.order-brief{background:var(--bg-card);border:1px solid var(--border-default);border-radius:var(--radius-lg);padding:16px 20px;box-shadow:var(--shadow-card);margin-bottom:24px;display:flex;justify-content:space-between;align-items:center}
+.order-brief-info{display:flex;flex-direction:column;gap:2px}
+.order-brief-plan{font-size:15px;font-weight:700;color:var(--text-primary)}
+.order-brief-no{font-size:12px;color:var(--text-tertiary)}
+.order-brief-amount{font-size:20px;font-weight:800;color:var(--brand-blue)}
+
+.invoice-card{background:var(--bg-card);border:1px solid var(--border-default);border-radius:var(--radius-lg);padding:20px;box-shadow:var(--shadow-card);margin-bottom:20px}
+.invoice-type-row{display:flex;gap:10px;margin-bottom:16px}
+.invoice-type-option{flex:1;position:relative;cursor:pointer}
+.invoice-type-option input{position:absolute;opacity:0}
+.invoice-type-option span{display:flex;align-items:center;justify-content:center;gap:6px;height:44px;border:1.5px solid var(--border-default);border-radius:var(--radius-sm);font-size:14px;font-weight:600;color:var(--text-secondary);transition:all .2s}
+.invoice-type-option span::before{content:'';width:16px;height:16px;border-radius:50%;border:2px solid var(--border-default);flex-shrink:0;transition:all .2s}
+.invoice-type-option input:checked+span{border-color:var(--brand-blue);color:var(--brand-blue);background:rgba(0,112,255,.04)}
+.invoice-type-option input:checked+span::before{border-color:var(--brand-blue);background:radial-gradient(circle,var(--brand-blue) 40%,transparent 45%)}
+
+.form-field{margin-bottom:14px}
+.form-field:last-child{margin-bottom:0}
+.form-label{display:block;font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:6px}
+.required{color:#ef4444}
+.optional{color:var(--text-tertiary);font-weight:400;font-size:12px}
+.form-input{width:100%;height:44px;border:1.5px solid var(--border-default);border-radius:var(--radius-sm);padding:0 14px;font-family:var(--font);font-size:14px;color:var(--text-primary);background:var(--bg-card);outline:none;transition:border-color .2s}
+.form-input:focus{border-color:var(--brand-blue)}
+.form-input::placeholder{color:var(--text-tertiary)}
+.form-input.error{border-color:#ef4444;animation:shake .3s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.form-hint{font-size:12px;color:var(--text-tertiary);margin-top:4px}
+
+.btn-primary{width:100%;height:52px;background:var(--brand-gradient);border:none;border-radius:var(--radius-md);color:#fff;font-family:var(--font);font-size:16px;font-weight:700;cursor:pointer;letter-spacing:.02em;box-shadow:0 4px 20px rgba(0,112,255,.25);transition:opacity .2s,transform .15s,box-shadow .2s}
+.btn-primary:hover{opacity:.95;transform:translateY(-1px);box-shadow:0 6px 28px rgba(0,112,255,.3)}
+.btn-primary:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.btn-secondary{width:100%;height:48px;background:var(--bg-card);border:1.5px solid var(--border-default);border-radius:var(--radius-md);color:var(--text-secondary);font-family:var(--font);font-size:15px;font-weight:600;cursor:pointer;margin-top:12px;transition:all .2s;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-secondary:hover{border-color:var(--brand-blue);color:var(--brand-blue);background:var(--bg-soft)}
+
+.success-state{display:none;text-align:center;padding:40px 20px;animation:fadeUp .5s ease}
+.success-state.show{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.success-check{width:72px;height:72px;margin:0 auto 16px;background:linear-gradient(135deg,#00d68f,#00b87a);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 32px rgba(0,214,143,.3);animation:pop .4s cubic-bezier(.34,1.56,.64,1) .1s both}
+@keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}
+.success-check svg{width:36px;height:36px;color:#fff}
+.success-state h2{font-size:20px;font-weight:800;color:var(--text-primary);margin-bottom:8px}
+.success-state p{font-size:14px;color:var(--text-secondary);line-height:1.7;margin-bottom:20px}
+.success-summary{background:var(--bg-soft);border:1px solid var(--border-default);border-radius:var(--radius-md);padding:16px;margin-bottom:24px;text-align:left}
+.success-summary-line{display:flex;justify-content:space-between;padding:6px 0;font-size:13px}
+.success-summary-line span:first-child{color:var(--text-secondary)}
+.success-summary-line span:last-child{color:var(--text-primary);font-weight:600}
+
+.footer-hint{text-align:center;margin-top:20px;font-size:12px;color:var(--text-tertiary);line-height:1.8}
+
+@media(max-width:480px){.nav{padding:0 16px}.page-container{padding:16px 14px 40px}.order-brief{flex-direction:column;align-items:flex-start;gap:8px}}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="./membership.html" class="nav-brand">
+    <img src="./assets/hi-logo-horizontal.svg" alt="hi AI初面" />
+  </a>
+  <a href="./payment-success.html" class="nav-back">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    返回
+  </a>
+</nav>
+
+<div class="page-container">
+  <div class="page-header">
+    <h1>开具发票</h1>
+    <p>填写发票信息，电子普通发票将在 1-3 个工作日内发送至您的邮箱</p>
+  </div>
+
+  <div class="order-brief">
+    <div class="order-brief-info">
+      <span class="order-brief-plan" id="briefPlan">—</span>
+      <span class="order-brief-no" id="briefNo">订单号：—</span>
+    </div>
+    <span class="order-brief-amount" id="briefAmount">¥—</span>
+  </div>
+
+  <div id="formArea">
+    <div class="invoice-card">
+      <p class="section-title">发票类型</p>
+      <div class="invoice-type-row">
+        <label class="invoice-type-option"><input type="radio" name="invoiceType" value="company" checked onchange="onTypeChange()"><span>企业</span></label>
+        <label class="invoice-type-option"><input type="radio" name="invoiceType" value="personal" onchange="onTypeChange()"><span>个人</span></label>
+      </div>
+      <div class="form-field">
+        <label class="form-label" id="titleLabel">发票抬头 <span class="required">*</span></label>
+        <input type="text" class="form-input" id="invoiceTitle" placeholder="请输入公司全称">
+      </div>
+      <div class="form-field" id="taxField">
+        <label class="form-label">税号 <span class="required">*</span></label>
+        <input type="text" class="form-input" id="invoiceTax" placeholder="请输入纳税人识别号">
+        <p class="form-hint">企业发票必填，个人发票无需填写</p>
+      </div>
+      <div class="form-field">
+        <label class="form-label">接收邮箱 <span class="required">*</span></label>
+        <input type="email" class="form-input" id="invoiceEmail" placeholder="电子发票将发送至此邮箱">
+      </div>
+      <div class="form-field">
+        <label class="form-label">备注 <span class="optional">选填</span></label>
+        <input type="text" class="form-input" id="invoiceRemark" placeholder="如有特殊开票要求请备注">
+      </div>
+    </div>
+    <button class="btn-primary" id="submitBtn" onclick="submitInvoice()">提交发票申请</button>
+    <a href="./payment-success.html" class="btn-secondary">暂不填写，返回</a>
+  </div>
+
+  <div class="success-state" id="successState">
+    <div class="success-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+    <h2>发票申请已提交</h2>
+    <p>我们将在 1-3 个工作日内开具电子普通发票<br>并发送至您的邮箱，请留意查收。</p>
+    <div class="success-summary" id="successSummary"></div>
+    <a href="./membership.html" class="btn-primary" style="text-decoration:none;display:flex;align-items:center;justify-content:center">返回会员中心 →</a>
+  </div>
+
+  <div class="footer-hint">发票申请提交后，系统将自动邮件通知管理员<br>如有疑问，请联系客服 工作日 9:00–18:00</div>
+</div>
+
+<script>
+const API = '../api';
+const params = new URLSearchParams(location.search);
+const orderNo = params.get('order_no') || '';
+
+function goLogin() {
+  location.href = './login.html?redirect=' + encodeURIComponent('invoice.html?order_no=' + orderNo);
+}
+
+async function apiGet(path) {
+  const res = await fetch(`${API}/${path}`, { credentials: 'include' });
+  const data = await res.json().catch(() => ({ ok:false, message:'接口返回格式错误' }));
+  if (data?.data?.need_login) { goLogin(); return null; }
+  return data;
+}
+async function apiPost(path, payload) {
+  const res = await fetch(`${API}/${path}`, { method:'POST', headers:{'Content-Type':'application/json'}, credentials:'include', body: JSON.stringify(payload||{}) });
+  const data = await res.json().catch(() => ({ ok:false, message:'接口返回格式错误' }));
+  if (data?.data?.need_login) { goLogin(); return null; }
+  return data;
+}
+
+// 加载订单摘要
+async function loadOrder() {
+  if (!orderNo) return;
+  const data = await apiGet('hr/order_detail.php?order_no=' + encodeURIComponent(orderNo));
+  if (!data || !data.ok) return;
+  document.getElementById('briefPlan').textContent = data.data.plan_name;
+  document.getElementById('briefNo').textContent = '订单号：' + data.data.order_no;
+  document.getElementById('briefAmount').textContent = '¥' + data.data.amount;
+}
+
+function onTypeChange() {
+  const type = document.querySelector('input[name="invoiceType"]:checked').value;
+  const taxField = document.getElementById('taxField');
+  const titleInput = document.getElementById('invoiceTitle');
+  if (type === 'company') {
+    taxField.style.display = 'block';
+    titleInput.placeholder = '请输入公司全称';
+  } else {
+    taxField.style.display = 'none';
+    titleInput.placeholder = '请输入姓名';
+  }
+}
+
+async function submitInvoice() {
+  const type = document.querySelector('input[name="invoiceType"]:checked').value;
+  const title = document.getElementById('invoiceTitle').value.trim();
+  const tax = document.getElementById('invoiceTax').value.trim();
+  const email = document.getElementById('invoiceEmail').value.trim();
+  const remark = document.getElementById('invoiceRemark').value.trim();
+
+  ['invoiceTitle', 'invoiceTax', 'invoiceEmail'].forEach(id => document.getElementById(id).classList.remove('error'));
+
+  let hasError = false;
+  if (!title) { document.getElementById('invoiceTitle').classList.add('error'); hasError = true; }
+  if (type === 'company' && !tax) { document.getElementById('invoiceTax').classList.add('error'); hasError = true; }
+  if (!email) { document.getElementById('invoiceEmail').classList.add('error'); hasError = true; }
+  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { document.getElementById('invoiceEmail').classList.add('error'); alert('请填写正确的邮箱地址'); return; }
+  if (hasError) { alert('请填写完整必填信息'); return; }
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = '提交中...';
+
+  const data = await apiPost('hr/submit_invoice.php', {
+    order_no: orderNo,
+    invoice_type: type,
+    title: title,
+    tax_number: tax,
+    email: email,
+    remark: remark
+  });
+
+  btn.disabled = false;
+  btn.textContent = '提交发票申请';
+  if (!data) return;
+  if (!data.ok) { alert(data.message || '提交失败，请重试'); return; }
+
+  // 显示成功
+  const summary = document.getElementById('successSummary');
+  const typeText = type === 'company' ? '企业' : '个人';
+  summary.innerHTML =
+    '<div class="success-summary-line"><span>发票类型</span><span>增值税电子普通发票</span></div>' +
+    '<div class="success-summary-line"><span>抬头类型</span><span>' + typeText + '</span></div>' +
+    '<div class="success-summary-line"><span>发票抬头</span><span>' + title + '</span></div>' +
+    (tax ? '<div class="success-summary-line"><span>税号</span><span>' + tax + '</span></div>' : '') +
+    '<div class="success-summary-line"><span>接收邮箱</span><span>' + email + '</span></div>' +
+    '<div class="success-summary-line"><span>订单号</span><span>' + orderNo + '</span></div>';
+
+  document.getElementById('formArea').style.display = 'none';
+  document.getElementById('successState').classList.add('show');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+loadOrder();
+</script>
+</body>
+</html>
+
+
+

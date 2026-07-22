@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta name="hi-build" content="20260615cachefix" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>跳转中｜AI全量初面系统</title>
+    <script>
+      const params = new URLSearchParams(location.search);
+      const jobId = params.get('job_id');
+      location.replace(`./create-interview-flow.html?v=20260615cachefix${jobId ? `&job_id=${encodeURIComponent(jobId)}&step=2` : ''}`);
+    </script>
+  </head>
+  <body>正在进入创建初面流程...</body>
+</html>

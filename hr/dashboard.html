@@ -1,0 +1,441 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta name="hi-build" content="20260615cachefix" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>开始使用｜AI全量初面系统</title>
+    <link rel="stylesheet" href="./v2-design-system.css?v=20260615cachefix" />
+    <style>
+      .compact-table table { width: 100%; border-collapse: collapse; font-size: 13px; }
+      .compact-table th { text-align: left; padding: 10px 12px; color: var(--text-secondary); font-weight: 600; border-bottom: 1px solid var(--border); font-size: 12px; background: var(--bg-main); }
+      .compact-table td { padding: 10px 12px; border-bottom: 1px solid #F1F5F9; color: var(--text-primary); }
+      .compact-table td a.primary-link { display: inline-flex; align-items: center; min-height: 28px; padding: 0 10px; border: 1px solid var(--gradient-start); border-radius: var(--radius-btn); background: var(--gradient); color: #fff; font-size: 12px; font-weight: 700; transition: all .2s; text-decoration: none; }
+      .compact-table td a.primary-link:hover { opacity: .9; }
+      .onboarding-hero { margin-top: 24px; }
+      .toast-container { position: fixed; top: 72px; right: 24px; z-index: 999; display: flex; flex-direction: column; gap: 8px; }
+      .toast { padding: 14px 20px; border-radius: 8px; font-size: 13px; font-weight: 500; box-shadow: 0 4px 16px rgba(0,0,0,.08); animation: toastIn .3s ease; max-width: 360px; display: flex; align-items: center; gap: 10px; }
+      .toast.success { background: rgba(0,214,143,.08); color: #047857; border-left: 4px solid var(--green); }
+      .toast.error { background: #FEF2F2; color: #DC2626; border-left: 4px solid var(--red); }
+      @keyframes toastIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+      @keyframes toastOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(100%); opacity: 0; } }
+    </style>
+  <style id="site-footer-unified-style">
+.site-footer{background:#fff;border-top:1px solid #E2E8F0;padding:40px;color:#94A3B8;font-size:12px;}
+.site-footer-inner{max-width:1200px;margin:0 auto;display:flex;align-items:flex-start;justify-content:space-between;gap:32px;}
+.site-footer-brand{display:flex;align-items:center;gap:12px;color:#0F172A;font-weight:600;}
+.site-footer-logo{width:32px;height:32px;border-radius:8px;object-fit:contain;display:block;flex-shrink:0;}
+.site-footer-info{text-align:right;}
+.site-footer-info p{margin:0;font-size:12px;color:#94A3B8;line-height:1.8;}
+.site-footer-info a{color:#94A3B8;text-decoration:none;display:inline-flex;align-items:center;gap:4px;vertical-align:middle;}
+.site-footer-info a:hover{color:#0070FF;}
+.site-footer-info img{width:16px;height:16px;flex-shrink:0;}
+@media(max-width:760px){.site-footer{padding:32px 20px;}.site-footer-inner{flex-direction:column;align-items:center;text-align:center;gap:14px;}.site-footer-brand{justify-content:center;}.site-footer-info{text-align:center;}.site-footer-info p{line-height:2;}}
+</style>
+</head>
+  <body>
+    <div class="shell">
+      <aside class="side">
+        <div class="brand">
+          <img class="brand-logo" src="./assets/logo-icon.svg" alt="hi AI初面" style="background:none;padding:0;" />
+          <span><strong>AI全量初面系统</strong><small>泓泽数字旗下产品</small></span>
+        </div>
+        <nav class="nav">
+          <a class="active" href="./dashboard.html">🏠 首页</a>
+          <a href="./create-interview-flow.html?v=20260615cachefix">✦ 创建初面</a>
+          <a href="./job-management.html">📋 初面管理</a>
+          <a href="./candidate-list.html">👥 候选人</a>
+          <a href="./report-review-list.html">📊 报告复核</a>
+          <a href="./question-bank.html">📝 题库管理</a>
+          <div class="nav-sep"></div>
+          <a href="./membership.html">💎 会员中心</a>
+          <a href="./profile.html">⚙ 设置</a>
+        </nav>
+      </aside>
+
+      <main class="main">
+        <div class="topbar">
+          <div class="page-title">
+            <span class="crumb">HR端 / 首页</span>
+            <h1>开始使用 AI全量初面系统</h1>
+            <p id="dashboardLead">完成账号启用后，就可以发出第一场AI初面。</p>
+          </div>
+          <div class="topbar-account">
+            <a class="user-mini" href="./profile.html"><div class="avatar" id="dashboardAvatar">HR</div><div><strong id="dashboardUserName">当前HR</strong><span id="dashboardUserMeta">个人中心</span></div></a>
+            <a class="btn" href="./login.html">退出</a>
+          </div>
+        </div>
+
+        <section class="onboarding-hero panel">
+          <div>
+            <span class="badge" id="dashboardMode">当前账号：体验模式</span>
+            <h2 id="dashboardStartTitle">你还差几步，就可以发出第一场AI初面</h2>
+            <p>你可以先看看创建初面流程；生成正式候选人链接前，需要完成必要的账号启用。</p>
+          </div>
+          <div class="onboarding-actions">
+            <a class="btn primary" id="dashboardPrimaryCta" href="./bind-email.html">继续完成账号启用</a>
+            <a class="btn" href="./create-interview-flow.html?v=20260615cachefix">先看看创建初面流程</a>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="section-title">
+            <h2>账号启用进度</h2>
+            <p class="hint">这些状态会影响正式候选人链接的生成与候选人端展示。</p>
+          </div>
+          <div class="activation-grid">
+            <article id="phoneStep"><span>手机验证</span><strong>已完成</strong><small>用于登录和账号安全</small></article>
+            <article id="emailStep"><span>邮箱绑定</span><strong>待完成</strong><small>用于接收报告和账号通知</small></article>
+            <article id="realnameStep"><span>HR实名认证</span><strong>待完成</strong><small>用于确认初面发起人真实身份</small></article>
+            <article id="companyStep"><span>企业认证</span><strong>可稍后</strong><small>认证后候选人端展示企业已认证</small></article>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="section-title">
+            <h2>创建第一场AI初面</h2>
+            <p class="hint">核心任务不是配置系统，而是创建一场可以发给候选人的初面。</p>
+          </div>
+          <div class="flow-guide">
+            <article><span>1</span><strong>岗位信息</strong><small>公司、岗位、薪资、福利、职责、要求</small></article>
+            <article><span>2</span><strong>面试问题</strong><small>基础必问题、岗位匹配题、简历追问题规则</small></article>
+            <article><span>3</span><strong>候选人预览</strong><small>确认候选人看到的完整信息和授权流程</small></article>
+            <article><span>4</span><strong>生成链接</strong><small>复制链接或邀请话术，发给候选人</small></article>
+          </div>
+        </section>
+
+        <section class="panel benefit-panel">
+          <div>
+            <h2>体验版权益</h2>
+            <p>可发起 5 次候选人初面。完成第一场初面后，候选人状态和报告会在这里形成待办。</p>
+          </div>
+          <strong id="trialUsage">剩余额度待统计</strong>
+        </section>
+
+        <section class="panel" id="dashboardRecentPanel" hidden>
+          <div class="section-title"><h2>最近初面任务</h2><a class="btn" href="./job-management.html">查看全部</a></div>
+          <div class="table-wrap compact-table">
+            <table>
+              <thead><tr><th>初面任务</th><th>候选人</th><th>状态</th><th>下一步</th></tr></thead>
+              <tbody id="dashboardRecentJobs"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <div class="value-note" id="dailyQuote">
+          <strong>今日能量</strong>
+          <p>先看见真实的人，再做可靠的判断。</p>
+          <span class="quote-source">泓泽数字</span>
+        </div>
+      </main>
+    </div>
+    <footer class="site-footer">
+  <div class="site-footer-inner">
+    <div class="site-footer-brand"><img class="site-footer-logo" src="./assets/mother-company-symbol-cropped.png" alt="泓泽数字" /><span>泓泽数字</span></div>
+    <div class="site-footer-info">
+      <p>AI全量初面系统 &middot; Powered by <a href="https://www.hongzedigital.com">泓泽数字</a></p>
+      <p><a href="../help.html">使用说明</a> &middot; <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">粤ICP备2026055553号</a> &middot; <a href="https://www.beian.gov.cn/portal/registerSystemInfo?recordcode=44010302111445" target="_blank" rel="noreferrer"><img src="./assets/beian.png" alt="公安备案图标" />粤公网安备44010302111445号</a></p>
+    </div>
+  </div>
+</footer>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="./common.js?v=20260615cachefix"></script>
+    <script src="./auth-flow.js?v=20260615cachefix"></script>
+    <script>
+    // ===== Dashboard v2 — Inline page logic =====
+    // Reimplements dashboard-specific functions from auth-flow.js and common.js
+    // because those scripts check page === 'dashboard.html' which won't match 'dashboard.html'.
+    (function() {
+      var API = '../api';
+
+      function $(sel, root) { return (root || document).querySelector(sel); }
+
+      async function post(path, payload) {
+        var res = await fetch(API + '/' + path, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify(payload || {})
+        });
+        var data = await res.json().catch(function() { return { ok: false, message: '接口返回格式错误' }; });
+        if (data && data.data && data.data.need_login) { location.href = './login.html'; return new Promise(function() {}); }
+        if (!res.ok || !data.ok) throw new Error((data.message || '请求失败') + (data.data && data.data.error ? '：' + data.data.error : ''));
+        return data;
+      }
+
+      async function get(path) {
+        var res = await fetch(API + '/' + path, { credentials: 'include' });
+        var data = await res.json().catch(function() { return { ok: false, message: '接口返回格式错误' }; });
+        if (data && data.data && data.data.need_login) { location.href = './login.html'; return new Promise(function() {}); }
+        if (!res.ok || !data.ok) throw new Error((data.message || '请求失败') + (data.data && data.data.error ? '：' + data.data.error : ''));
+        return data;
+      }
+
+      function esc(value) {
+        return String(value == null ? '' : value).replace(/[&<>"']/g, function(ch) {
+          return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch];
+        });
+      }
+
+      function fmtTime(value) {
+        if (!value) return '-';
+        return String(value).replace('T', ' ').slice(0, 16);
+      }
+
+      function dashboardJobLocation(job) {
+        return String((job && job.work_location) || '').trim() || '工作地点待补充';
+      }
+
+      function statusText(status) {
+        var map = {
+          not_received: '未接收', pending_interview: '待面试', interviewing: '面试中',
+          completed: '已完成面试', review_pending: '待复核', rejected: '暂不推进',
+          continue: '继续推进', hold: '待定', reject: '暂不推进', ready: '待复核',
+          reviewed: '已复核', report_ready: '报告已生成'
+        };
+        return map[status] || '待处理';
+      }
+
+      // ===== Toast =====
+      function toast(type, msg) {
+        var c = document.getElementById('toastContainer');
+        if (!c) return;
+        var t = document.createElement('div');
+        t.className = 'toast ' + type;
+        t.textContent = msg;
+        c.appendChild(t);
+        setTimeout(function() {
+          t.style.animation = 'toastOut .3s ease forwards';
+          setTimeout(function() { t.remove(); }, 300);
+        }, 3000);
+      }
+
+      // ===== Activation cards =====
+      function setActivationCard(id, done, doneText, pendingText) {
+        var card = document.getElementById(id);
+        if (!card) return;
+        card.classList.toggle('done', !!done);
+        var strong = card.querySelector('strong');
+        if (strong) strong.textContent = done ? doneText : pendingText;
+      }
+
+      // ===== Daily quote =====
+      function setupDailyQuote() {
+        var dailyQuote = document.getElementById('dailyQuote');
+        if (!dailyQuote) return;
+        var quotes = [
+          { text: '先看见真实的人，再做可靠的判断。', source: '泓泽数字' },
+          { text: '管理的核心，是让平凡的人做出不平凡的事。', source: '彼得·德鲁克' },
+          { text: '己所不欲，勿施于人。', source: '论语' },
+          { text: '人不是工具，人是目的。', source: '康德思想转述' },
+          { text: '组织真正要处理的，从来都是人的理解、协作与信任。', source: '泓泽数字' },
+          { text: '制度让事情有章可循，尊重让人愿意同行。', source: '泓泽数字' }
+        ];
+        var start = new Date('2026-04-29T00:00:00+08:00');
+        var day = Math.floor((new Date() - start) / 86400000);
+        var item = quotes[((day % quotes.length) + quotes.length) % quotes.length];
+        var text = dailyQuote.querySelector('p');
+        var source = dailyQuote.querySelector('.quote-source');
+        if (text) text.textContent = item.text;
+        if (source) source.textContent = item.source;
+      }
+
+      // ===== Dashboard guide (from common.js setupDashboardGuide) =====
+      async function setupDashboardGuide() {
+        try {
+          var me = await get('auth/me.php');
+          var data = me.data || {};
+          var emailDone = !!data.email_verified;
+          var realDone = data.realname_status === 'verified';
+          var companyDone = data.company_verification_status === 'verified';
+
+          setActivationCard('phoneStep', true, '已完成', '待完成');
+          setActivationCard('emailStep', emailDone, '已绑定', '待完成');
+          setActivationCard('realnameStep', realDone, '已实名', '待完成');
+          setActivationCard('companyStep', companyDone, '已认证', '可稍后');
+
+          var nameEl = document.getElementById('dashboardUserName');
+          var metaEl = document.getElementById('dashboardUserMeta');
+          var avatarEl = document.getElementById('dashboardAvatar');
+          if (nameEl) nameEl.textContent = data.name || '当前HR';
+          if (metaEl) metaEl.textContent = (data.phone || '') + (data.email ? ' · ' + data.email : '');
+          if (avatarEl) avatarEl.textContent = (data.name || 'HR').slice(0, 2).toUpperCase();
+
+          var cta = document.getElementById('dashboardPrimaryCta');
+          var title = document.getElementById('dashboardStartTitle');
+          if (!emailDone) {
+            if (cta) { cta.textContent = '去绑定邮箱'; cta.href = './bind-email.html'; }
+            if (title) title.textContent = '你还差2步，就可以发出第一场AI初面';
+          } else if (!realDone) {
+            if (cta) { cta.textContent = '去完成HR实名'; cta.href = './realname.html'; }
+            if (title) title.textContent = '你还差1步，就可以发出第一场AI初面';
+          } else {
+            if (cta) { cta.textContent = '创建第一场AI初面'; cta.href = './create-interview-flow.html?v=20260615cachefix'; }
+            if (title) title.textContent = '账号已启用，可以创建第一场AI初面';
+          }
+        } catch (_) {}
+
+        try {
+          var summary = await get('hr/dashboard_summary.php');
+          var jobs = (summary.data && summary.data.recent_jobs) || [];
+          var panel = document.getElementById('dashboardRecentPanel');
+          var tbody = document.getElementById('dashboardRecentJobs');
+          if (!panel || !tbody || !jobs.length) return;
+          panel.hidden = false;
+          tbody.innerHTML = '';
+          jobs.forEach(function(job) {
+            var needsReview = Number(job.review_pending_count || 0);
+            var tr = document.createElement('tr');
+            tr.innerHTML =
+              '<td><strong>' + esc(job.job_title || '-') + '</strong><br><small>' + esc(dashboardJobLocation(job)) + '</small></td>' +
+              '<td>' + (job.candidate_count || 0) + '人</td>' +
+              '<td><span class="tag ' + (needsReview ? 'orange' : 'blue') + '">' + (needsReview ? '待复核' : '进行中') + '</span></td>' +
+              '<td><a class="primary-link" href="' + (needsReview ? './report-review-list.html' : './candidate-list.html') + '">' + (needsReview ? '处理报告' : '查看候选人') + '</a></td>';
+            tbody.appendChild(tr);
+          });
+        } catch (_) {}
+      }
+
+      // ===== Update dashboard status (from auth-flow.js) =====
+      async function updateDashboardStatus() {
+        try {
+          var res = await get('auth/me.php');
+          var data = res.data;
+          var nameEl = document.getElementById('dashboardUserName');
+          var metaEl = document.getElementById('dashboardUserMeta');
+          var avatarEl = document.getElementById('dashboardAvatar');
+          if (nameEl) nameEl.textContent = data.name || '当前HR';
+          if (metaEl) metaEl.textContent = (data.phone || '') + (data.email ? ' · ' + data.email : '');
+          if (avatarEl) avatarEl.textContent = (data.name || 'HR').slice(0, 2).toUpperCase();
+        } catch (_) {}
+      }
+
+      // ===== Dashboard data (from auth-flow.js setupDashboardData) =====
+      function setupDashboardData() {
+        get('hr/dashboard_summary.php').then(function(res) {
+          var data = res.data;
+          var review = document.getElementById('dashReviewPending');
+          var pending = document.getElementById('dashPendingCandidates');
+          var active = document.getElementById('dashActiveJobs');
+          var recent = document.getElementById('dashboardRecentJobs');
+          if (review) review.textContent = (data.review_pending || 0) + '份';
+          if (pending) pending.textContent = (data.pending_candidates || 0) + '人';
+          if (active) active.textContent = (data.job_count || 0) + '场';
+          if (!recent) return;
+          recent.innerHTML = '';
+          var jobs = data.recent_jobs || [];
+          if (!jobs.length) {
+            recent.innerHTML = '<tr><td colspan="4">暂无初面任务，请先创建一场AI初面。</td></tr>';
+            return;
+          }
+          jobs.forEach(function(job) {
+            var tr = document.createElement('tr');
+            var needsReview = Number(job.review_pending_count || 0);
+            tr.innerHTML =
+              '<td><strong>' + esc(job.job_title || '-') + '</strong><br><small>' + esc(dashboardJobLocation(job)) + '</small></td>' +
+              '<td>' + (job.candidate_count || 0) + '人</td>' +
+              '<td><span class="tag ' + (needsReview ? 'orange' : 'blue') + '">' + (needsReview ? '待复核' : '进行中') + '</span></td>' +
+              '<td><a class="primary-link" href="' + (needsReview ? './report-review-list.html' : './candidate-list.html') + '">' + (needsReview ? '处理报告' : '查看候选人') + '</a></td>';
+            recent.appendChild(tr);
+          });
+        }).catch(function() {});
+      }
+
+      // ===== Membership badge (from auth-flow.js setupMembershipBadge) =====
+      function setupMembershipBadge() {
+        if (!document.getElementById('mbBadgeCSS')) {
+          var css = document.createElement('style');
+          css.id = 'mbBadgeCSS';
+          css.textContent = [
+            '@keyframes mbGlow{0%,100%{box-shadow:0 0 4px rgba(255,183,0,.25)}50%{box-shadow:0 0 10px rgba(255,183,0,.5)}}',
+            '.mb-pill{display:inline-flex;align-items:center;gap:7px;padding:5px 14px 5px 6px;border-radius:999px;flex-shrink:0;transition:all .3s}',
+            '.mb-pill.lit{background:linear-gradient(135deg,rgba(255,215,0,.10),rgba(255,160,0,.08));border:1px solid rgba(255,183,0,.22)}',
+            '.mb-pill.dim{background:#F8FAFC;border:1px solid #E2E8F0}',
+            '.mb-pill-icon{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}',
+            '.mb-pill.lit .mb-pill-icon{background:linear-gradient(135deg,#FFD700,#FFA000);animation:mbGlow 2.5s ease-in-out infinite}',
+            '.mb-pill.dim .mb-pill-icon{background:#E2E8F0}',
+            '.mb-pill-icon svg{width:13px;height:13px}',
+            '.mb-pill.lit .mb-pill-icon svg{color:#fff}',
+            '.mb-pill.dim .mb-pill-icon svg{color:#94A3B8}',
+            '.mb-pill-info{display:flex;flex-direction:column;line-height:1.25}',
+            '.mb-pill-label{font-size:12px;font-weight:700;white-space:nowrap}',
+            '.mb-pill.lit .mb-pill-label{color:#B8860B}',
+            '.mb-pill.dim .mb-pill-label{color:#94A3B8}',
+            '.mb-pill-sub{font-size:10px;white-space:nowrap}',
+            '.mb-pill.lit .mb-pill-sub{color:#C89B3C}',
+            '.mb-pill.dim .mb-pill-sub{color:#B0BEC5}'
+          ].join('\n');
+          document.head.appendChild(css);
+        }
+        var crownSVG = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg>';
+        var topbarAccount = document.querySelector('.topbar-account');
+        if (!topbarAccount) return;
+        var pill = document.createElement('div');
+        pill.id = 'membershipBadge';
+        pill.className = 'mb-pill dim';
+        pill.innerHTML = '<div class="mb-pill-icon">' + crownSVG + '</div><div class="mb-pill-info"><span class="mb-pill-label">加载中…</span><span class="mb-pill-sub">—</span></div>';
+        topbarAccount.insertBefore(pill, topbarAccount.firstChild);
+
+        get('hr/membership_status.php').then(function(res) {
+          var d = res.data;
+          var label = pill.querySelector('.mb-pill-label');
+          var sub = pill.querySelector('.mb-pill-sub');
+          if (d.active) {
+            pill.className = 'mb-pill lit';
+            label.textContent = d.plan_name;
+            sub.textContent = '剩余 ' + d.remain_interviews + ' 次 · ' + d.remain_days + '天';
+          } else {
+            label.textContent = '体验版';
+            sub.textContent = d.remain_interviews != null ? '剩余 ' + d.remain_interviews + ' 次' : '';
+          }
+          // Sync benefit panel
+          var benefitTitle = document.querySelector('.benefit-panel h2');
+          var benefitDesc = document.querySelector('.benefit-panel p');
+          var trialEl = document.getElementById('trialUsage');
+          var modeEl = document.getElementById('dashboardMode');
+          if (d.active) {
+            if (benefitTitle) benefitTitle.textContent = d.plan_name + '权益';
+            if (benefitDesc) benefitDesc.textContent = '可发起 ' + d.total_interviews + ' 次候选人初面，已使用 ' + d.used_interviews + ' 次。会员到期日：' + d.expires_at + '。';
+            if (trialEl) trialEl.textContent = '剩余 ' + d.remain_interviews + ' 次';
+            if (modeEl) modeEl.textContent = '当前账号：' + d.plan_name;
+          } else {
+            if (trialEl) trialEl.textContent = d.total_interviews ? '剩余 ' + d.remain_interviews + ' 次' : '剩余额度待统计';
+          }
+        }).catch(function() {
+          var label = pill.querySelector('.mb-pill-label');
+          if (label) label.textContent = '体验版';
+          var sub = pill.querySelector('.mb-pill-sub');
+          if (sub) sub.textContent = '';
+        });
+      }
+
+      // ===== Logout =====
+      function setupLogout() {
+        document.querySelectorAll('a[href="./login.html"]').forEach(function(a) {
+          if ((a.textContent || '').includes('退出')) {
+            a.addEventListener('click', function(e) {
+              e.preventDefault();
+              post('auth/logout.php', {}).catch(function() {}).then(function() {
+                location.href = './login.html';
+              });
+            });
+          }
+        });
+      }
+
+      // ===== Init =====
+      setupDailyQuote();
+      setupLogout();
+      setupDashboardGuide();
+      updateDashboardStatus();
+      setupDashboardData();
+      setupMembershipBadge();
+    })();
+    </script>
+  </body>
+</html>

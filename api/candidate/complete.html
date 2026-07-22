@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>面试完成｜AI全量初面系统</title>
+    <link rel="stylesheet" href="./styles.css" />
+</head>
+  <body>
+    <header class="top">
+      <div class="brand">
+        <img class="brand-logo" src="./assets/logo-icon.svg" alt="hi AI初面" />
+        <span><strong>AI全量初面系统</strong><small>泓泽数字旗下产品</small></span>
+      </div>
+      <span class="badge">已完成</span>
+    </header>
+    <main class="layout narrow">
+      <section class="panel">
+        <div class="complete-mark">✓</div>
+        <div class="page-title" style="margin-top:18px">
+          <span class="crumb">候选人端 / 面试完成</span>
+          <h1>本次初面已提交</h1>
+          <p>企业HR将复核本次面试记录。候选人端不展示岗位匹配度、推进建议或HR复核结果。</p>
+        </div>
+        <div class="notice" id="audioMessage">正在读取本次面试材料...</div>
+        <div class="candidate-materials">
+          <h2>本次面试材料</h2>
+          <p>以下材料仅供你本人复盘使用，链接有效期以页面提示为准。</p>
+          <div class="material-actions">
+            <button class="btn primary" id="saveTranscriptImage" type="button" disabled>保存转写长图</button>
+          </div>
+          <div id="audioDownloads" class="download-list"></div>
+        </div>
+      </section>
+      <section class="transcript" id="transcriptList" style="margin-top:14px">
+        <div class="soft-note">正在读取本次面试转写记录...</div>
+      </section>
+    </main>
+    <div class="mps-beian">
+      <a href="https://beian.mps.gov.cn/#/query/webSearch?code=44010302111445" rel="noreferrer" target="_blank">
+        <img src="./assets/beian.png" alt="公安备案图标" />
+        <span>粤公网安备44010302111445号</span>
+      </a>
+    </div>
+    <script src="./auth-flow.js"></script>
+    <script src="./materials-flow.js"></script>
+    <script src="./candidate-progress.js"></script>
+  </body>
+</html>

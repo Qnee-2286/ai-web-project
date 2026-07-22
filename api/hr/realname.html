@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta name="hi-build" content="20260615cachefix" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HR实名认证 - AI全量初面系统</title>
+    <link rel="stylesheet" href="./styles.css?v=20260615cachefix" />
+    <style>
+      *{margin:0;padding:0;box-sizing:border-box}
+      body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:#F7FAFC;min-height:100vh;display:flex;flex-direction:column}
+      .auth-page{display:flex;flex-direction:column}
+      .auth-shell{display:flex;flex:1;min-height:100vh}
+      .auth-aside{background:#0D1B2A;color:#fff;width:45%;display:flex;flex-direction:column;justify-content:center;padding:60px 48px;position:relative;overflow:hidden}
+      .auth-aside::before{content:'';position:absolute;width:320px;height:320px;border-radius:50%;background:linear-gradient(135deg,rgba(0,112,255,.25),rgba(0,214,143,.25));filter:blur(80px);top:-60px;right:-80px;pointer-events:none}
+      .auth-aside::after{content:'';position:absolute;width:240px;height:240px;border-radius:50%;background:linear-gradient(135deg,rgba(0,214,143,.18),rgba(0,112,255,.18));filter:blur(60px);bottom:-40px;left:-60px;pointer-events:none}
+      .brand{display:flex;align-items:center;gap:12px;margin-bottom:48px;position:relative;z-index:1}
+      .brand.compact{margin-bottom:48px}
+      .brand-logo{width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,#0070FF,#00D68F);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#fff;object-fit:contain}
+      .brand span{display:flex;flex-direction:column}
+      .brand strong{font-size:16px;font-weight:600;letter-spacing:.5px}
+      .brand small{font-size:12px;color:rgba(255,255,255,.55);margin-top:2px}
+      .auth-aside h1{font-size:32px;font-weight:700;margin-bottom:16px;position:relative;z-index:1}
+      .auth-aside p{font-size:15px;line-height:1.7;color:rgba(255,255,255,.7);position:relative;z-index:1}
+      .auth-card{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 32px;background:#F7FAFC}
+      .auth-card form{background:#FFFFFF;border-radius:12px;padding:40px;width:100%;max-width:480px;box-shadow:0 1px 3px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.04)}
+      .auth-card h2{font-size:22px;font-weight:700;color:#0F172A;margin-bottom:6px}
+      .hint{font-size:13px;color:#94A3B8;margin-bottom:4px}
+      .notice{font-size:13px;color:#475569;background:rgba(0,112,255,.06);border:1px solid rgba(0,112,255,.12);border-radius:8px;padding:12px 14px;margin-bottom:20px;line-height:1.6}
+      .info-list{background:#F8FAFC;border:1px solid #E2E8F0;border-radius:8px;padding:16px;margin:16px 0}
+      .info-list p{display:flex;justify-content:space-between;align-items:flex-start;padding:8px 0;border-bottom:1px solid #F1F5F9;font-size:13px}
+      .info-list p:last-child{border-bottom:none}
+      .info-list span{color:#94A3B8;flex-shrink:0;margin-right:16px}
+      .info-list strong{color:#0F172A;text-align:right;font-weight:500}
+      .wechat-verify{display:flex;gap:20px;align-items:flex-start;margin:20px 0;padding:20px;background:#F8FAFC;border-radius:8px;border:1px solid #E2E8F0}
+      .wechat-qr{width:160px;height:160px;border-radius:8px;border:1px solid #E2E8F0;display:flex;align-items:center;justify-content:center;color:#94A3B8;font-size:13px;background:#fff;flex-shrink:0}
+      .wechat-verify strong{display:block;font-size:14px;color:#0F172A;margin-bottom:6px}
+      .actions.stack{display:flex;flex-direction:column;gap:8px;margin-top:20px}
+      .actions{display:flex;gap:8px;margin-top:20px}
+      .btn{display:block;width:100%;height:44px;line-height:44px;text-align:center;border-radius:8px;font-size:14px;font-weight:500;text-decoration:none;cursor:pointer;border:none;transition:opacity .2s}
+      .btn:hover{opacity:.88}
+      .btn.primary{background:linear-gradient(135deg,#0070FF,#00D68F);color:#fff}
+      .btn:not(.primary){background:#F1F5F9;color:#475569}
+      .modal-mask{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;z-index:1000}
+      .modal-card{background:#fff;border-radius:12px;padding:32px;width:90%;max-width:440px;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.15)}
+      .modal-card h2{font-size:20px;font-weight:700;color:#0F172A;margin-bottom:8px}
+      .modal-close{position:absolute;top:16px;right:16px;background:none;border:none;font-size:20px;color:#94A3B8;cursor:pointer;width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center}
+      .modal-close:hover{background:#F1F5F9;color:#475569}
+      .field{margin-bottom:18px}
+      .field label{display:block;font-size:13px;font-weight:500;color:#475569;margin-bottom:6px}
+      .field input{width:100%;height:44px;padding:0 14px;border:1px solid #E2E8F0;border-radius:8px;font-size:14px;color:#0F172A;background:#fff;outline:none;transition:border-color .2s}
+      .field input:focus{border-color:#0070FF;box-shadow:0 0 0 3px rgba(0,112,255,.1)}
+      .field input::placeholder{color:#94A3B8}
+      .checkline{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:#475569;margin:20px 0;line-height:1.6;cursor:pointer}
+      .checkline input{margin-top:3px;width:16px;height:16px;accent-color:#0070FF;flex-shrink:0}
+      .checkline span{flex:1}
+      .mps-beian{text-align:center;padding:16px;font-size:12px;color:#94A3B8}
+      .mps-beian a{display:inline-flex;align-items:center;gap:4px;color:#94A3B8;text-decoration:none}
+      .mps-beian img{width:14px;height:14px}
+      @media(max-width:768px){.auth-shell{flex-direction:column}.auth-aside{width:100%;padding:32px 24px;min-height:auto}.auth-aside h1{font-size:24px}.auth-card{padding:24px 16px}.auth-card form{padding:28px 20px}.wechat-verify{flex-direction:column}.wechat-qr{width:100%;height:auto;aspect-ratio:1}}
+    </style>
+  </head>
+  <body class="auth-page">
+    <main class="auth-shell">
+      <section class="auth-aside">
+        <div class="brand compact"><img class="brand-logo" src="./assets/logo-icon.svg" alt="hi AI初面" /><span><strong>AI全量初面系统</strong><small>泓泽数字旗下产品</small></span></div>
+        <h1>HR实名认证</h1>
+        <p>通过腾讯云实名核身确认发起面试的HR为真实本人。候选人端仅展示"HR已实名"，不展示个人身份信息。</p>
+      </section>
+      <section class="auth-card">
+        <form>
+          <h2>第三方扫码核身</h2>
+          <p class="notice">请使用本人微信完成腾讯云实名核身。平台仅保存认证状态、认证时间、认证流水号和HR账号ID。</p>
+          <div class="info-list">
+            <p><span>当前状态</span><strong id="hrRealnameStatusText">未认证</strong></p>
+            <p><span>第三方核身方式</span><strong>腾讯云实名核身</strong></p>
+            <p><span>平台保存</span><strong>认证状态、认证时间、认证流水号、HR账号ID</strong></p>
+            <p><span>平台不保存</span><strong>完整身份证号、人脸影像、身份证照片</strong></p>
+            <p><span>候选人可见</span><strong>仅展示"HR已实名"</strong></p>
+          </div>
+          <section class="wechat-verify" id="hrRealnameQrPanel" hidden>
+            <div class="wechat-qr" id="hrRealnameQr">待生成</div>
+            <div>
+              <strong>请使用本人微信扫码完成认证</strong>
+              <p class="hint">二维码有效期以腾讯云返回为准。完成后请回到本页刷新认证状态。</p>
+              <a class="btn" id="hrRealnameOpenLink" href="#" target="_blank" rel="noreferrer" hidden>打开实名核身链接</a>
+            </div>
+          </section>
+          <div class="actions stack">
+            <button class="btn primary" id="hrRealnameAction" type="button">生成微信实名核身二维码</button>
+            <button class="btn" id="hrRealnameRefresh" type="button" hidden>我已完成，刷新认证状态</button>
+            <button class="btn" id="hrRealnameRegenerate" type="button" hidden>重新生成二维码</button>
+            <a class="btn" id="hrRealnameDashboard" href="./dashboard.html" hidden>进入工作台</a>
+          </div>
+        </form>
+      </section>
+    </main>
+    <section class="modal-mask" id="hrRealnameModal" hidden aria-hidden="true">
+      <div class="modal-card">
+        <button class="modal-close" id="hrRealnameModalClose" type="button" aria-label="关闭">×</button>
+        <h2>发起腾讯云实名核身</h2>
+        <p class="hint">为生成腾讯云实名核身二维码，请填写本人姓名和身份证号。该信息仅用于本次核身请求，平台不保存完整证件号。</p>
+        <form id="hrRealnameModalForm">
+          <div class="field"><label>真实姓名</label><input name="name" autocomplete="name" placeholder="请输入本人真实姓名" /></div>
+          <div class="field"><label>身份证号</label><input name="id_card" autocomplete="off" placeholder="请输入本人身份证号" /></div>
+          <label class="checkline"><input type="checkbox" name="agreement" /><span>我已阅读并同意实名认证授权，知悉本次核身由腾讯云提供能力，平台不保存完整身份证号、人脸影像和身份证照片。</span></label>
+          <div class="actions"><button class="btn primary" type="submit">生成二维码</button><button class="btn" id="hrRealnameModalCancel" type="button">取消</button></div>
+        </form>
+      </div>
+    </section>
+    <div class="mps-beian"><a href="https://beian.mps.gov.cn/#/query/webSearch?code=44010302111445" rel="noreferrer" target="_blank"><img src="./assets/beian.png" alt="公安备案图标" /><span>粤公网安备44010302111445号</span></a></div>
+    <script src="./assets/qrcode-generator.js"></script>
+    <script src="./auth-flow.js?v=20260615cachefix"></script>
+  </body>
+</html>

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>候选人注册｜AI全量初面系统</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <meta http-equiv="refresh" content="0; url=./auth.html" />
+</head>
+  <body>
+    <header class="top">
+      <div class="brand"><img class="brand-logo" src="./assets/logo-icon.svg" alt="hi AI初面" /><span><strong>AI全量初面系统</strong><small>泓泽数字旗下产品</small></span></div>
+      <span class="badge">候选人注册</span>
+    </header>
+    <main class="layout narrow">
+      <div class="page-title">
+        <span class="crumb">候选人端 / 注册</span>
+        <h1>正在跳转...</h1>
+        <p>注册和登录已合并为手机号验证，正在为你跳转到认证页面。</p>
+      </div>
+    </main>
+    <script>
+      var t = new URLSearchParams(location.search).get('token') || localStorage.getItem('candidate_token') || '';
+      location.replace('./auth.html' + (t ? '?token=' + encodeURIComponent(t) : ''));
+    </script>
+  </body>
+</html>

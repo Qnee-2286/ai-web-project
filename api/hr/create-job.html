@@ -1,0 +1,99 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta name="hi-build" content="20260615cachefix" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>创建岗位｜AI全量初面系统</title>
+    <link rel="stylesheet" href="./styles.css?v=20260615cachefix" />
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="side">
+        <div class="brand"><img class="brand-logo" src="./assets/logo-icon.svg" alt="hi AI初面" /><span><strong>AI全量初面系统</strong><small>泓泽数字旗下产品</small></span></div>
+                <nav class="nav">
+          <a href="./dashboard.html">首页</a>
+          <a class="active" href="./create-interview-flow.html?v=20260615cachefix">创建初面</a>
+          <a href="./job-management.html">初面管理</a>
+          <a href="./candidate-list.html">候选人</a>
+          <a href="./report-review-list.html">报告复核</a>
+          <a href="./profile.html">设置</a>
+        </nav>
+      </aside>
+      <main class="main">
+        <div class="topbar">
+          <div class="page-title">
+            <span class="crumb">HR端 / 创建岗位</span>
+            <h1>创建岗位</h1>
+            <p>请以企业实际情况为准，认真补充将展示给候选人的岗位信息。</p>
+          </div>
+        </div>
+        <div class="panel form-shell">
+          <p class="notice compact">这些内容会在候选人初面前展示，并由AI语音向候选人传达，请确认真实、准确。</p>
+          <form class="form-grid" id="jobForm">
+            <div class="field"><label>公司名称</label><input name="company_name" value="广州泓泽数字科技有限责任公司" placeholder="企业账户自动带出公司名称" /></div>
+            <div class="field"><label>岗位名称</label><input name="job_title" placeholder="例如 行政专员" /></div>
+            <div class="field full"><label>面试题库</label><select name="question_bank"><option>行政基础题库</option><option>通用职能岗题库</option><option>暂不选择，稍后在面试题库中设置</option></select></div>
+            <div class="field">
+              <label>薪资范围</label>
+              <div class="range-row">
+                <input name="salary_min_k" type="number" min="0" step="1" placeholder="最低" />
+                <span>-</span>
+                <input name="salary_max_k" type="number" min="0" step="1" placeholder="最高" />
+                <select name="salary_unit"><option value="K/月">K/月</option><option value="元/天">元/天</option><option value="面议">面议</option></select>
+              </div>
+            </div>
+            <div class="field full">
+              <label>福利待遇</label>
+              <div class="benefit-picker">
+                <input id="benefitsInput" name="benefits" placeholder="可点击下方词汇自动填入，也可自行编辑" />
+                <div class="benefit-tags" aria-label="福利待遇快捷选择">
+                  <button class="benefit-tag" type="button">五险</button>
+                  <button class="benefit-tag" type="button">一金</button>
+                  <button class="benefit-tag" type="button">双休</button>
+                  <button class="benefit-tag" type="button">年终奖</button>
+                  <button class="benefit-tag" type="button">带薪年假</button>
+                  <button class="benefit-tag" type="button">节日福利</button>
+                  <button class="benefit-tag" type="button">餐补</button>
+                  <button class="benefit-tag" type="button">交通补贴</button>
+                  <button class="benefit-tag" type="button">弹性工作</button>
+                </div>
+              </div>
+            </div>
+            <div class="field full"><label>公司介绍</label><textarea name="company_intro"></textarea></div>
+            <div class="field full"><label>岗位职责</label><textarea name="responsibilities" placeholder="请填写岗位主要工作内容"></textarea></div>
+            <div class="field full"><label>任职要求</label><textarea name="requirements" placeholder="请填写经验、学历、技能、工作时间等要求"></textarea></div>
+          </form>
+          <div class="actions" style="margin-top: 18px"><a class="btn primary" id="saveJobBtn" href="./create-interview-flow.html?v=20260615cachefix">保存并预览</a></div>
+        </div>
+      </main>
+    </div>
+    <script src="./common.js?v=20260615cachefix"></script>
+  
+    <div class="mps-beian">
+      <a href="https://beian.mps.gov.cn/#/query/webSearch?code=44010302111445" rel="noreferrer" target="_blank">
+        <img src="./assets/beian.png" alt="公安备案图标" />
+        <span>粤公网安备44010302111445号</span>
+      </a>
+    </div>
+    <script src="./auth-flow.js?v=20260615cachefix"></script>
+    <script>
+      (() => {
+        const form = document.getElementById('jobForm');
+        const button = document.getElementById('saveJobBtn');
+        button?.addEventListener('click', () => {
+          if (!form) return;
+          const payload = Object.fromEntries(new FormData(form).entries());
+          sessionStorage.setItem('job_preview_payload', JSON.stringify(payload));
+        });
+      })();
+    </script>
+</body>
+</html>
+
+
+
+

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta name="hi-build" content="20260615cachefix" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>平台管理 - AI全量初面系统</title>
+    <link rel="stylesheet" href="./styles.css?v=20260615cachefix" />
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="side">
+        <div class="brand"><img class="brand-logo" src="./assets/logo-icon.svg" alt="hi AI初面" /><span><strong>AI全量初面系统</strong><small>泓泽数字旗下产品</small></span></div>
+        <nav class="nav">
+          <a href="./dashboard.html">首页</a>
+          <a href="./create-interview-flow.html?v=20260615cachefix">创建初面</a>
+          <a href="./job-management.html">初面管理</a>
+          <a href="./candidate-list.html">候选人</a>
+          <a href="./report-review-list.html">报告复核</a>
+          <a href="./profile.html">设置</a>
+          <a class="active" href="./platform-admin.html">平台管理</a>
+        </nav>
+      </aside>
+      <main class="main">
+        <div class="topbar">
+          <div class="page-title">
+            <span class="crumb">平台管理员 / 数据管理</span>
+            <h1>平台管理</h1>
+            <p>区分正式业务与内部测试记录，查看账号状态；此页面仅平台管理员可访问。</p>
+          </div>
+        </div>
+
+        <section class="status-grid" id="adminSummary">
+          <article><span class="tag blue">HR</span><strong id="adminHrCount">-</strong><small>注册账号</small></article>
+          <article><span class="tag green">正式</span><strong id="adminCandidateCount">-</strong><small>候选人记录</small></article>
+          <article><span class="tag orange">测试</span><strong id="adminTestCount">-</strong><small>内部测试记录</small></article>
+          <article><span class="tag blue">报告</span><strong id="adminReportCount">-</strong><small>生成报告</small></article>
+        </section>
+
+        <section class="panel" style="margin-top:20px">
+          <div class="profile-section-head">
+            <div>
+              <h2>候选人及测试记录</h2>
+              <p class="hint">将自己的试跑记录标记为测试后，不进入HR日常候选人列表和工作台统计。</p>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>面试编号</th><th>手机号</th><th>岗位</th><th>发起HR</th><th>状态</th><th>实名</th><th>类型</th><th>操作</th></tr></thead>
+              <tbody id="adminCandidateRows"><tr><td colspan="8">读取中...</td></tr></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="panel" style="margin-top:20px">
+          <h2>HR账号</h2>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>账号</th><th>手机号</th><th>邮箱</th><th>个人实名</th><th>企业认证</th><th>权限</th><th>创建时间</th></tr></thead>
+              <tbody id="adminHrRows"><tr><td colspan="7">读取中...</td></tr></tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+    <div class="mps-beian"><a href="https://beian.mps.gov.cn/#/query/webSearch?code=44010302111445" rel="noreferrer" target="_blank"><img src="./assets/beian.png" alt="公安备案图标" /><span>粤公网安备44010302111445号</span></a></div>
+    <script src="./platform-admin.js"></script>
+  </body>
+</html>

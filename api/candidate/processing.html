@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>材料整理中｜AI全量初面系统</title>
+    <link rel="stylesheet" href="./styles.css" />
+</head>
+  <body>
+    <header class="top">
+      <div class="brand">
+        <img class="brand-logo" src="./assets/logo-icon.svg" alt="hi AI初面" />
+        <span><strong>AI全量初面系统</strong><small>泓泽数字旗下产品</small></span>
+      </div>
+      <span class="badge">整理中</span>
+    </header>
+    <main class="layout narrow">
+      <section class="panel">
+        <div class="page-title">
+          <span class="crumb">候选人端 / 材料整理</span>
+          <h1>面试已提交成功</h1>
+          <p>系统正在整理本次面试材料，预计需要 1-2 分钟。录音整理完成后将自动进入完成页。</p>
+        </div>
+        <div class="notice">
+          你可以保持页面打开；如中途关闭，也可稍后通过原面试链接查看结果。
+        </div>
+        <div class="progress-card">
+          <div class="progress-row"><span>整段录音</span><strong id="mergeStatus">等待处理</strong></div>
+          <div class="progress-row"><span>语音转写</span><strong id="transcriptStatus">等待处理</strong></div>
+          <div class="progress-row"><span>HR报告</span><strong id="reportStatus">等待处理</strong></div>
+        </div>
+        <div class="form-message ok" id="processingMessage">正在启动材料整理...</div>
+        <div class="actions">
+          <button class="btn primary" id="retryProcessing" type="button">重新检查</button>
+        </div>
+      </section>
+    </main>
+    <script src="./materials-flow.js"></script>
+  </body>
+</html>

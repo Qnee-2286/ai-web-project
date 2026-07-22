@@ -1,0 +1,193 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>候选人登录｜AI全量初面系统</title>
+    <link rel="stylesheet" href="./styles.css?v=20260610b" />
+    <style>
+      .login-tabs {
+        display: flex; gap: 0; margin-bottom: 18px;
+        border-bottom: 2px solid var(--line);
+      }
+      .login-tab {
+        flex: 1; padding: 10px 0; text-align: center;
+        font-size: 14px; font-weight: 800;
+        color: var(--muted); cursor: pointer;
+        border-bottom: 2px solid transparent;
+        margin-bottom: -2px; transition: all .2s;
+      }
+      .login-tab.active {
+        color: var(--blue); border-bottom-color: var(--blue);
+      }
+      .login-form { display: none; }
+      .login-form.active { display: grid; }
+      .sms-row { display: flex; gap: 8px; }
+      .sms-row input { flex: 1; }
+      .sms-btn {
+        min-width: 108px; min-height: 44px; padding: 0 12px;
+        border: 1px solid var(--blue); border-radius: 8px;
+        background: #EFF6FF; color: var(--blue);
+        font-size: 13px; font-weight: 800; cursor: pointer;
+        white-space: nowrap; transition: all .2s;
+      }
+      .sms-btn:hover { background: var(--blue); color: #fff; }
+      .sms-btn.countdown { opacity: .45; pointer-events: none; }
+    </style>
+<style id="site-footer-unified-style">
+.site-footer{background:#fff;border-top:1px solid #E2E8F0;padding:40px;color:#94A3B8;font-size:12px;}
+.site-footer-inner{max-width:1200px;margin:0 auto;display:flex;align-items:flex-start;justify-content:space-between;gap:32px;}
+.site-footer-brand{display:flex;align-items:center;gap:12px;color:#0F172A;font-weight:600;}
+.site-footer-logo{width:32px;height:32px;border-radius:8px;object-fit:contain;display:block;flex-shrink:0;}
+.site-footer-info{text-align:right;}
+.site-footer-info p{margin:0;font-size:12px;color:#94A3B8;line-height:1.8;}
+.site-footer-info a{color:#94A3B8;text-decoration:none;display:inline-flex;align-items:center;gap:4px;vertical-align:middle;}
+.site-footer-info a:hover{color:#0070FF;}
+.site-footer-info img{width:16px;height:16px;flex-shrink:0;}
+@media(max-width:760px){.site-footer{padding:32px 20px;}.site-footer-inner{flex-direction:column;align-items:center;text-align:center;gap:14px;}.site-footer-brand{justify-content:center;}.site-footer-info{text-align:center;}.site-footer-info p{line-height:2;}}
+</style>
+</head>
+  <body>
+    <header class="top">
+      <div class="brand"><img class="brand-logo" src="./assets/logo-icon.svg" alt="hi AI初面" /><span><strong>AI全量初面系统</strong><small>泓泽数字旗下产品</small></span></div>
+      <span class="badge" id="headerBadge">候选人登录</span>
+    </header>
+    <main class="layout narrow">
+      <div class="page-title">
+        <span class="crumb">候选人端 / 登录</span>
+        <h1 id="pageTitle">登录</h1>
+        <p id="pageDesc">使用手机号登录后，可查看你的面试记录和个人信息。</p>
+      </div>
+      <section class="panel">
+
+        <!-- 登录方式切换 -->
+        <div class="login-tabs">
+          <div class="login-tab active" data-tab="sms" onclick="switchTab('sms')">验证码登录</div>
+          <div class="login-tab" data-tab="pwd" onclick="switchTab('pwd')">密码登录</div>
+        </div>
+
+        <!-- 验证码登录 -->
+        <form class="form login-form active" id="smsForm">
+          <div class="field">
+            <label>手机号</label>
+            <input name="phone" id="smsPhone" placeholder="请输入手机号" maxlength="11" autocomplete="tel" />
+          </div>
+          <div class="field">
+            <label>验证码</label>
+            <div class="sms-row">
+              <input name="sms_code" id="smsCode" placeholder="请输入短信验证码" maxlength="6" autocomplete="one-time-code" />
+            </div>
+          </div>
+          <div class="actions">
+            <button class="btn primary" id="candidateLoginBtn" type="button">登录</button>
+            <a class="btn back-link" href="./index.html">返回</a>
+          </div>
+        </form>
+
+        <!-- 密码登录 -->
+        <form class="form login-form" id="pwdForm">
+          <div class="field">
+            <label>手机号</label>
+            <input name="phone" id="pwdPhone" placeholder="请输入手机号" maxlength="11" autocomplete="tel" />
+          </div>
+          <div class="field">
+            <label>密码</label>
+            <input name="password" id="pwdInput" type="password" placeholder="请输入密码" autocomplete="current-password" />
+          </div>
+          <div class="actions">
+            <button class="btn primary" id="pwdLoginBtn" type="button">登录</button>
+            <a class="btn back-link" href="./index.html">返回</a>
+          </div>
+        </form>
+
+      </section>
+    </main>
+
+    <footer class="site-footer">
+  <div class="site-footer-inner">
+    <div class="site-footer-brand"><img class="site-footer-logo" src="./assets/mother-company-symbol-cropped.png" alt="泓泽数字" /><span>泓泽数字</span></div>
+    <div class="site-footer-info">
+      <p>AI全量初面系统 &middot; Powered by <a href="https://www.hongzedigital.com">泓泽数字</a></p>
+      <p><a href="../help.html">使用说明</a> &middot; <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">粤ICP备2026055553号</a> &middot; <a href="https://www.beian.gov.cn/portal/registerSystemInfo?recordcode=44010302111445" target="_blank" rel="noreferrer"><img src="./assets/beian.png" alt="公安备案图标" />粤公网安备44010302111445号</a></p>
+    </div>
+  </div>
+</footer>
+    <script src="./auth-flow.js?v=20260612d"></script>
+    <script>
+    /* ===== Tab 切换 ===== */
+    function switchTab(tab) {
+      document.querySelectorAll('.login-tab').forEach(function(t) {
+        t.classList.toggle('active', t.getAttribute('data-tab') === tab);
+      });
+      document.getElementById('smsForm').classList.toggle('active', tab === 'sms');
+      document.getElementById('pwdForm').classList.toggle('active', tab === 'pwd');
+    }
+
+    /* ===== URL 参数判断文案 ===== */
+    (function() {
+      var params = new URLSearchParams(window.location.search);
+      var from = params.get('from');
+      var hasInviteToken = params.get('token') || params.get('invite_token') || params.get('code');
+      var inInterviewFlow = from === 'interview' || !!hasInviteToken;
+      var title = document.getElementById('pageTitle');
+      var desc = document.getElementById('pageDesc');
+      var badge = document.getElementById('headerBadge');
+      var loginBtn = document.getElementById('candidateLoginBtn');
+      var pwdBtn = document.getElementById('pwdLoginBtn');
+      var pwdTab = document.querySelector('.login-tab[data-tab="pwd"]');
+
+      if (inInterviewFlow) {
+        title.textContent = '登录后继续面试';
+        desc.textContent = '完成手机号验证后，系统会按当前进度带你进入下一步，不会反复回到邀请页。';
+        badge.textContent = '继续面试';
+        if (loginBtn) loginBtn.textContent = '验证手机号，继续面试';
+        if (pwdBtn) pwdBtn.textContent = '登录，继续面试';
+        if (pwdTab) pwdTab.style.display = 'none';
+      } else {
+        title.textContent = '登录';
+        desc.textContent = '使用手机号登录后，可查看你的面试记录和个人信息。';
+        badge.textContent = '候选人登录';
+        if (loginBtn) loginBtn.textContent = '登录';
+        if (pwdBtn) pwdBtn.textContent = '登录';
+      }
+    })();
+
+    /* ===== 密码登录（后端接口待实现） ===== */
+    document.getElementById('pwdLoginBtn').addEventListener('click', function() {
+      var params = new URLSearchParams(window.location.search);
+      if (params.get('from') === 'interview' || params.get('token') || params.get('invite_token') || params.get('code')) {
+        alert('面试链接登录请使用验证码继续面试');
+        switchTab('sms');
+        return;
+      }
+      var phone = document.getElementById('pwdPhone').value.trim();
+      var pwd = document.getElementById('pwdInput').value;
+      if (!phone || phone.length !== 11) { alert('请输入正确的手机号'); return; }
+      if (!pwd) { alert('请输入密码'); return; }
+      fetch('../api/candidate/login_password.php', {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone: phone, password: pwd })
+      })
+        .then(function(r) { return r.json(); })
+        .then(function(res) {
+          if (!res.ok) throw new Error(res.message || '登录失败');
+          if (res.data && res.data.account_id) {
+            localStorage.setItem('candidate_account_id', String(res.data.account_id));
+          }
+          location.href = (res.data && res.data.next) || 'profile.html';
+        })
+        .catch(function(err) { alert(err.message || '登录失败'); });
+    });
+
+    /* ===== Enter 键提交 ===== */
+    document.getElementById('smsCode').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') document.getElementById('candidateLoginBtn').click();
+    });
+    document.getElementById('pwdInput').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') document.getElementById('pwdLoginBtn').click();
+    });
+    </script>
+  </body>
+</html>

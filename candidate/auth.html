@@ -1,0 +1,88 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>实名与授权｜AI全量初面系统</title>
+    <link rel="stylesheet" href="./styles.css?v=20260610b" />
+<style id="site-footer-unified-style">
+.site-footer{background:#fff;border-top:1px solid #E2E8F0;padding:40px;color:#94A3B8;font-size:12px;}
+.site-footer-inner{max-width:1200px;margin:0 auto;display:flex;align-items:flex-start;justify-content:space-between;gap:32px;}
+.site-footer-brand{display:flex;align-items:center;gap:12px;color:#0F172A;font-weight:600;}
+.site-footer-logo{width:32px;height:32px;border-radius:8px;object-fit:contain;display:block;flex-shrink:0;}
+.site-footer-info{text-align:right;}
+.site-footer-info p{margin:0;font-size:12px;color:#94A3B8;line-height:1.8;}
+.site-footer-info a{color:#94A3B8;text-decoration:none;display:inline-flex;align-items:center;gap:4px;vertical-align:middle;}
+.site-footer-info a:hover{color:#0070FF;}
+.site-footer-info img{width:16px;height:16px;flex-shrink:0;}
+@media(max-width:760px){.site-footer{padding:32px 20px;}.site-footer-inner{flex-direction:column;align-items:center;text-align:center;gap:14px;}.site-footer-brand{justify-content:center;}.site-footer-info{text-align:center;}.site-footer-info p{line-height:2;}}
+</style>
+</head>
+  <body>
+    <header class="top">
+      <div class="brand"><img class="brand-logo" src="./assets/logo-icon.svg" alt="hi AI初面" /><span><strong>AI全量初面系统</strong><small>泓泽数字旗下产品</small></span></div>
+      <span class="badge">身份信息仅用于本次认证</span>
+    </header>
+    <main class="layout narrow">
+      <div class="page-title">
+        <span class="crumb">候选人端 / 实名与授权</span>
+        <h1>实名认证与授权</h1>
+        <p>请使用本人手机号完成验证，并通过微信完成本人实名认证。</p>
+      </div>
+
+      <!-- 第1步：手机号验证 -->
+      <section class="panel" id="authStep1">
+        <div class="section-head" style="margin-bottom:16px">
+          <div>
+            <div class="step-label">第1步</div>
+            <h3 style="margin:0;color:var(--ink)">验证手机号</h3>
+            <p style="margin:4px 0 0;color:var(--muted)">验证后自动完成注册或登录，无需单独注册</p>
+          </div>
+        </div>
+        <form class="form" id="phoneForm">
+          <div class="field"><label>手机号</label><input name="phone" placeholder="请输入手机号" /></div>
+          <div class="field"><label>验证码</label><input name="sms_code" placeholder="请输入短信验证码" /></div>
+          <label class="check-row"><input type="checkbox" id="agreeCheck1" /> <span>我已阅读并同意<a href="./agreement.html">《实名认证授权书》</a><a href="./agreement.html">《面试录音录像授权书》</a><a href="./agreement.html">《个人信息处理与隐私政策》</a></span></label>
+          <label class="check-row"><input type="checkbox" id="agreeCheck2" /> <span>我确认本次面试中看到的岗位薪资、福利和公司信息将作为双方沟通记录留痕。</span></label>
+        </form>
+        <div class="actions">
+          <button class="btn primary" id="verifyPhoneBtn" type="button">验证手机号并继续</button>
+          <a class="btn" href="./index.html">返回邀请</a>
+        </div>
+      </section>
+
+      <!-- 第2步：实名认证（验证手机后显示） -->
+      <section class="panel" id="authStep2" style="display:none">
+        <div class="section-head" style="margin-bottom:16px">
+          <div>
+            <div class="step-label">第2步</div>
+            <h3 style="margin:0;color:var(--ink)">实名认证</h3>
+            <p style="margin:4px 0 0;color:var(--muted)">手机号验证通过，请填写实名信息完成认证</p>
+          </div>
+        </div>
+        <form class="form" id="realnameForm">
+          <div class="field"><label>真实姓名</label><input name="real_name" placeholder="请输入本人真实姓名" /></div>
+          <div class="field"><label>身份证号</label><input name="id_card" placeholder="仅用于本次实名核验，不展示给HR" /></div>
+          <div class="notice">点击下方按钮后，将通过手机端微信实名能力完成本人身份认证。身份信息仅用于本次核验，不作为简历筛选条件。</div>
+          <div class="soft-note">面试开始前，系统将申请摄像头和麦克风权限。</div>
+        </form>
+        <div class="actions">
+          <button class="btn primary" id="realnameBtn" type="button">通过微信完成实名认证</button>
+          <a class="btn" href="./index.html">返回</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+  <div class="site-footer-inner">
+    <div class="site-footer-brand"><img class="site-footer-logo" src="./assets/mother-company-symbol-cropped.png" alt="泓泽数字" /><span>泓泽数字</span></div>
+    <div class="site-footer-info">
+      <p>AI全量初面系统 &middot; Powered by <a href="https://www.hongzedigital.com">泓泽数字</a></p>
+      <p><a href="../help.html">使用说明</a> &middot; <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">粤ICP备2026055553号</a> &middot; <a href="https://www.beian.gov.cn/portal/registerSystemInfo?recordcode=44010302111445" target="_blank" rel="noreferrer"><img src="./assets/beian.png" alt="公安备案图标" />粤公网安备44010302111445号</a></p>
+    </div>
+  </div>
+</footer>
+    <script src="./auth-flow.js?v=20260612d"></script>
+    <script src="./candidate-progress.js?v=20260612d"></script>
+  </body>
+</html>

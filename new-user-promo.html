@@ -1,0 +1,981 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>新用户专属福利 — 泓泽数字 AI初面系统</title>
+<style>
+:root {
+  --brand-blue: #0070ff;
+  --brand-green: #00d68f;
+  --brand-gradient: linear-gradient(135deg, #0070ff, #00d68f);
+  --bg-page: #f7fafc;
+  --bg-card: #ffffff;
+  --bg-soft: #f8fafc;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-tertiary: #94a3b8;
+  --border-default: #e2e8f0;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --shadow-card: 0 1px 3px rgba(15,23,42,0.04);
+  --shadow-hover: 0 4px 16px rgba(15,23,42,0.06);
+  --shadow-glow: 0 8px 32px rgba(0,112,255,0.12);
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", "Microsoft YaHei", sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg-page);
+  color: var(--text-primary);
+  min-height: 100vh;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* ─── NAV ─── */
+.nav {
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-default);
+  padding: 0 20px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--text-primary);
+  text-decoration: none;
+}
+.nav-logo-img { height: 34px; width: auto; display: block; background: transparent; border-radius: 0; }
+.nav-link {
+  font-size: 13px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  transition: background 0.15s;
+}
+.nav-link:hover { background: var(--bg-soft); }
+
+/* ─── HERO ─── */
+.hero {
+  background: var(--brand-gradient);
+  padding: 56px 20px 64px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.hero-badge {
+  display: inline-block;
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 100px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(255,255,255,0.3);
+  position: relative;
+}
+.hero-title {
+  font-size: clamp(28px, 7vw, 44px);
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.2;
+  margin-bottom: 16px;
+  position: relative;
+}
+.hero-title em {
+  font-style: normal;
+  background: rgba(255,255,255,0.25);
+  padding: 0 8px;
+  border-radius: 8px;
+}
+.hero-subtitle {
+  font-size: 16px;
+  color: rgba(255,255,255,0.85);
+  margin-bottom: 32px;
+  position: relative;
+  max-width: 440px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.hero-cta {
+  display: inline-block;
+  background: #fff;
+  color: var(--brand-blue);
+  font-size: 16px;
+  font-weight: 700;
+  padding: 14px 36px;
+  border-radius: 100px;
+  text-decoration: none;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+  transition: transform 0.15s, box-shadow 0.15s;
+  cursor: pointer;
+  border: none;
+  position: relative;
+}
+.hero-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+}
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  margin-top: 40px;
+  position: relative;
+}
+.hero-stat {
+  text-align: center;
+  color: rgba(255,255,255,0.9);
+}
+.hero-stat strong {
+  display: block;
+  font-size: 28px;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1;
+}
+.hero-stat span {
+  font-size: 12px;
+  opacity: 0.8;
+  margin-top: 4px;
+  display: block;
+}
+
+/* ─── SECTION ─── */
+.section {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 48px 20px;
+}
+.section-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  text-align: center;
+}
+.section-sub {
+  font-size: 14px;
+  color: var(--text-secondary);
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+/* ─── PROGRESS AXIS ─── */
+.progress-wrap {
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-xl);
+  padding: 32px 24px;
+  box-shadow: var(--shadow-card);
+}
+.progress-axis {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0;
+}
+.progress-axis::before {
+  content: '';
+  position: absolute;
+  top: 22px;
+  left: 22px;
+  right: 22px;
+  height: 3px;
+  background: var(--border-default);
+  border-radius: 2px;
+  z-index: 0;
+}
+.progress-line {
+  position: absolute;
+  top: 22px;
+  left: 22px;
+  height: 3px;
+  background: var(--brand-gradient);
+  border-radius: 2px;
+  z-index: 1;
+  transition: width 0.6s ease;
+  width: 0%;
+}
+.prog-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+  transition: transform 0.15s;
+}
+.prog-node:hover { transform: translateY(-2px); }
+.prog-dot {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  border: 3px solid var(--border-default);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  transition: all 0.3s;
+}
+.prog-node.active .prog-dot,
+.prog-node.done .prog-dot {
+  background: var(--brand-gradient);
+  border-color: transparent;
+  box-shadow: 0 4px 16px rgba(0,112,255,0.3);
+}
+.prog-label {
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-tertiary);
+  font-weight: 500;
+  line-height: 1.4;
+  max-width: 70px;
+}
+.prog-node.active .prog-label,
+.prog-node.done .prog-label {
+  color: var(--brand-blue);
+  font-weight: 600;
+}
+.prog-days {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--brand-blue);
+  text-align: center;
+}
+.prog-node.active .prog-days,
+.prog-node.done .prog-days {
+  background: var(--brand-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.progress-total {
+  text-align: center;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border-default);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+.total-days {
+  font-size: 36px;
+  font-weight: 800;
+  background: var(--brand-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+}
+.total-label {
+  text-align: left;
+}
+.total-label strong {
+  display: block;
+  font-size: 15px;
+  color: var(--text-primary);
+}
+.total-label span {
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+
+/* ─── TASK CARDS ─── */
+.task-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+@media (max-width: 480px) {
+  .task-grid { grid-template-columns: 1fr; }
+}
+.task-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  transition: box-shadow 0.15s, transform 0.15s;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.task-card:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
+}
+.task-card.done {
+  border-color: #00d68f;
+  background: linear-gradient(135deg, #f0fff8, #fff);
+}
+.task-card.done::after {
+  content: '✓';
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  width: 22px;
+  height: 22px;
+  background: var(--brand-green);
+  color: #fff;
+  border-radius: 50%;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.task-icon {
+  font-size: 28px;
+  margin-bottom: 12px;
+  display: block;
+}
+.task-reward {
+  font-size: 28px;
+  font-weight: 900;
+  background: var(--brand-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.task-reward span {
+  font-size: 14px;
+  font-weight: 600;
+}
+.task-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+.task-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 14px;
+}
+.task-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--brand-blue);
+  background: rgba(0,112,255,0.08);
+  border: none;
+  border-radius: 100px;
+  padding: 5px 12px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.task-btn:hover { background: rgba(0,112,255,0.14); }
+.task-card.done .task-btn {
+  color: var(--brand-green);
+  background: rgba(0,214,143,0.1);
+}
+.task-card.done .task-btn::before { content: '已完成 '; }
+
+/* ─── NOTICE STRIP ─── */
+.notice-strip {
+  background: linear-gradient(135deg, #fff8e1, #fff3cd);
+  border: 1px solid #f0c040;
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  color: #795a00;
+  margin-top: 24px;
+}
+.notice-strip-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+/* ─── FAQ ─── */
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.faq-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: box-shadow 0.15s;
+}
+.faq-item.open { box-shadow: var(--shadow-hover); }
+.faq-q {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 18px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  gap: 12px;
+  user-select: none;
+}
+.faq-q:hover { background: var(--bg-soft); }
+.faq-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--bg-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: var(--text-tertiary);
+  flex-shrink: 0;
+  transition: transform 0.25s, background 0.15s;
+  font-weight: 700;
+  line-height: 1;
+}
+.faq-item.open .faq-icon {
+  transform: rotate(45deg);
+  background: var(--brand-blue);
+  color: #fff;
+}
+.faq-a {
+  display: none;
+  padding: 0 18px 16px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  border-top: 1px solid var(--border-default);
+}
+.faq-item.open .faq-a { display: block; }
+
+/* ─── BOTTOM CTA ─── */
+.bottom-cta {
+  background: var(--brand-gradient);
+  padding: 48px 20px;
+  text-align: center;
+}
+.bottom-cta h2 {
+  font-size: 22px;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 8px;
+}
+.bottom-cta p {
+  font-size: 14px;
+  color: rgba(255,255,255,0.8);
+  margin-bottom: 28px;
+}
+.btn-white {
+  display: inline-block;
+  background: #fff;
+  color: var(--brand-blue);
+  font-size: 16px;
+  font-weight: 700;
+  padding: 14px 40px;
+  border-radius: 100px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.btn-white:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+}
+
+/* ─── MODAL ─── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(15,23,42,0.5);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--bg-card);
+  border-radius: var(--radius-xl);
+  padding: 32px 24px;
+  max-width: 400px;
+  width: 100%;
+  position: relative;
+  box-shadow: 0 24px 60px rgba(15,23,42,0.2);
+}
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: var(--bg-soft);
+  border: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-size: 14px;
+  cursor: pointer;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+.modal-close:hover { background: var(--border-default); }
+.modal h3 {
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+.modal-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, rgba(0,112,255,0.1), rgba(0,214,143,0.1));
+  color: var(--brand-blue);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 100px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(0,112,255,0.2);
+}
+.form-group {
+  margin-bottom: 14px;
+}
+.form-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+.form-row {
+  display: flex;
+  gap: 8px;
+}
+.form-input {
+  flex: 1;
+  height: 44px;
+  border: 1.5px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: 0 12px;
+  font-size: 14px;
+  font-family: var(--font);
+  color: var(--text-primary);
+  background: var(--bg-card);
+  outline: none;
+  transition: border-color 0.15s;
+}
+.form-input:focus { border-color: var(--brand-blue); }
+.btn-code {
+  height: 44px;
+  padding: 0 14px;
+  background: var(--bg-soft);
+  border: 1.5px solid var(--border-default);
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--brand-blue);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+  font-family: var(--font);
+}
+.btn-code:hover { border-color: var(--brand-blue); background: rgba(0,112,255,0.06); }
+.btn-code.sent { color: var(--text-tertiary); cursor: default; }
+.btn-submit {
+  width: 100%;
+  height: 48px;
+  background: var(--brand-gradient);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  margin-top: 8px;
+  font-family: var(--font);
+  transition: opacity 0.15s, transform 0.15s;
+}
+.btn-submit:hover { opacity: 0.9; transform: translateY(-1px); }
+.modal-tip {
+  text-align: center;
+  font-size: 11px;
+  color: var(--text-tertiary);
+  margin-top: 12px;
+}
+.success-state {
+  display: none;
+  text-align: center;
+  padding: 20px 0;
+}
+.success-state.show { display: block; }
+.success-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+  display: block;
+}
+.success-state h3 {
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+.success-state p {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a class="nav-logo" href="#">
+    <img class="nav-logo-img" src="./assets/hi-logo-horizontal.svg" alt="hi AI初面" />
+  </a>
+  <a class="nav-link" href="/hr/login.html">已有账号？登录</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">🎁 新用户专属福利</div>
+  <h1 class="hero-title">
+    注册即送 <em>14 天</em><br>免费会员
+  </h1>
+  <p class="hero-subtitle">完成简单任务最多再赚 28 天<br>注册即可领取，先体验后开通</p>
+  <button class="hero-cta" onclick="openModal()">免费注册，立即领取</button>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <strong>最多 42 天</strong>
+      <span>免费使用期</span>
+    </div>
+    <div class="hero-stat">
+      <strong>无限制</strong>
+      <span>功能全开放</span>
+    </div>
+    <div class="hero-stat">
+      <strong>0 元</strong>
+      <span>注册即可领取</span>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRESS AXIS -->
+<div class="section">
+  <h2 class="section-title">会员奖励进度</h2>
+  <p class="section-sub">每完成一个里程碑，自动累积更多免费天数</p>
+
+  <div class="progress-wrap">
+    <div class="progress-axis" id="progressAxis">
+      <div class="progress-line" id="progressLine"></div>
+
+      <div class="prog-node done" data-step="0" onclick="selectStep(0)">
+        <div class="prog-dot">🎉</div>
+        <div class="prog-days">+14天</div>
+        <div class="prog-label">完成注册</div>
+      </div>
+
+      <div class="prog-node" data-step="1" onclick="selectStep(1)">
+        <div class="prog-dot">📋</div>
+        <div class="prog-days">+7天</div>
+        <div class="prog-label">发布第一个岗位</div>
+      </div>
+
+      <div class="prog-node" data-step="2" onclick="selectStep(2)">
+        <div class="prog-dot">🤖</div>
+        <div class="prog-days">+7天</div>
+        <div class="prog-label">完成第一次AI初面</div>
+      </div>
+
+      <div class="prog-node" data-step="3" onclick="selectStep(3)">
+        <div class="prog-dot">👥</div>
+        <div class="prog-days">+14天</div>
+        <div class="prog-label">邀请同事注册</div>
+      </div>
+    </div>
+
+    <div class="progress-total">
+      <div class="total-days" id="totalDays">14</div>
+      <div class="total-label">
+        <strong id="totalLabel">已获得会员天数</strong>
+        <span id="totalHint">完成全部任务最多可叠加 42 天</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TASK CARDS -->
+<div class="section" style="padding-top: 0;">
+  <h2 class="section-title">任务中心</h2>
+  <p class="section-sub">点击任意任务卡标记完成，进度轴同步更新</p>
+
+  <div class="task-grid">
+    <div class="task-card done" id="task-0">
+      <span class="task-icon">🎉</span>
+      <div class="task-reward">+14<span>天</span></div>
+      <div class="task-name">完成注册</div>
+      <div class="task-desc">注册并完善您的企业信息，立即解锁全功能免费体验。</div>
+      <button class="task-btn" onclick="toggleTask(0)">去完成</button>
+    </div>
+
+    <div class="task-card" id="task-1">
+      <span class="task-icon">📋</span>
+      <div class="task-reward">+7<span>天</span></div>
+      <div class="task-name">发布第一个岗位</div>
+      <div class="task-desc">创建您的第一个招聘岗位，设置职位名称、薪资范围和面试问题。</div>
+      <button class="task-btn" onclick="toggleTask(1)">去完成</button>
+    </div>
+
+    <div class="task-card" id="task-2">
+      <span class="task-icon">🤖</span>
+      <div class="task-reward">+7<span>天</span></div>
+      <div class="task-name">完成第一次AI初面</div>
+      <div class="task-desc">邀请候选人参与AI语音初面，查看系统自动生成的面试报告。</div>
+      <button class="task-btn" onclick="toggleTask(2)">去完成</button>
+    </div>
+
+    <div class="task-card" id="task-3">
+      <span class="task-icon">👥</span>
+      <div class="task-reward">+14<span>天</span></div>
+      <div class="task-name">邀请同事注册</div>
+      <div class="task-desc">每成功邀请1位同事注册，您和对方各获得14天免费会员，无上限。</div>
+      <button class="task-btn" onclick="toggleTask(3)">去完成</button>
+    </div>
+  </div>
+
+  <div class="notice-strip">
+    <span class="notice-strip-icon">⏰</span>
+    <div>
+      <strong>温馨提示：</strong>活动随时可能调整，已获得的会员天数不受影响。免费期结束后系统将提醒您续费，续费前数据保留 30 天。
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="section" style="padding-top: 0;">
+  <h2 class="section-title">常见问题</h2>
+  <p class="section-sub">有疑问？这里有答案</p>
+
+  <div class="faq-list">
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span>会员天数可以叠加吗？最多能免费用多久？</span>
+        <div class="faq-icon">+</div>
+      </div>
+      <div class="faq-a">可以叠加。完成注册送 14 天，完成发布岗位、完成首次 AI 初面各 +7 天，邀请同事注册 +14 天，四项全部完成最多累积 <strong>42 天</strong>免费使用。邀请同事的奖励无次数上限，超出 42 天的部分同样有效计入。</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span>邀请好友的奖励怎么算？对方也会获得会员吗？</span>
+        <div class="faq-icon">+</div>
+      </div>
+      <div class="faq-a">是的，邀请成功后<strong>双方均获得 14 天</strong>免费会员奖励。您邀请的同事必须通过您专属的邀请链接注册并完成手机验证，奖励将在 1 分钟内自动发放到双方账户。</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span>免费期结束后数据会丢失吗？</span>
+        <div class="faq-icon">+</div>
+      </div>
+      <div class="faq-a">不会立刻丢失。免费期结束后账户进入<strong>30 天保留期</strong>，期间可以查看已有数据，但无法发起新的 AI 初面。在 30 天内完成续费，所有数据（候选人报告、岗位信息、面试录音）立即完整恢复。超过 30 天后数据将被清理，请及时续费。</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span>免费体验和付费版有什么功能区别？</span>
+        <div class="faq-icon">+</div>
+      </div>
+      <div class="faq-a">免费体验期间功能<strong>全部开放</strong>，包括 AI 语音初面、候选人报告、录音回听、HR 批量复核等。唯一限制是每月 20 次 AI 初面额度和 5 个岗位上限。付费版月度会员额度相同，但报告保留期从 15 天延长至无限期，并支持加量包叠加。</div>
+    </div>
+  </div>
+</div>
+
+<!-- BOTTOM CTA -->
+<section class="bottom-cta">
+  <h2>开始免费体验 AI 全量初面</h2>
+  <p>注册即送 14 天，注册即可领取，试用结束再决定是否开通</p>
+  <button class="btn-white" onclick="openModal()">立即免费注册</button>
+</section>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOnBg(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="formState">
+      <h3>免费注册领会员</h3>
+      <div class="modal-badge">🎁 注册即得 14 天免费会员</div>
+      <div class="form-group">
+        <label class="form-label">手机号</label>
+        <input class="form-input" type="tel" placeholder="请输入手机号" id="phoneInput" maxlength="11">
+      </div>
+      <div class="form-group">
+        <label class="form-label">验证码</label>
+        <div class="form-row">
+          <input class="form-input" type="text" placeholder="请输入验证码" id="codeInput" maxlength="6">
+          <button class="btn-code" id="codeBtn" onclick="sendCode()">获取验证码</button>
+        </div>
+      </div>
+      <button class="btn-submit" onclick="doRegister()">立即注册，领取 14 天会员</button>
+      <p class="modal-tip">注册即表示同意《用户协议》和《隐私政策》</p>
+    </div>
+    <div class="success-state" id="successState">
+      <span class="success-icon">🎉</span>
+      <h3>注册成功！</h3>
+      <p>14 天免费会员已到账<br>正在跳转到后台…</p>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── TASK STATE ───
+const taskRewards = [14, 7, 7, 14];
+const taskDone = [true, false, false, false];
+
+function calcTotal() {
+  return taskDone.reduce((sum, done, i) => done ? sum + taskRewards[i] : sum, 0);
+}
+
+function updateProgress() {
+  const total = calcTotal();
+  const nodes = document.querySelectorAll('.prog-node');
+  const line = document.getElementById('progressLine');
+  const totalDays = document.getElementById('totalDays');
+  const totalLabel = document.getElementById('totalLabel');
+  const totalHint = document.getElementById('totalHint');
+  const doneCount = taskDone.filter(Boolean).length;
+
+  nodes.forEach((node, i) => {
+    node.classList.remove('done', 'active');
+    if (taskDone[i]) node.classList.add('done');
+  });
+
+  const pct = doneCount === 0 ? 0
+    : doneCount === 1 ? 0
+    : doneCount === 2 ? 33
+    : doneCount === 3 ? 66
+    : 100;
+  line.style.width = pct + '%';
+
+  totalDays.textContent = total;
+  totalLabel.textContent = total >= 42 ? '🎊 已达最大奖励！' : '已获得会员天数';
+  totalHint.textContent = total >= 42
+    ? '恭喜，您已解锁全部任务奖励'
+    : `还差 ${42 - total} 天可叠加到最大 42 天`;
+}
+
+function toggleTask(idx) {
+  taskDone[idx] = !taskDone[idx];
+  const card = document.getElementById('task-' + idx);
+  if (taskDone[idx]) {
+    card.classList.add('done');
+  } else {
+    if (idx === 0) { taskDone[0] = true; return; } // 注册不能反选
+    card.classList.remove('done');
+  }
+  updateProgress();
+}
+
+function selectStep(idx) {
+  // 高亮选中节点
+  document.querySelectorAll('.prog-node').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.prog-node')[idx].classList.add('active');
+}
+
+// ─── FAQ ───
+function toggleFaq(el) {
+  const item = el.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+// ─── MODAL ───
+function openModal() {
+  window.location.href = './hr/entry.html';
+}
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+}
+function closeModalOnBg(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+}
+
+let codeTimer = null;
+function sendCode() {
+  const phone = document.getElementById('phoneInput').value.trim();
+  if (!/^1[3-9]\d{9}$/.test(phone)) {
+    alert('请输入正确的手机号');
+    return;
+  }
+  const btn = document.getElementById('codeBtn');
+  let sec = 60;
+  btn.textContent = sec + 's后重发';
+  btn.classList.add('sent');
+  btn.onclick = null;
+  codeTimer = setInterval(() => {
+    sec--;
+    if (sec <= 0) {
+      clearInterval(codeTimer);
+      btn.textContent = '重新获取';
+      btn.classList.remove('sent');
+      btn.onclick = sendCode;
+    } else {
+      btn.textContent = sec + 's后重发';
+    }
+  }, 1000);
+}
+
+function doRegister() {
+  const phone = document.getElementById('phoneInput').value.trim();
+  const code = document.getElementById('codeInput').value.trim();
+  if (!/^1[3-9]\d{9}$/.test(phone)) { alert('请输入正确的手机号'); return; }
+  if (code.length < 4) { alert('请输入验证码'); return; }
+  // Demo: 直接展示成功状态
+  document.getElementById('formState').style.display = 'none';
+  document.getElementById('successState').classList.add('show');
+  setTimeout(() => {
+    closeModal();
+    document.getElementById('successState').classList.remove('show');
+    document.getElementById('formState').style.display = '';
+  }, 3000);
+}
+
+// ─── INIT ───
+updateProgress();
+</script>
+</body>
+</html>
+
+
+
+

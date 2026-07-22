@@ -1,0 +1,87 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>候选人入口｜AI全量初面系统</title>
+    <link rel="stylesheet" href="./styles.css?v=20260610b" />
+<style id="site-footer-unified-style">
+.site-footer{background:#fff;border-top:1px solid #E2E8F0;padding:40px;color:#94A3B8;font-size:12px;}
+.site-footer-inner{max-width:1200px;margin:0 auto;display:flex;align-items:flex-start;justify-content:space-between;gap:32px;}
+.site-footer-brand{display:flex;align-items:center;gap:12px;color:#0F172A;font-weight:600;}
+.site-footer-logo{width:32px;height:32px;border-radius:8px;object-fit:contain;display:block;flex-shrink:0;}
+.site-footer-info{text-align:right;}
+.site-footer-info p{margin:0;font-size:12px;color:#94A3B8;line-height:1.8;}
+.site-footer-info a{color:#94A3B8;text-decoration:none;display:inline-flex;align-items:center;gap:4px;vertical-align:middle;}
+.site-footer-info a:hover{color:#0070FF;}
+.site-footer-info img{width:16px;height:16px;flex-shrink:0;}
+@media(max-width:760px){.site-footer{padding:32px 20px;}.site-footer-inner{flex-direction:column;align-items:center;text-align:center;gap:14px;}.site-footer-brand{justify-content:center;}.site-footer-info{text-align:center;}.site-footer-info p{line-height:2;}}
+</style>
+</head>
+  <body>
+    <header class="top">
+      <div class="brand"><img class="brand-logo" src="./assets/logo-icon.svg" alt="hi AI初面" /><span><strong>AI全量初面系统</strong><small>泓泽数字旗下产品</small></span></div>
+      <span class="badge">线上初面邀请</span>
+    </header>
+    <main class="layout">
+      <div class="page-title">
+        <span class="crumb">候选人端 / 面试邀请</span>
+        <h1>你收到了一份线上初面邀请</h1>
+        <p>本次初面用于让企业先看见真实的人，再由HR复核后决定是否继续沟通。</p>
+      </div>
+
+      <section class="grid two">
+        <div class="panel info-list">
+          <div class="section-head">
+            <div>
+              <h2>岗位与企业信息</h2>
+              <p>以下信息由企业HR填写，请先确认岗位内容是否与你收到的招聘信息一致。</p>
+            </div>
+            <span class="badge">企业已认证</span>
+          </div>
+          <div class="info-item"><span>公司名称</span><strong data-job="company_name">正在读取</strong></div>
+          <div class="info-item"><span>岗位名称</span><strong data-job="job_title">正在读取</strong></div>
+          <div class="info-item"><span>薪资范围</span><strong data-job="salary_range">正在读取</strong></div>
+          <div class="info-item"><span>福利待遇</span><strong data-job="benefits">正在读取</strong></div>
+          <div class="notice">点击"开始面试"后，系统会先判断你的登录状态。未登录会进入手机号验证，完成后继续实名、简历、岗位确认和设备检查。</div>
+        </div>
+
+        <div class="panel">
+          <h2 style="margin-top:0;font-size:17px;color:var(--ink)">平台认证信息</h2>
+          <div class="status-row">
+            <span class="status-pill"><i class="dot"></i>企业认证</span>
+            <span class="status-pill"><i class="dot"></i>HR实名</span>
+            <span class="status-pill"><i class="dot"></i>平台备案</span>
+          </div>
+          <div class="notice" style="margin-top:14px">如发现虚假招聘或信息不一致，可在面试前反馈可疑岗位。</div>
+        </div>
+      </section>
+
+      <section class="panel" style="margin-top:14px">
+        <h2 style="margin-top:0;font-size:17px;color:var(--ink)">开始面试前的流程</h2>
+        <div class="steps">
+          <div class="step"><span>1</span><strong>手机号验证与实名认证</strong></div>
+          <div class="step"><span>2</span><strong>上传真实简历</strong></div>
+          <div class="step"><span>3</span><strong>确认岗位信息</strong></div>
+          <div class="step"><span>4</span><strong>设备检查</strong></div>
+          <div class="step"><span>5</span><strong>AI语音初面</strong></div>
+        </div>
+        <div class="notice" style="margin-top:14px">HR只能查看本岗位相关材料，不能查看你在其他公司或其他岗位的面试历史。面试记录默认15天后自动删除。</div>
+        <div class="notice" style="margin-top:10px">我确认本次面试中看到的岗位薪资、福利和公司信息将作为双方沟通记录留痕。</div>
+        <div class="actions"><a class="btn primary" id="startInterview" href="./login.html?from=interview">开始面试</a><a class="btn" href="./agreement.html">查看授权与隐私说明</a><a class="btn" id="riskReport" href="#">反馈可疑岗位</a></div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+  <div class="site-footer-inner">
+    <div class="site-footer-brand"><img class="site-footer-logo" src="./assets/mother-company-symbol-cropped.png" alt="泓泽数字" /><span>泓泽数字</span></div>
+    <div class="site-footer-info">
+      <p>AI全量初面系统 &middot; Powered by <a href="https://www.hongzedigital.com">泓泽数字</a></p>
+      <p><a href="../help.html">使用说明</a> &middot; <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">粤ICP备2026055553号</a> &middot; <a href="https://www.beian.gov.cn/portal/registerSystemInfo?recordcode=44010302111445" target="_blank" rel="noreferrer"><img src="./assets/beian.png" alt="公安备案图标" />粤公网安备44010302111445号</a></p>
+    </div>
+  </div>
+</footer>
+    <script src="./auth-flow.js?v=20260612d"></script>
+    <script src="./candidate-progress.js?v=20260612d"></script>
+</body>
+</html>

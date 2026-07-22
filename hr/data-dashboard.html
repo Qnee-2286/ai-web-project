@@ -1,0 +1,190 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta name="hi-build" content="20260615cachefix" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>数据看板｜AI全量初面系统</title>
+    <link rel="stylesheet" href="./v2-design-system.css?v=20260615cachefix" />
+    <style>
+      .dashboard-filter { display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end; }
+      .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 20px; }
+      .kpi-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-card); padding: 20px; text-align: center; box-shadow: var(--s1); }
+      .kpi-card span { display: block; font-size: 12px; color: var(--text-aux); margin-bottom: 4px; }
+      .kpi-card strong { display: block; font-size: 32px; font-weight: 900; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+      .kpi-card small { display: block; font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
+      .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+      .chart-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-card); padding: 20px; box-shadow: var(--s1); }
+      .chart-card h3 { font-size: 14px; font-weight: 700; margin-bottom: 16px; }
+      .columns { display: flex; align-items: flex-end; gap: 12px; height: 180px; padding-top: 20px; }
+      .column { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+      .column i { display: block; width: 100%; max-width: 48px; border-radius: 6px 6px 0 0; background: linear-gradient(180deg, var(--gradient-start), var(--gradient-end)); }
+      .column span { font-size: 11px; color: var(--text-secondary); }
+      .pie-wrap { display: flex; align-items: center; gap: 24px; }
+      .donut { width: 120px; height: 120px; border-radius: 50%; background: conic-gradient(var(--green) 0% 26%, #FBBF24 26% 73%, var(--border-hover) 73% 100%); flex-shrink: 0; }
+      .donut.review { background: conic-gradient(var(--green) 0% 24%, #FBBF24 24% 67%, var(--border-hover) 67% 100%); }
+      .legend { display: flex; flex-direction: column; gap: 8px; }
+      .legend span { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-secondary); }
+      .legend i { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+      .legend i.green { background: var(--green); }
+      .legend i.amber { background: #FBBF24; }
+      .legend i.gray { background: var(--border-hover); }
+      .bars { display: flex; flex-direction: column; gap: 12px; }
+      .bar-row { display: flex; align-items: center; gap: 10px; font-size: 13px; }
+      .bar-row span { width: 48px; color: var(--text-secondary); text-align: right; flex-shrink: 0; }
+      .bar-track { flex: 1; height: 8px; background: #F1F5F9; border-radius: 4px; overflow: hidden; }
+      .bar-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end)); transition: width .3s; }
+      .bar-row strong { width: 28px; text-align: right; flex-shrink: 0; }
+      @media (max-width: 980px) {
+        .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+        .dashboard-grid { grid-template-columns: 1fr; }
+      }
+    </style>
+  <style id="site-footer-unified-style">
+.site-footer{background:#fff;border-top:1px solid #E2E8F0;padding:40px;color:#94A3B8;font-size:12px;}
+.site-footer-inner{max-width:1200px;margin:0 auto;display:flex;align-items:flex-start;justify-content:space-between;gap:32px;}
+.site-footer-brand{display:flex;align-items:center;gap:12px;color:#0F172A;font-weight:600;}
+.site-footer-logo{width:32px;height:32px;border-radius:8px;object-fit:contain;display:block;flex-shrink:0;}
+.site-footer-info{text-align:right;}
+.site-footer-info p{margin:0;font-size:12px;color:#94A3B8;line-height:1.8;}
+.site-footer-info a{color:#94A3B8;text-decoration:none;display:inline-flex;align-items:center;gap:4px;vertical-align:middle;}
+.site-footer-info a:hover{color:#0070FF;}
+.site-footer-info img{width:16px;height:16px;flex-shrink:0;}
+@media(max-width:760px){.site-footer{padding:32px 20px;}.site-footer-inner{flex-direction:column;align-items:center;text-align:center;gap:14px;}.site-footer-brand{justify-content:center;}.site-footer-info{text-align:center;}.site-footer-info p{line-height:2;}}
+</style>
+</head>
+  <body>
+    <div class="shell">
+      <aside class="side">
+        <div class="brand">
+          <img class="brand-logo" src="./assets/logo-icon.svg" alt="hi AI初面" style="background:none;padding:0;" />
+          <span><strong>AI全量初面系统</strong><small>泓泽数字旗下产品</small></span>
+        </div>
+        <nav class="nav">
+          <a href="./dashboard.html">🏠 首页</a>
+          <a href="./create-interview-flow.html?v=20260615cachefix">✦ 创建初面</a>
+          <a href="./job-management.html">📋 初面管理</a>
+          <a href="./candidate-list.html">👥 候选人</a>
+          <a href="./report-review-list.html">📊 报告复核</a>
+          <a href="./question-bank.html">📝 题库管理</a>
+          <div class="nav-sep"></div>
+          <a href="./membership.html">💎 会员中心</a>
+          <a href="./profile.html">⚙ 设置</a>
+        </nav>
+      </aside>
+      <main class="main">
+        <div class="topbar">
+          <div class="page-title">
+            <span class="crumb">HR端 / 数据看板</span>
+            <h1>数据看板</h1>
+            <p>按岗位和时间查看初面推进情况，帮助HR判断哪里需要跟进。</p>
+          </div>
+          <div class="topbar-account">
+            <a class="user-mini" href="./profile.html"><div class="avatar">HR</div><div><strong>当前HR</strong><span>个人中心</span></div></a>
+            <a class="btn" href="./login.html">退出</a>
+          </div>
+        </div>
+
+        <div style="flex:1; padding-top:24px;">
+          <!-- Filters -->
+          <section class="panel dashboard-filter">
+            <div class="field"><label>岗位</label><select><option>全部岗位</option><option>行政专员</option><option>HR助理</option><option>财务文员</option></select></div>
+            <div class="field"><label>开始日期</label><input type="date" value="2026-04-01" /></div>
+            <div class="field"><label>结束日期</label><input type="date" value="2026-04-29" /></div>
+          </section>
+
+          <!-- KPI cards -->
+          <div class="kpi-grid">
+            <article class="kpi-card"><span>候选人总数</span><strong>36</strong><small>已进入初面流程</small></article>
+            <article class="kpi-card"><span>完成面试</span><strong>21</strong><small>完成率 58%</small></article>
+            <article class="kpi-card"><span>待HR复核</span><strong>7</strong><small>建议优先处理</small></article>
+            <article class="kpi-card"><span>进入二面</span><strong>5</strong><small>由HR复核确认</small></article>
+          </div>
+
+          <!-- Charts -->
+          <div class="dashboard-grid">
+            <article class="chart-card">
+              <h3>面试状态分布</h3>
+              <div class="columns" aria-label="面试状态分布图">
+                <div class="column"><i style="height: 42px; background: #CBD5E1"></i><span>未接收</span></div>
+                <div class="column"><i style="height: 82px"></i><span>待面试</span></div>
+                <div class="column"><i style="height: 28px; background: #FBBF24"></i><span>面试中</span></div>
+                <div class="column"><i style="height: 158px; background: #00D68F"></i><span>已完成</span></div>
+              </div>
+            </article>
+
+            <article class="chart-card">
+              <h3>HR复核结果</h3>
+              <div class="pie-wrap">
+                <div class="donut review" aria-label="HR复核结果环形图"></div>
+                <div class="legend">
+                  <span><i class="green"></i>进入二面 5</span>
+                  <span><i class="amber"></i>暂缓推进 9</span>
+                  <span><i class="gray"></i>待复核 7</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="chart-card">
+              <h3>学历分布</h3>
+              <div class="bars">
+                <div class="bar-row"><span>大专</span><div class="bar-track"><div class="bar-fill" style="width: 58%"></div></div><strong>14</strong></div>
+                <div class="bar-row"><span>本科</span><div class="bar-track"><div class="bar-fill" style="width: 100%; background: linear-gradient(90deg, #0070FF, #00D68F)"></div></div><strong>24</strong></div>
+                <div class="bar-row"><span>硕士</span><div class="bar-track"><div class="bar-fill" style="width: 8%; background: #FBBF24"></div></div><strong>2</strong></div>
+              </div>
+            </article>
+
+            <article class="chart-card">
+              <h3>工作年限</h3>
+              <div class="bars">
+                <div class="bar-row"><span>1年内</span><div class="bar-track"><div class="bar-fill" style="width: 32%"></div></div><strong>6</strong></div>
+                <div class="bar-row"><span>1-3年</span><div class="bar-track"><div class="bar-fill" style="width: 100%; background: linear-gradient(90deg, #0070FF, #00D68F)"></div></div><strong>19</strong></div>
+                <div class="bar-row"><span>3-5年</span><div class="bar-track"><div class="bar-fill" style="width: 58%; background: #FBBF24"></div></div><strong>11</strong></div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <footer class="site-footer">
+  <div class="site-footer-inner">
+    <div class="site-footer-brand"><img class="site-footer-logo" src="./assets/mother-company-symbol-cropped.png" alt="泓泽数字" /><span>泓泽数字</span></div>
+    <div class="site-footer-info">
+      <p>AI全量初面系统 &middot; Powered by <a href="https://www.hongzedigital.com">泓泽数字</a></p>
+      <p><a href="../help.html">使用说明</a> &middot; <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">粤ICP备2026055553号</a> &middot; <a href="https://www.beian.gov.cn/portal/registerSystemInfo?recordcode=44010302111445" target="_blank" rel="noreferrer"><img src="./assets/beian.png" alt="公安备案图标" />粤公网安备44010302111445号</a></p>
+    </div>
+  </div>
+</footer>
+
+    <script src="./auth-flow.js?v=20260615cachefix"></script>
+    <script>
+    // ===== Data Dashboard v2 — Logout handler =====
+    (function() {
+      var API = '../api';
+      async function post(path, payload) {
+        var res = await fetch(API + '/' + path, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify(payload || {})
+        });
+        return res.json().catch(function() { return { ok: false }; });
+      }
+      document.querySelectorAll('a[href="./login.html"]').forEach(function(a) {
+        if ((a.textContent || '').includes('退出')) {
+          a.addEventListener('click', function(e) {
+            e.preventDefault();
+            post('auth/logout.php', {}).catch(function() {}).then(function() {
+              location.href = './login.html';
+            });
+          });
+        }
+      });
+    })();
+    </script>
+  </body>
+</html>

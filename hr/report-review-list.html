@@ -1,0 +1,287 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta name="hi-build" content="20260615cachefix" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>报告复核｜AI全量初面系统</title>
+    <link rel="stylesheet" href="./v2-design-system.css?v=20260615cachefix" />
+    <style>
+      .review-status-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 20px; }
+      .review-status-card { display: block; padding: 18px; text-decoration: none; color: inherit; transition: all .15s; }
+      .review-status-card span { display: block; font-size: 12px; color: var(--text-aux); margin-bottom: 4px; }
+      .review-status-card strong { display: block; font-size: 28px; font-weight: 800; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+      .review-status-card small { display: block; font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
+      .review-status-card:hover { border-color: var(--gradient-start); box-shadow: var(--s3); }
+      .review-status-card.active { border-color: var(--gradient-start); background: rgba(0,112,255,.02); }
+      .batch-bar { display: none; padding: 12px 20px; margin-bottom: 16px; }
+      .batch-bar-inner { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+      .batch-bar label { display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 13px; font-weight: 600; }
+      .batch-bar label input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--gradient-start); }
+      .batch-bar .batch-info { color: var(--text-aux); font-size: 13px; }
+      .batch-bar .batch-spacer { flex: 1; }
+      .batch-bar .btn { font-size: 13px; }
+      @media (max-width: 980px) {
+        .review-status-grid { grid-template-columns: 1fr 1fr; }
+      }
+      @media (max-width: 640px) {
+        .review-status-grid { grid-template-columns: 1fr; }
+      }
+    </style>
+  <style id="site-footer-unified-style">
+.site-footer{background:#fff;border-top:1px solid #E2E8F0;padding:40px;color:#94A3B8;font-size:12px;}
+.site-footer-inner{max-width:1200px;margin:0 auto;display:flex;align-items:flex-start;justify-content:space-between;gap:32px;}
+.site-footer-brand{display:flex;align-items:center;gap:12px;color:#0F172A;font-weight:600;}
+.site-footer-logo{width:32px;height:32px;border-radius:8px;object-fit:contain;display:block;flex-shrink:0;}
+.site-footer-info{text-align:right;}
+.site-footer-info p{margin:0;font-size:12px;color:#94A3B8;line-height:1.8;}
+.site-footer-info a{color:#94A3B8;text-decoration:none;display:inline-flex;align-items:center;gap:4px;vertical-align:middle;}
+.site-footer-info a:hover{color:#0070FF;}
+.site-footer-info img{width:16px;height:16px;flex-shrink:0;}
+@media(max-width:760px){.site-footer{padding:32px 20px;}.site-footer-inner{flex-direction:column;align-items:center;text-align:center;gap:14px;}.site-footer-brand{justify-content:center;}.site-footer-info{text-align:center;}.site-footer-info p{line-height:2;}}
+</style>
+</head>
+  <body>
+    <div class="shell">
+      <aside class="side">
+        <div class="brand">
+          <img class="brand-logo" src="./assets/logo-icon.svg" alt="hi AI初面" style="background:none;padding:0;" />
+          <span><strong>AI全量初面系统</strong><small>泓泽数字旗下产品</small></span>
+        </div>
+        <nav class="nav">
+          <a href="./dashboard.html">🏠 首页</a>
+          <a href="./create-interview-flow.html?v=20260615cachefix">✦ 创建初面</a>
+          <a href="./job-management.html">📋 初面管理</a>
+          <a href="./candidate-list.html">👥 候选人</a>
+          <a class="active" href="./report-review-list.html">📊 报告复核</a>
+          <a href="./question-bank.html">📝 题库管理</a>
+          <div class="nav-sep"></div>
+          <a href="./membership.html">💎 会员中心</a>
+          <a href="./profile.html">⚙ 设置</a>
+        </nav>
+      </aside>
+      <main class="main">
+        <div class="topbar">
+          <div class="page-title">
+            <span class="crumb">HR端 / 报告复核</span>
+            <h1>报告复核</h1>
+            <p>这里展示当前账号下已完成初面、等待HR复核的候选人报告。面试编号用于后续查询、复核和争议留痕。</p>
+          </div>
+          <div class="topbar-account">
+            <a class="btn outline-primary" href="./candidate-list.html">查看候选人</a>
+            <a class="user-mini" href="./profile.html"><div class="avatar">HR</div><div><strong>当前HR</strong><span>个人中心</span></div></a>
+            <a class="btn" href="./login.html">退出</a>
+          </div>
+        </div>
+
+        <section class="review-status-grid" style="margin-top:20px;">
+          <a class="card review-status-card active" data-review-filter="pending" href="./report-review-list.html?status=pending"><span>待复核</span><strong id="reviewCount">0</strong><small>需要HR确认下一步</small></a>
+          <a class="card review-status-card" data-review-filter="continue" href="./report-review-list.html?status=continue"><span>已推进</span><strong id="reviewContinueCount">0</strong><small>进入二面或继续沟通</small></a>
+          <a class="card review-status-card" data-review-filter="hold" href="./report-review-list.html?status=hold"><span>待定</span><strong id="reviewHoldCount">0</strong><small>需要补充信息</small></a>
+          <a class="card review-status-card" data-review-filter="reject" href="./report-review-list.html?status=reject"><span>暂不推进</span><strong id="reviewRejectCount">0</strong><small>本次先不进入下一轮</small></a>
+        </section>
+
+        <!-- Batch operation bar -->
+        <section id="batchBar" class="panel batch-bar">
+          <div class="batch-bar-inner">
+            <label><input type="checkbox" id="selectAllCb" /> <strong>全选</strong></label>
+            <span id="batchSelectedInfo" class="batch-info">已选 0 项</span>
+            <div class="batch-spacer"></div>
+            <button class="btn" type="button" id="batchContinueBtn">批量推进</button>
+            <button class="btn" type="button" id="batchHoldBtn">批量待定</button>
+            <button class="btn" type="button" id="batchRejectBtn">批量暂不推进</button>
+          </div>
+        </section>
+
+        <div class="panel">
+          <div class="section-title"><h2>待复核报告</h2></div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th><input type="checkbox" id="headerSelectAll" /></th><th>面试编号</th><th>候选人</th><th>应聘岗位</th><th>简历</th><th>面试状态</th><th>更新时间</th><th>操作</th></tr>
+              </thead>
+              <tbody id="reviewReportRows">
+                <tr><td colspan="8">暂无待复核报告。候选人完成初面后会出现在这里。</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </main>
+    </div>
+    <footer class="site-footer">
+  <div class="site-footer-inner">
+    <div class="site-footer-brand"><img class="site-footer-logo" src="./assets/mother-company-symbol-cropped.png" alt="泓泽数字" /><span>泓泽数字</span></div>
+    <div class="site-footer-info">
+      <p>AI全量初面系统 &middot; Powered by <a href="https://www.hongzedigital.com">泓泽数字</a></p>
+      <p><a href="../help.html">使用说明</a> &middot; <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">粤ICP备2026055553号</a> &middot; <a href="https://www.beian.gov.cn/portal/registerSystemInfo?recordcode=44010302111445" target="_blank" rel="noreferrer"><img src="./assets/beian.png" alt="公安备案图标" />粤公网安备44010302111445号</a></p>
+    </div>
+  </div>
+</footer>
+    <script src="./common.js?v=20260615cachefix"></script>
+    <script src="./auth-flow.js?v=20260615cachefix"></script>
+    <script>
+    (function(){
+      var API = '../api';
+      function get(path) {
+        return fetch(API + '/' + path, { credentials: 'include' })
+          .then(function(r){ return r.json(); })
+          .then(function(data){
+            if (data && data.data && data.data.need_login) { location.href = './login.html'; return new Promise(function(){}); }
+            if (!data.ok) throw new Error(data.message || '请求失败');
+            return data;
+          });
+      }
+      function post(path, payload) {
+        return fetch(API + '/' + path, {
+          method: 'POST', headers: {'Content-Type':'application/json'}, credentials: 'include', body: JSON.stringify(payload)
+        }).then(function(r){ return r.json(); })
+        .then(function(data){
+          if (data && data.data && data.data.need_login) { location.href = './login.html'; return new Promise(function(){}); }
+          if (!data.ok) throw new Error(data.message || '请求失败');
+          return data;
+        });
+      }
+      function fmtTime(value) {
+        if (!value) return '-';
+        return String(value).replace('T', ' ').slice(0, 16);
+      }
+      function esc(value) {
+        return String(value == null ? '' : value).replace(/[&<>"']/g, function(ch){
+          return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch];
+        });
+      }
+
+      // === setupReportReviewList ===
+      var rows = document.getElementById('reviewReportRows');
+      var params = new URLSearchParams(location.search);
+      var currentStatus = params.get('status') || 'pending';
+      var count = document.getElementById('reviewCount');
+      var continueCount = document.getElementById('reviewContinueCount');
+      var holdCount = document.getElementById('reviewHoldCount');
+      var rejectCount = document.getElementById('reviewRejectCount');
+      var cards = Array.from(document.querySelectorAll('[data-review-filter]'));
+      if (!rows) return;
+      cards.forEach(function(card){ card.classList.toggle('active', card.dataset.reviewFilter === currentStatus); });
+      var titleMap = {pending:'待复核报告', 'continue':'已推进报告', hold:'待定报告', reject:'暂不推进报告', all:'全部报告'};
+      var title = document.querySelector('.section-title h2');
+      if (title) title.textContent = titleMap[currentStatus] || '待复核报告';
+
+      get('hr/list_review_reports.php?status=' + encodeURIComponent(currentStatus)).then(function(res){
+        var data = res.data;
+        rows.innerHTML = '';
+        var reports = data.reports || [];
+        var counts = data.counts || {};
+        if (count) count.textContent = String(counts.pending || 0);
+        if (continueCount) continueCount.textContent = String(counts.continue || 0);
+        if (holdCount) holdCount.textContent = String(counts.hold || 0);
+        if (rejectCount) rejectCount.textContent = String(counts.reject || 0);
+        if (!reports.length) {
+          rows.innerHTML = '<tr><td colspan="8">暂无' + esc(titleMap[currentStatus] || '报告') + '。</td></tr>';
+          return;
+        }
+        reports.forEach(function(item){
+          var tr = document.createElement('tr');
+          var candidateName = item.real_name || ('候选人#' + item.id);
+          var reviewTextMap = {pending:'待复核', 'continue':'已推进', hold:'待定', reject:'暂不推进'};
+          var reportStatus = item.report_id
+            ? (item.report_status === 'reviewed' ? reviewTextMap[item.review_bucket] || '已复核' : '待复核')
+            : '报告待生成';
+          tr.innerHTML =
+            '<td><input type="checkbox" class="row-cb" value="' + esc(String(item.id)) + '" /></td>' +
+            '<td>' + esc(item.interview_no || '-') + '</td>' +
+            '<td>' + esc(candidateName) + '</td>' +
+            '<td><strong>' + esc(item.job_title || '-') + '</strong><br><small>' + esc(item.work_location || '工作地点待补充') + '</small></td>' +
+            '<td>' + (item.resume_name ? '<a href="./resume-view.html?candidate_id=' + encodeURIComponent(item.id) + '">' + esc(item.resume_name) + '</a>' : '未上传') + '</td>' +
+            '<td>' + esc(reportStatus) + '</td>' +
+            '<td>' + esc(fmtTime(item.updated_at || item.interview_completed_at || item.report_updated_at)) + '</td>' +
+            '<td><span class="table-actions"><a class="primary-link" href="./report.html?candidate_id=' + encodeURIComponent(item.id) + '">进入复核</a></span></td>';
+          rows.appendChild(tr);
+        });
+      }).catch(function(err){
+        rows.innerHTML = '<tr><td colspan="8">' + esc(err.message) + '</td></tr>';
+      });
+
+      // === Batch operation logic ===
+      var batchBar = document.getElementById('batchBar');
+      var selectAllCb = document.getElementById('selectAllCb');
+      var headerSelectAll = document.getElementById('headerSelectAll');
+      var batchInfo = document.getElementById('batchSelectedInfo');
+
+      function getCheckedIds() {
+        var cbs = rows.querySelectorAll('input[type="checkbox"].row-cb:checked');
+        var ids = [];
+        cbs.forEach(function(cb){ ids.push(cb.value); });
+        return ids;
+      }
+      function updateBatchUI() {
+        var ids = getCheckedIds();
+        if (batchInfo) batchInfo.textContent = '已选 ' + ids.length + ' 项';
+        if (batchBar) batchBar.style.display = ids.length > 0 ? '' : 'none';
+        var allCbs = rows.querySelectorAll('input[type="checkbox"].row-cb');
+        var allChecked = allCbs.length > 0 && ids.length === allCbs.length;
+        if (selectAllCb) selectAllCb.checked = allChecked;
+        if (headerSelectAll) headerSelectAll.checked = allChecked;
+      }
+      function toggleAll(checked) {
+        var cbs = rows.querySelectorAll('input[type="checkbox"].row-cb');
+        cbs.forEach(function(cb){ cb.checked = checked; });
+        updateBatchUI();
+      }
+      if (selectAllCb) selectAllCb.addEventListener('change', function(){ toggleAll(this.checked); });
+      if (headerSelectAll) headerSelectAll.addEventListener('change', function(){ toggleAll(this.checked); });
+      rows.addEventListener('change', function(e){
+        if (e.target.classList.contains('row-cb')) updateBatchUI();
+      });
+
+      function batchAction(decision) {
+        var ids = getCheckedIds();
+        if (!ids.length) { alert('请先勾选要操作的报告'); return; }
+        if (!confirm('确认将 ' + ids.length + ' 份报告标记为"' + decision + '"？')) return;
+        var token = localStorage.getItem('hr_token') || '';
+        var form = new FormData();
+        form.append('token', token);
+        form.append('decision', decision);
+        form.append('session_ids', JSON.stringify(ids));
+        fetch('../api/hr/batch_review.php', { method:'POST', credentials:'include', body: form })
+          .then(function(r){ return r.json(); })
+          .then(function(d){
+            if (d.ok) { alert('批量操作成功：' + ids.length + ' 份报告已更新'); location.reload(); }
+            else { alert(d.message || '操作失败'); }
+          })
+          .catch(function(){ alert('网络错误，请重试'); });
+      }
+
+      var batchContinueBtn = document.getElementById('batchContinueBtn');
+      var batchHoldBtn = document.getElementById('batchHoldBtn');
+      var batchRejectBtn = document.getElementById('batchRejectBtn');
+      if (batchContinueBtn) batchContinueBtn.addEventListener('click', function(){ batchAction('continue'); });
+      if (batchHoldBtn) batchHoldBtn.addEventListener('click', function(){ batchAction('hold'); });
+      if (batchRejectBtn) batchRejectBtn.addEventListener('click', function(){ batchAction('reject'); });
+
+      // MutationObserver for checkbox initialization
+      var observer = new MutationObserver(function(){
+        var rowCbs = rows.querySelectorAll('input[type="checkbox"].row-cb');
+        if (rowCbs.length > 0) updateBatchUI();
+      });
+      observer.observe(rows, { childList: true, subtree: true });
+
+      // Logout
+      document.querySelectorAll('a[href="./login.html"]').forEach(function(a){
+        if ((a.textContent || '').includes('退出')) {
+          a.addEventListener('click', function(e){
+            e.preventDefault();
+            post('auth/logout.php', {}).catch(function(){}).then(function(){ location.href = './login.html'; });
+          });
+        }
+      });
+
+      // Auth guard
+      get('auth/me.php').catch(function(){ location.href = './login.html'; });
+    })();
+    </script>
+  </body>
+</html>

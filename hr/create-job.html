@@ -1,0 +1,184 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>创建岗位｜AI全量初面系统</title>
+    <link rel="stylesheet" href="./styles.css?v=20260602f" />
+  <style id="brand-logo-clean-fix">.brand-logo{height:42px;width:auto;max-width:190px;object-fit:contain;display:block;flex-shrink:0;background:transparent!important;border-radius:0!important;padding:0!important;box-shadow:none!important;}.brand-logo-wide{height:46px;max-width:220px;}</style>
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="side">
+        <div class="brand">
+          <img class="brand-logo brand-logo-wide" src="./assets/hi-logo-horizontal-white.svg" alt="hi AI初面" />
+        </div>
+        <nav class="nav">
+          <a href="./dashboard.html">🏠 首页</a>
+          <a class="active" href="./create-interview-flow.html?v=20260610b">✦ 创建初面</a>
+          <a href="./job-management.html">📋 初面管理</a>
+          <a href="./candidate-list.html">👥 候选人</a>
+          <a href="./report-review-list.html">📊 报告复核</a>
+          <a href="./question-bank.html">📝 题库管理</a>
+          <div class="nav-sep"></div>
+          <a href="./membership.html">💎 会员中心</a>
+          <a href="./profile.html">⚙ 设置</a>
+        </nav>
+      </aside>
+      <main class="main">
+        <div class="topbar">
+          <div class="page-title">
+            <span class="crumb">HR端 / 创建岗位</span>
+            <h1>创建岗位</h1>
+            <p>请以企业实际情况为准，认真补充将展示给候选人的岗位信息。</p>
+          </div>
+        </div>
+        <div class="panel form-shell">
+          <p class="notice compact">这些内容会在候选人初面前展示，并由AI语音向候选人传达，请确认真实、准确。</p>
+          <form class="form-grid" id="jobForm" autocomplete="off">
+            <div class="field"><label>公司名称</label><input name="company_name" placeholder="请输入公司名称" autocomplete="off" autocapitalize="off" spellcheck="false" /></div>
+            <div class="field"><label>岗位名称</label><input name="job_title" placeholder="请输入岗位名称" autocomplete="off" autocapitalize="off" spellcheck="false" /></div>
+            <div class="field">
+              <label>岗位大类</label>
+              <select name="job_type" data-taxonomy-type>
+                <option value="">请选择岗位大类</option>
+                <option value="sales_business">销售/商务</option>
+                <option value="marketing_operation">市场/运营</option>
+                <option value="customer_service">客服/服务</option>
+                <option value="retail_store">门店/零售</option>
+                <option value="logistics_delivery">物流/仓储/配送</option>
+                <option value="production_manufacturing">生产/制造</option>
+                <option value="food_hospitality">餐饮/酒店</option>
+                <option value="life_property_service">家政/生活服务</option>
+                <option value="administration">职能/行政</option>
+                <option value="human_resources">人力资源</option>
+                <option value="finance_legal">财务/法务</option>
+                <option value="tech_rd">技术/研发</option>
+                <option value="product_design">产品/设计</option>
+                <option value="education_training">教育/培训</option>
+                <option value="medical_health">医疗/健康</option>
+                <option value="construction_property">建筑/工程/物业</option>
+                <option value="flexible_parttime">灵活用工/兼职</option>
+                <option value="other">其他</option>
+                <option value="custom">自定义大类</option>
+              </select>
+              <input name="job_type_custom" data-taxonomy-type-custom placeholder="填写自定义岗位大类" hidden />
+            </div>
+            <div class="field">
+              <label>岗位方向</label>
+              <select name="job_direction" data-taxonomy-direction>
+                <option value="">请先选择岗位大类</option>
+              </select>
+              <input name="job_direction_custom" data-taxonomy-direction-custom placeholder="填写自定义岗位方向" hidden />
+            </div>
+            <div class="field">
+              <label>岗位层级</label>
+              <select name="job_level">
+                <option value="intern_parttime">实习/兼职</option>
+                <option value="entry_staff" selected>基层员工</option>
+                <option value="senior_staff">资深员工</option>
+                <option value="lead_supervisor">主管/组长</option>
+                <option value="manager">经理</option>
+                <option value="director_plus">总监及以上</option>
+              </select>
+            </div>
+            <div class="field full"><label>面试题库</label><select name="question_bank"><option>行政基础题库</option><option>通用职能岗题库</option><option>暂不选择，稍后在面试题库中设置</option></select></div>
+            <div class="field">
+              <label>薪资范围</label>
+              <div class="range-row">
+                <select name="salary_min_k"><option>2</option><option>3</option><option>4</option><option>5</option><option selected>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select>
+                <span>-</span>
+                <select name="salary_max_k"><option>5</option><option>6</option><option>7</option><option selected>8</option><option>9</option><option>10</option><option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option><option>19</option><option>20</option></select>
+                <span>K</span>
+              </div>
+            </div>
+            <div class="field full">
+              <label>福利待遇</label>
+              <div class="benefit-picker">
+                <input id="benefitsInput" name="benefits" placeholder="可点击下方词汇自动填入，也可自行编辑" />
+                <div class="benefit-groups" aria-label="福利待遇快捷选择">
+                  <div class="benefit-group">
+                    <span class="benefit-group-title">社保保障</span>
+                    <div class="benefit-tags">
+                      <button class="benefit-tag" type="button">五险一金</button>
+                      <button class="benefit-tag" type="button">补充医疗</button>
+                      <button class="benefit-tag" type="button">定期体检</button>
+                    </div>
+                  </div>
+                  <div class="benefit-group">
+                    <span class="benefit-group-title">奖金补贴</span>
+                    <div class="benefit-tags">
+                      <button class="benefit-tag" type="button">年终奖</button>
+                      <button class="benefit-tag" type="button">绩效奖金</button>
+                      <button class="benefit-tag" type="button">全勤奖</button>
+                      <button class="benefit-tag" type="button">餐补</button>
+                      <button class="benefit-tag" type="button">交通补贴</button>
+                      <button class="benefit-tag" type="button">通讯补贴</button>
+                      <button class="benefit-tag" type="button">住房补贴</button>
+                    </div>
+                  </div>
+                  <div class="benefit-group">
+                    <span class="benefit-group-title">假期作息</span>
+                    <div class="benefit-tags">
+                      <button class="benefit-tag" type="button">周末双休</button>
+                      <button class="benefit-tag" type="button">带薪年假</button>
+                      <button class="benefit-tag" type="button">弹性工作</button>
+                      <button class="benefit-tag" type="button">节日福利</button>
+                    </div>
+                  </div>
+                  <div class="benefit-group">
+                    <span class="benefit-group-title">员工关怀</span>
+                    <div class="benefit-tags">
+                      <button class="benefit-tag" type="button">员工旅游</button>
+                      <button class="benefit-tag" type="button">专业培训</button>
+                      <button class="benefit-tag" type="button">下午茶</button>
+                      <button class="benefit-tag" type="button">团建活动</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="benefit-custom">
+                  <input class="benefit-custom-input" type="text" placeholder="自定义补充，例如 股票期权、包午餐" autocomplete="off" />
+                  <button class="benefit-custom-add" type="button">添加</button>
+                </div>
+                <div class="benefit-summary" aria-live="polite">已选福利会在候选人预览中展示</div>
+              </div>
+            </div>
+            <div class="field full"><label>公司介绍</label><textarea name="company_intro" autocomplete="off" autocapitalize="off" spellcheck="false"></textarea></div>
+            <div class="field full"><label>岗位职责</label><textarea name="responsibilities" placeholder="请填写岗位主要工作内容"></textarea></div>
+            <div class="field full"><label>任职要求</label><textarea name="requirements" placeholder="请填写经验、学历、技能、工作时间等要求"></textarea></div>
+          </form>
+          <div class="actions" style="margin-top: 18px"><a class="btn primary" id="saveJobBtn" href="./create-interview-flow.html?v=20260610b">保存并预览</a></div>
+        </div>
+      </main>
+    </div>
+    <script src="./common.js?v=20260610b"></script>
+  
+    <div class="mps-beian">
+      <a href="https://beian.mps.gov.cn/#/query/webSearch?code=44010302111445" rel="noreferrer" target="_blank">
+        <img src="./assets/beian.png" alt="公安备案图标" />
+        <span>粤公网安备44010302111445号</span>
+      </a>
+    </div>
+    <script src="./auth-flow.js?v=20260610b"></script>
+    <script>
+      (() => {
+        const form = document.getElementById('jobForm');
+        const button = document.getElementById('saveJobBtn');
+        button?.addEventListener('click', () => {
+          if (!form) return;
+          const payload = Object.fromEntries(new FormData(form).entries());
+          sessionStorage.setItem('job_preview_payload', JSON.stringify(payload));
+        });
+      })();
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

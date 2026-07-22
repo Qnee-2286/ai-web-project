@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta name="hi-build" content="20260615cachefix" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HR登录｜AI全量初面系统</title>
+    <link rel="stylesheet" href="./styles.css?v=20260615cachefix" />
+    <style>
+      *{margin:0;padding:0;box-sizing:border-box}
+      body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:#F7FAFC;min-height:100vh;display:flex;flex-direction:column}
+      .auth-layout{display:flex;flex:1;min-height:100vh}
+      .auth-hero{background:#0D1B2A;color:#fff;width:45%;display:flex;flex-direction:column;justify-content:center;padding:60px 48px;position:relative;overflow:hidden}
+      .auth-hero::before{content:'';position:absolute;width:320px;height:320px;border-radius:50%;background:linear-gradient(135deg,rgba(0,112,255,.25),rgba(0,214,143,.25));filter:blur(80px);top:-60px;right:-80px;pointer-events:none}
+      .auth-hero::after{content:'';position:absolute;width:240px;height:240px;border-radius:50%;background:linear-gradient(135deg,rgba(0,214,143,.18),rgba(0,112,255,.18));filter:blur(60px);bottom:-40px;left:-60px;pointer-events:none}
+      .brand{display:flex;align-items:center;gap:12px;margin-bottom:48px;position:relative;z-index:1}
+      .brand-logo{width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,#0070FF,#00D68F);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#fff;object-fit:contain}
+      .brand span{display:flex;flex-direction:column}
+      .brand strong{font-size:16px;font-weight:600;letter-spacing:.5px}
+      .brand small{font-size:12px;color:rgba(255,255,255,.55);margin-top:2px}
+      .auth-hero h1{font-size:32px;font-weight:700;margin-bottom:16px;position:relative;z-index:1}
+      .auth-hero p{font-size:15px;line-height:1.7;color:rgba(255,255,255,.7);position:relative;z-index:1}
+      .auth-card{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 32px;background:#F7FAFC}
+      .auth-panel{background:#FFFFFF;border-radius:12px;padding:40px;width:100%;max-width:420px;box-shadow:0 1px 3px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.04)}
+      .auth-panel h2{font-size:22px;font-weight:700;color:#0F172A;margin-bottom:6px}
+      .hint{font-size:13px;color:#94A3B8;margin-bottom:24px}
+      .field{margin-bottom:18px}
+      .field label{display:block;font-size:13px;font-weight:500;color:#475569;margin-bottom:6px}
+      .field input,.field select{width:100%;height:44px;padding:0 14px;border:1px solid #E2E8F0;border-radius:8px;font-size:14px;color:#0F172A;background:#fff;outline:none;transition:border-color .2s}
+      .field input:focus,.field select:focus{border-color:#0070FF;box-shadow:0 0 0 3px rgba(0,112,255,.1)}
+      .field input::placeholder{color:#94A3B8}
+      .password-wrap{display:flex;align-items:center;position:relative}
+      .password-wrap input{padding-right:64px}
+      .password-wrap button{position:absolute;right:8px;background:none;border:none;color:#0070FF;font-size:13px;cursor:pointer;padding:4px 8px;border-radius:4px}
+      .hidden-field{display:none}
+      .btn{display:block;width:100%;height:44px;line-height:44px;text-align:center;border-radius:8px;font-size:14px;font-weight:500;text-decoration:none;cursor:pointer;border:none;margin-top:12px;transition:opacity .2s}
+      .btn:hover{opacity:.88}
+      .btn.primary{background:linear-gradient(135deg,#0070FF,#00D68F);color:#fff}
+      .btn:not(.primary){background:#F1F5F9;color:#475569}
+      .mps-beian{text-align:center;padding:16px;font-size:12px;color:#94A3B8}
+      .mps-beian a{display:inline-flex;align-items:center;gap:4px;color:#94A3B8;text-decoration:none}
+      .mps-beian img{width:14px;height:14px}
+      @media(max-width:768px){.auth-layout{flex-direction:column}.auth-hero{width:100%;padding:32px 24px;min-height:auto}.auth-hero h1{font-size:24px}.auth-card{padding:24px 16px}.auth-panel{padding:28px 20px}}
+    </style>
+  </head>
+  <body>
+    <main class="auth-layout">
+      <section class="auth-hero">
+        <div class="brand"><img class="brand-logo" src="./assets/logo-icon.svg" alt="hi AI初面" /><span><strong>AI全量初面系统</strong><small>泓泽数字旗下产品</small></span></div>
+        <h1>HR登录</h1>
+        <p>可使用已绑定的手机号或邮箱登录。系统将保护候选人资料与企业招聘信息，AI只做辅助提示，最终由HR人工复核。</p>
+      </section>
+      <section class="auth-card">
+        <div class="auth-panel">
+          <h2>登录账号</h2>
+          <p class="hint">登录名为手机号或邮箱，支持密码登录或验证码登录。</p>
+          <form>
+            <div class="field"><label>登录名</label><input id="loginAccount" name="login" autocomplete="username" placeholder="请输入手机号或邮箱" /></div>
+            <div class="field"><label>登录方式</label><select id="loginMethod"><option>密码登录</option><option>验证码登录</option></select></div>
+            <div class="field" id="passwordField"><label>登录密码</label><div class="password-wrap"><input id="loginPassword" name="password" type="password" autocomplete="current-password" placeholder="请输入密码" /><button type="button" id="toggleLoginSecret">显示</button></div></div>
+            <div class="field hidden-field" id="codeField"><label>短信/邮箱验证码</label><input id="loginCode" name="code" inputmode="numeric" placeholder="请输入验证码" /></div>
+            <a class="btn primary" href="./dashboard.html">登录并进入首页</a>
+            <a class="btn" href="./register.html">注册HR账号</a>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <div class="mps-beian">
+      <a href="https://beian.mps.gov.cn/#/query/webSearch?code=44010302111445" rel="noreferrer" target="_blank">
+        <img src="./assets/beian.png" alt="公安备案图标" />
+        <span>粤公网安备44010302111445号</span>
+      </a>
+    </div>
+    <script src="./auth-flow.js?v=20260615cachefix"></script>
+    <script>
+      (() => {
+        const method = document.getElementById('loginMethod');
+        const passwordField = document.getElementById('passwordField');
+        const codeField = document.getElementById('codeField');
+        const input = document.getElementById('loginPassword');
+        const button = document.getElementById('toggleLoginSecret');
+        const sync = () => {
+          const isCode = method.value.includes('验证码');
+          passwordField.classList.toggle('hidden-field', isCode);
+          codeField.classList.toggle('hidden-field', !isCode);
+        };
+        button?.addEventListener('click', () => {
+          const visible = input.type === 'text';
+          input.type = visible ? 'password' : 'text';
+          button.textContent = visible ? '显示' : '隐藏';
+        });
+        method?.addEventListener('change', sync);
+        sync();
+      })();
+    </script>
+</body>
+</html>

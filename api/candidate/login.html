@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>候选人登录｜AI全量初面系统</title>
+    <link rel="stylesheet" href="./styles.css" />
+</head>
+  <body>
+    <header class="top">
+      <div class="brand"><img class="brand-logo" src="./assets/logo-icon.svg" alt="hi AI初面" /><span><strong>AI全量初面系统</strong><small>泓泽数字旗下产品</small></span></div>
+      <span class="badge">候选人登录</span>
+    </header>
+    <main class="layout narrow">
+      <div class="page-title">
+        <span class="crumb">候选人端 / 登录</span>
+        <h1>登录后继续面试</h1>
+        <p>完成手机号验证后，系统会按当前进度带你进入下一步，不会反复回到邀请页。</p>
+      </div>
+      <section class="panel">
+        <form class="form">
+          <div class="field"><label>手机号</label><input name="phone" placeholder="请输入手机号" /></div>
+          <div class="field"><label>验证码</label><input name="sms_code" placeholder="请输入短信验证码" /></div>
+        </form>
+        <div class="actions">
+          <button class="btn primary" id="candidateLoginBtn" type="button">验证手机号，继续下一步</button>
+          <a class="btn" href="./index.html">返回邀请</a>
+        </div>
+      </section>
+    </main>
+
+    <div class="mps-beian">
+      <a href="https://beian.mps.gov.cn/#/query/webSearch?code=44010302111445" rel="noreferrer" target="_blank">
+        <img src="./assets/beian.png" alt="公安备案图标" />
+        <span>粤公网安备44010302111445号</span>
+      </a>
+    </div>
+    <script src="./auth-flow.js"></script>
+    <script src="./candidate-progress.js"></script>
+  </body>
+</html>

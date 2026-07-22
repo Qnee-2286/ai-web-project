@@ -1,0 +1,656 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta name="hi-build" content="20260615cachefix" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HR登录（改进版）｜AI全量初面系统</title>
+    <style>
+      /* ====== 设计系统变量 ====== */
+      :root {
+        --bg-main: #F7FAFC;
+        --bg-card: #FFFFFF;
+        --sidebar-bg: #0D1B2A;
+        --gradient-start: #0070FF;
+        --gradient-end: #00D68F;
+        --gradient: linear-gradient(135deg, #0070FF, #00D68F);
+        --text-primary: #0F172A;
+        --text-secondary: #475569;
+        --text-aux: #94A3B8;
+        --border: #E2E8F0;
+        --radius-btn: 8px;
+        --radius-card: 12px;
+        --s1: 0 1px 3px rgba(0,0,0,0.04);
+        --s2: 0 4px 16px rgba(0,0,0,0.06);
+        --s3: 0 8px 32px rgba(0,112,255,0.12);
+        --green: #00D68F;
+        --amber: #F59E0B;
+        --red: #EF4444;
+        --blue: #0070FF;
+      }
+
+      /* ====== 基础重置 ====== */
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body {
+        font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Noto Sans SC", Arial, sans-serif;
+        color: var(--text-primary);
+        background: var(--bg-main);
+        line-height: 1.55;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+      a { color: inherit; text-decoration: none; }
+
+      /* ====== 认证布局 ====== */
+      .auth-layout {
+        display: grid;
+        grid-template-columns: minmax(320px, 0.9fr) minmax(360px, 1.1fr);
+        flex: 1;
+      }
+
+      /* --- 左侧 Hero --- */
+      .auth-hero {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 64px 7vw;
+        color: #fff;
+        background: var(--sidebar-bg);
+        position: relative;
+        overflow: hidden;
+      }
+      .auth-hero::before {
+        content: '';
+        position: absolute;
+        width: 360px; height: 360px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, rgba(0,112,255,.28), rgba(0,214,143,.28));
+        filter: blur(90px);
+        top: -80px; right: -100px;
+        pointer-events: none;
+      }
+      .auth-hero::after {
+        content: '';
+        position: absolute;
+        width: 260px; height: 260px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, rgba(0,214,143,.2), rgba(0,112,255,.2));
+        filter: blur(70px);
+        bottom: -50px; left: -70px;
+        pointer-events: none;
+      }
+
+      /* --- 品牌标识 --- */
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 40px;
+        position: relative;
+        z-index: 1;
+      }
+      .brand-logo{height:42px;width:auto;max-width:190px;object-fit:contain;display:block;flex-shrink:0;background:transparent;border-radius:0;padding:0;box-shadow:none;}.brand-logo-wide{height:56px;max-width:260px;}
+      .auth-brand-wordmark{display:block!important;width:260px!important;max-width:82%!important;height:auto!important;margin-bottom:44px!important;background:transparent!important;border-radius:0!important;padding:0!important;box-shadow:none!important;overflow:visible!important;flex:none!important;}.auth-brand-wordmark img{display:block!important;width:100%!important;height:auto!important;max-width:none!important;min-width:0!important;object-fit:contain!important;background:transparent!important;border-radius:0!important;padding:0!important;box-shadow:none!important;}
+      .brand span { display: flex; flex-direction: column; }
+      .brand strong { font-size: 15px; font-weight: 600; color: #fff; letter-spacing: .5px; }
+      .brand small { font-size: 12px; color: rgba(255,255,255,.5); margin-top: 2px; }
+
+      .auth-hero h1 {
+        font-size: 36px;
+        font-weight: 700;
+        margin: 0 0 16px;
+        position: relative;
+        z-index: 1;
+      }
+      .auth-hero p {
+        font-size: 15px;
+        line-height: 1.75;
+        color: rgba(255,255,255,.72);
+        max-width: 480px;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* --- Hero 特性列表 --- */
+      .hero-features {
+        list-style: none;
+        padding: 0;
+        margin: 32px 0 0;
+        display: grid;
+        gap: 16px;
+        position: relative;
+        z-index: 1;
+      }
+      .hero-features li {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 14px;
+        color: rgba(255,255,255,.82);
+        font-weight: 500;
+      }
+      .hero-features .feat-icon {
+        width: 32px; height: 32px;
+        border-radius: 8px;
+        background: rgba(255,255,255,.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        font-size: 16px;
+        border: 1px solid rgba(255,255,255,.08);
+      }
+
+      /* --- 右侧表单卡片 --- */
+      .auth-card {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px;
+        background: var(--bg-main);
+      }
+      .auth-panel {
+        width: min(460px, 100%);
+        padding: 36px 34px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-card);
+        background: var(--bg-card);
+        box-shadow: var(--s2);
+      }
+      .auth-panel h2 {
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin: 0 0 6px;
+      }
+      .hint {
+        font-size: 13px;
+        color: var(--text-secondary);
+      }
+
+      /* ====== 表单字段 ====== */
+      .field {
+        display: grid;
+        gap: 7px;
+        margin-bottom: 18px;
+      }
+      .field label {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text-primary);
+      }
+      .field input,
+      .field select {
+        width: 100%;
+        height: 44px;
+        padding: 0 14px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-btn);
+        font-size: 14px;
+        color: var(--text-primary);
+        background: var(--bg-card);
+        outline: none;
+        transition: border-color .2s, box-shadow .2s;
+        font-family: inherit;
+      }
+      .field input:focus,
+      .field select:focus {
+        border-color: var(--gradient-start);
+        box-shadow: 0 0 0 3px rgba(0,112,255,.1);
+      }
+      .field input::placeholder { color: var(--text-aux); }
+
+      /* --- 密码框 + 显示/隐藏 --- */
+      .password-wrap {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: center;
+      }
+      .password-wrap input {
+        border-radius: var(--radius-btn) 0 0 var(--radius-btn);
+        border-right: none;
+      }
+      .password-wrap button {
+        height: 44px;
+        padding: 0 14px;
+        border: 1px solid var(--border);
+        border-left: 0;
+        border-radius: 0 var(--radius-btn) var(--radius-btn) 0;
+        background: var(--bg-main);
+        color: var(--gradient-start);
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background .15s;
+        font-family: inherit;
+      }
+      .password-wrap button:hover {
+        background: rgba(0,112,255,.04);
+      }
+
+      /* ====== 登录方式 Tab 切换 ====== */
+      .login-tabs {
+        display: flex;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-btn);
+        overflow: hidden;
+      }
+      .login-tab {
+        flex: 1;
+        padding: 10px 0;
+        text-align: center;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--text-secondary);
+        background: var(--bg-card);
+        border: none;
+        cursor: pointer;
+        transition: all .2s ease;
+        font-family: inherit;
+      }
+      .login-tab + .login-tab {
+        border-left: 1px solid var(--border);
+      }
+      .login-tab:hover {
+        color: var(--gradient-start);
+        background: rgba(0,112,255,.03);
+      }
+      .login-tab.active {
+        color: #fff;
+        background: var(--gradient);
+      }
+
+      /* ====== 按钮 ====== */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 46px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-btn);
+        color: var(--text-primary);
+        background: var(--bg-card);
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all .2s ease;
+        font-family: inherit;
+        text-decoration: none;
+      }
+      .btn:hover {
+        border-color: var(--gradient-start);
+        color: var(--gradient-start);
+      }
+      .btn.primary {
+        color: #fff;
+        border: none;
+        background: var(--gradient);
+        box-shadow: var(--s1);
+        font-weight: 700;
+        letter-spacing: 1px;
+      }
+      .btn.primary:hover {
+        box-shadow: var(--s3);
+        color: #fff;
+      }
+      .btn.primary:disabled {
+        opacity: .65;
+        cursor: not-allowed;
+      }
+
+      /* ====== 隐藏字段 ====== */
+      .hidden-field {
+        display: none !important;
+      }
+
+      /* ====== 表单消息提示 ====== */
+      .form-message {
+        padding: 12px 16px;
+        border-radius: var(--radius-btn);
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 14px;
+        background: rgba(239,68,68,.07);
+        border: 1px solid rgba(239,68,68,.2);
+        color: #B91C1C;
+        transition: all .25s ease;
+        line-height: 1.5;
+      }
+      .form-message.ok {
+        background: rgba(0,214,143,.07);
+        border-color: rgba(0,214,143,.25);
+        color: #047857;
+      }
+
+      /* ====== 验证码发送按钮（内联） ====== */
+      .code-field-wrap {
+        position: relative;
+      }
+      .code-field-wrap input {
+        padding-right: 108px;
+      }
+      .inline-code-button {
+        position: absolute;
+        right: 6px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: var(--gradient-start);
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        padding: 6px 10px;
+        border-radius: 4px;
+        transition: background .15s;
+        white-space: nowrap;
+        font-family: inherit;
+      }
+      .inline-code-button:hover {
+        background: rgba(0,112,255,.06);
+      }
+      .inline-code-button:disabled {
+        color: var(--text-aux);
+        cursor: default;
+        background: none;
+      }
+
+      /* ====== 辅助链接 ====== */
+      .auth-links {
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        margin-top: 22px;
+        padding-top: 18px;
+        border-top: 1px solid var(--border);
+      }
+      .auth-links a {
+        font-size: 13px;
+        color: var(--text-secondary);
+        font-weight: 600;
+        transition: color .2s;
+      }
+      .auth-links a:hover {
+        color: var(--gradient-start);
+      }
+
+      /* ====== 底部说明 ====== */
+      .form-hint {
+        text-align: center;
+        font-size: 12px;
+        color: var(--text-aux);
+        margin-top: 14px;
+        line-height: 1.6;
+      }
+      .form-hint a {
+        color: var(--gradient-start);
+      }
+
+      /* ====== 备案信息 ====== */
+      .mps-beian {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 12px 16px 20px;
+        color: var(--text-aux);
+        font-size: 12px;
+        background: transparent;
+      }
+      .mps-beian a {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        color: inherit;
+        text-decoration: none;
+        transition: color .2s;
+      }
+      .mps-beian a:hover { color: var(--gradient-start); }
+      .mps-beian img { width: 15px; height: 15px; flex-shrink: 0; }
+
+      /* ====== 响应式 ====== */
+      @media (max-width: 980px) {
+        .auth-layout { grid-template-columns: 1fr; }
+        .auth-hero { padding: 40px 28px; min-height: auto; }
+        .auth-hero h1 { font-size: 28px; }
+        .hero-features { margin-top: 20px; }
+      }
+      @media (max-width: 640px) {
+        .auth-card { padding: 24px 16px; }
+        .auth-panel { padding: 28px 20px; }
+      }
+    </style>
+  <style id="site-footer-unified-style">
+.site-footer{background:#fff;border-top:1px solid #E2E8F0;padding:40px;color:#94A3B8;font-size:12px;}
+.site-footer-inner{max-width:1200px;margin:0 auto;display:flex;align-items:flex-start;justify-content:space-between;gap:32px;}
+.site-footer-brand{display:flex;align-items:center;gap:12px;color:#0F172A;font-weight:600;}
+.site-footer-logo{height:28px;width:auto;max-width:160px;object-fit:contain;display:block;flex-shrink:0;background:transparent;border-radius:0;padding:0;box-shadow:none;}.site-footer-logo-wide{height:30px;max-width:170px;}
+.site-footer-info{text-align:right;}
+.site-footer-info p{margin:0;font-size:12px;color:#94A3B8;line-height:1.8;}
+.site-footer-info a{color:#94A3B8;text-decoration:none;display:inline-flex;align-items:center;gap:4px;vertical-align:middle;}
+.site-footer-info a:hover{color:#0070FF;}
+.site-footer-info img{width:16px;height:16px;flex-shrink:0;}
+@media(max-width:760px){.site-footer{padding:32px 20px;}.site-footer-inner{flex-direction:column;align-items:center;text-align:center;gap:14px;}.site-footer-brand{justify-content:center;}.site-footer-info{text-align:center;}.site-footer-info p{line-height:2;}}
+</style>
+</head>
+  <body>
+    <main class="auth-layout">
+      <!-- ====== 左侧品牌展示 ====== -->
+      <section class="auth-hero">
+        <div class="auth-brand-wordmark"><img src="./assets/hi-logo-horizontal-white.svg" alt="hi AI初面" /></div>
+        <h1>HR 工作台</h1>
+        <p>登录后即可管理岗位、邀请候选人、查看AI初面报告。所有AI评估结果仅供参考，最终决策由HR人工复核。</p>
+        <ul class="hero-features">
+          <li><span class="feat-icon">&#9878;</span>AI语音初面，自动追问与记录</li>
+          <li><span class="feat-icon">&#9733;</span>智能匹配报告，辅助人才筛选</li>
+          <li><span class="feat-icon">&#9873;</span>候选人数据加密，合规可控</li>
+        </ul>
+      </section>
+
+      <!-- ====== 右侧登录表单 ====== -->
+      <section class="auth-card">
+        <div class="auth-panel">
+          <h2>登录账号</h2>
+          <p class="hint" style="margin-bottom: 24px;">使用手机号或邮箱登录</p>
+
+          <form id="loginForm" novalidate>
+            <!-- 登录名 -->
+            <div class="field">
+              <label for="loginAccount">登录名</label>
+              <input id="loginAccount" name="login" autocomplete="username"
+                     placeholder="请输入手机号或邮箱" required />
+            </div>
+
+            <!-- 登录方式 Tab -->
+            <div class="field">
+              <label>登录方式</label>
+              <div class="login-tabs" role="tablist">
+                <button type="button" class="login-tab active" role="tab"
+                        data-mode="password" aria-selected="true">密码登录</button>
+                <button type="button" class="login-tab" role="tab"
+                        data-mode="code" aria-selected="false">验证码登录</button>
+              </div>
+            </div>
+
+            <!-- 密码输入 -->
+            <div class="field" id="passwordField">
+              <label for="loginPassword">登录密码</label>
+              <div class="password-wrap">
+                <input id="loginPassword" name="password" type="password"
+                       autocomplete="current-password" placeholder="请输入密码" />
+                <button type="button" id="togglePwd">显示</button>
+              </div>
+            </div>
+
+            <!-- 验证码输入 -->
+            <div class="field hidden-field" id="codeField">
+              <label for="loginCode">验证码</label>
+              <div class="code-field-wrap">
+                <input id="loginCode" name="code" inputmode="numeric"
+                       placeholder="请输入短信或邮箱验证码" />
+              </div>
+            </div>
+
+            <!-- 登录按钮 -->
+            <button type="submit" class="btn primary" id="loginSubmitBtn">登 录</button>
+          </form>
+
+          <!-- 辅助链接 -->
+          <div class="auth-links">
+            <a href="./register.html">没有账号？注册新账号</a>
+            <a href="./entry.html">手机号快捷登录/注册</a>
+          </div>
+
+          <p class="form-hint">登录即表示你同意 <a href="#">用户协议</a> 和 <a href="#">隐私政策</a></p>
+        </div>
+      </section>
+    </main>
+
+    <!-- 公安备案 -->
+    <footer class="site-footer">
+  <div class="site-footer-inner">
+    <div class="site-footer-brand"><img class="site-footer-logo site-footer-logo-wide" src="./assets/hi-logo-horizontal.svg" alt="hi AI初面" /></div>
+    <div class="site-footer-info">
+      <p>AI全量初面系统 &middot; Powered by <a href="https://www.hongzedigital.com">泓泽数字</a></p>
+      <p><a href="../help.html">使用说明</a> &middot; <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">粤ICP备2026055553号</a> &middot; <a href="https://www.beian.gov.cn/portal/registerSystemInfo?recordcode=44010302111445" target="_blank" rel="noreferrer"><img src="./assets/beian.png" alt="公安备案图标" />粤公网安备44010302111445号</a></p>
+    </div>
+  </div>
+</footer>
+
+    <script>
+    (() => {
+      const form       = document.getElementById('loginForm');
+      const tabs       = document.querySelectorAll('.login-tab');
+      const pwdField   = document.getElementById('passwordField');
+      const codeField  = document.getElementById('codeField');
+      const pwdInput   = document.getElementById('loginPassword');
+      const codeInput  = document.getElementById('loginCode');
+      const loginInput = document.getElementById('loginAccount');
+      const submitBtn  = document.getElementById('loginSubmitBtn');
+      const togglePwd  = document.getElementById('togglePwd');
+
+      let currentMode = 'password';
+
+      /* --- Tab 切换登录方式 --- */
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected', 'false'); });
+          tab.classList.add('active');
+          tab.setAttribute('aria-selected', 'true');
+          currentMode = tab.dataset.mode;
+          const isCode = currentMode === 'code';
+          pwdField.classList.toggle('hidden-field', isCode);
+          codeField.classList.toggle('hidden-field', !isCode);
+          if (isCode) codeInput.focus(); else pwdInput.focus();
+        });
+      });
+
+      /* --- 密码 显示/隐藏 --- */
+      togglePwd.addEventListener('click', () => {
+        const visible = pwdInput.type === 'text';
+        pwdInput.type = visible ? 'password' : 'text';
+        togglePwd.textContent = visible ? '显示' : '隐藏';
+      });
+
+      /* --- 表单消息 --- */
+      function showMsg(text, ok) {
+        let box = form.querySelector('.form-message');
+        if (!box) { box = document.createElement('div'); box.className = 'form-message'; form.prepend(box); }
+        box.textContent = text;
+        box.classList.toggle('ok', !!ok);
+      }
+
+      async function post(path, payload) {
+        const res = await fetch('../api/' + path, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          credentials: 'include',
+          body: JSON.stringify(payload || {})
+        });
+        const data = await res.json().catch(() => ({ok:false, message:'接口返回格式错误'}));
+        if (!res.ok || !data.ok) throw new Error(data.message || '请求失败');
+        return data;
+      }
+
+      /* --- 验证码发送按钮（动态插入） --- */
+      if (codeInput) {
+        const sendBtn = document.createElement('button');
+        sendBtn.type = 'button';
+        sendBtn.className = 'inline-code-button';
+        sendBtn.textContent = '发送验证码';
+        codeInput.insertAdjacentElement('afterend', sendBtn);
+        let timer = null;
+        const startCooldown = () => {
+          let left = 60;
+          sendBtn.disabled = true;
+          sendBtn.textContent = '重新发送(' + left + 's)';
+          timer = setInterval(() => {
+            left--;
+            sendBtn.textContent = '重新发送(' + left + 's)';
+            if (left <= 0) { clearInterval(timer); sendBtn.disabled = false; sendBtn.textContent = '发送验证码'; }
+          }, 1000);
+        };
+
+        sendBtn.addEventListener('click', async () => {
+          const login = loginInput.value.trim();
+          if (!login) { showMsg('请先输入手机号或邮箱'); return; }
+          sendBtn.disabled = true; sendBtn.textContent = '发送中...';
+          try {
+            await post('auth/send_login_code.php', {login});
+            showMsg('验证码已发送，请查看短信或邮箱。', true);
+            startCooldown();
+          } catch (err) {
+            showMsg(err.message || '验证码发送失败');
+            sendBtn.disabled = false;
+            sendBtn.textContent = '发送验证码';
+          }
+        });
+      }
+
+      /* --- 表单提交 --- */
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const login = loginInput.value.trim();
+        if (!login) { showMsg('请输入手机号或邮箱'); loginInput.focus(); return; }
+        const credential = currentMode === 'code' ? codeInput.value.trim() : pwdInput.value;
+        if (!credential) {
+          showMsg(currentMode === 'code' ? '请输入验证码' : '请输入密码');
+          (currentMode === 'code' ? codeInput : pwdInput).focus();
+          return;
+        }
+        submitBtn.disabled = true;
+        submitBtn.textContent = '登录中...';
+        try {
+          const res = await post('auth/hr_login.php', {login, credential, mode: currentMode});
+          showMsg('登录成功，正在跳转...', true);
+          location.href = (res.data && res.data.next) || './dashboard.html';
+        } catch (err) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = '登 录';
+          showMsg(err.message || '登录失败');
+        }
+      });
+
+      /* --- Enter 键跳转聚焦 --- */
+      loginInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          if (currentMode === 'code') codeInput.focus(); else pwdInput.focus();
+        }
+      });
+    })();
+    </script>
+  </body>
+</html>
+
+
+
+
+
+
+

@@ -1,0 +1,92 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta name="hi-build" content="20260615cachefix" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>岗位预览｜AI全量初面系统</title>
+    <link rel="stylesheet" href="./styles.css?v=20260615cachefix" />
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="side">
+        <div class="brand"><img class="brand-logo" src="./assets/logo-icon.svg" alt="hi AI初面" /><span><strong>AI全量初面系统</strong><small>泓泽数字旗下产品</small></span></div>
+                <nav class="nav">
+          <a href="./dashboard.html">首页</a>
+          <a class="active" href="./create-interview-flow.html?v=20260615cachefix">创建初面</a>
+          <a href="./job-management.html">初面管理</a>
+          <a href="./candidate-list.html">候选人</a>
+          <a href="./report-review-list.html">报告复核</a>
+          <a href="./profile.html">设置</a>
+        </nav>
+      </aside>
+      <main class="main">
+        <div class="topbar">
+          <div class="page-title">
+            <span class="crumb">HR端 / 创建岗位 / 岗位预览</span>
+            <h1>岗位预览</h1>
+            <p>请确认候选人将看到的岗位信息，确认后保存到岗位管理。</p>
+          </div>
+        </div>
+        <section class="panel readonly-preview show" id="jobPreviewPanel">
+          <p class="notice compact">这些内容将展示给候选人，也会作为本次面试沟通记录的一部分留痕。</p>
+          <div class="readonly-grid">
+            <div class="readonly-item"><span>公司名称</span><strong data-preview="company_name">广州泓泽数字科技有限责任公司</strong></div>
+            <div class="readonly-item"><span>岗位名称</span><strong data-preview="job_title">行政专员</strong></div>
+            <div class="readonly-item"><span>面试题库</span><strong data-preview="question_bank">行政基础题库</strong></div>
+            <div class="readonly-item"><span>薪资范围</span><strong data-preview="salary">6-8K</strong></div>
+            <div class="readonly-item full"><span>福利待遇</span><p data-preview="benefits">五险 双休 年终奖</p></div>
+            <div class="readonly-item full"><span>公司介绍</span><p data-preview="company_intro">未填写</p></div>
+            <div class="readonly-item full"><span>岗位职责</span><p data-preview="responsibilities">未填写</p></div>
+            <div class="readonly-item full"><span>任职要求</span><p data-preview="requirements">未填写</p></div>
+          </div>
+          <div class="actions" style="margin-top: 18px">
+            <a class="btn" href="./create-interview-flow.html?v=20260615cachefix">返回修改</a>
+            <button class="btn primary" type="button" id="confirmSaveJob">确认保存</button>
+          </div>
+        </section>
+      </main>
+    </div>
+    <div class="mps-beian"><a href="https://beian.mps.gov.cn/#/query/webSearch?code=44010302111445" rel="noreferrer" target="_blank"><img src="./assets/beian.png" alt="公安备案图标" /><span>粤公网安备44010302111445号</span></a></div>
+    <script src="./auth-flow.js?v=20260615cachefix"></script>
+    <script>
+      (() => {
+        const saved = JSON.parse(sessionStorage.getItem('job_preview_payload') || '{}');
+        const data = Object.keys(saved).length ? saved : {
+          company_name: '广州泓泽数字科技有限责任公司',
+          job_title: '行政专员',
+          question_bank: '行政基础题库',
+          salary_min_k: '6',
+          salary_max_k: '8',
+          benefits: '五险 双休 年终奖',
+          company_intro: '未填写',
+          responsibilities: '未填写',
+          requirements: '未填写'
+        };
+        const set = (name, value) => {
+          const el = document.querySelector(`[data-preview="${name}"]`);
+          if (el) el.textContent = value || '未填写';
+        };
+        set('company_name', data.company_name);
+        set('job_title', data.job_title);
+        set('question_bank', data.question_bank || '未选择');
+        set('salary', formatPreviewSalary(data));
+        set('benefits', data.benefits);
+        set('company_intro', data.company_intro);
+        set('responsibilities', data.responsibilities);
+        set('requirements', data.requirements);
+        document.getElementById('confirmSaveJob')?.addEventListener('click', () => {
+          sessionStorage.removeItem('job_preview_payload');
+          location.href = './job-management.html';
+        });
+      })();
+    </script>
+  </body>
+</html>
+
+
+
+

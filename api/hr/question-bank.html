@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta name="hi-build" content="20260615cachefix" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>面试题库｜AI全量初面系统</title>
+    <link rel="stylesheet" href="./styles.css?v=20260615cachefix" />
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif; background: #F7FAFC; color: #0F172A; }
+      .shell { display: flex; min-height: 100vh; }
+      .side { width: 240px; background: #0D1B2A; display: flex; flex-direction: column; flex-shrink: 0; }
+      .brand { padding: 20px 16px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+      .brand-icon { width: 36px; height: 36px; border-radius: 8px; background: linear-gradient(135deg, #0070FF, #00D68F); flex-shrink: 0; }
+      .brand strong { display: block; color: #fff; font-size: 14px; font-weight: 700; line-height: 1.3; }
+      .brand small { display: block; color: #94A3B8; font-size: 11px; margin-top: 2px; }
+      .nav { padding: 8px 0; flex: 1; }
+      .nav a { display: block; padding: 10px 16px 10px 13px; color: #94A3B8; text-decoration: none; font-size: 13px; border-left: 3px solid transparent; transition: all .15s; }
+      .nav a:hover { color: #fff; background: rgba(255,255,255,0.04); }
+      .nav a.active { color: #fff; border-left-color: #0070FF; background: rgba(0,112,255,0.08); }
+      .main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+      .topbar { background: #fff; border-bottom: 1px solid #E2E8F0; padding: 16px 28px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+      .page-title .crumb { font-size: 12px; color: #94A3B8; }
+      .page-title h1 { font-size: 18px; font-weight: 700; margin: 4px 0 2px; }
+      .page-title p { font-size: 13px; color: #475569; }
+      .btn { display: inline-flex; align-items: center; justify-content: center; padding: 7px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; text-decoration: none; border: 1px solid #E2E8F0; background: #fff; color: #0F172A; cursor: pointer; transition: all .15s; }
+      .btn:hover { border-color: #CBD5E1; }
+      .btn.primary { background: linear-gradient(135deg, #0070FF, #00D68F); color: #fff; border: none; }
+      .btn.primary:hover { opacity: .9; }
+      .btn.warn { background: #FEF3C7; color: #92400E; border-color: #FDE68A; }
+      .content { flex: 1; padding: 24px 28px; }
+      .panel { background: #fff; border: 1px solid #E2E8F0; border-radius: 12px; padding: 20px; margin-bottom: 16px; }
+      .notice { background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; font-size: 13px; color: #1E40AF; }
+      .question-job-card .job-card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+      .question-job-card .label { font-size: 12px; color: #94A3B8; }
+      .question-job-card h2 { font-size: 18px; font-weight: 700; margin: 4px 0; }
+      .question-job-card p { font-size: 13px; color: #475569; }
+      .job-card-head .actions { display: flex; gap: 8px; flex-shrink: 0; }
+      .question-summary { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 12px; padding-top: 12px; border-top: 1px solid #F1F5F9; }
+      .question-summary span { font-size: 12px; color: #475569; padding: 4px 10px; background: #F8FAFC; border-radius: 6px; }
+      .section-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+      .section-head h2 { font-size: 15px; font-weight: 700; }
+      .section-head p { font-size: 12px; color: #94A3B8; margin-top: 2px; }
+      .count-pill { padding: 4px 10px; border-radius: 999px; background: linear-gradient(135deg, rgba(0,112,255,0.08), rgba(0,214,143,0.08)); color: #0070FF; font-size: 12px; font-weight: 600; white-space: nowrap; }
+      .script-box { padding: 14px 16px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; font-size: 13px; color: #475569; line-height: 1.6; margin-bottom: 16px; }
+      .question-pool-filter { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+      .question-pool-filter select, .question-pool-filter input { padding: 7px 12px; border: 1px solid #E2E8F0; border-radius: 8px; font-size: 13px; font: inherit; background: #fff; }
+      .question-pool-filter input { flex: 1; min-width: 180px; }
+      .question-picker-layout { display: grid; grid-template-columns: 1fr 340px; gap: 16px; margin-top: 16px; }
+      .pool-scroll { max-height: 480px; overflow-y: auto; }
+      .pool-question-card { padding: 12px 14px; border: 1px solid #E2E8F0; border-radius: 10px; margin-bottom: 8px; background: #fff; transition: all .15s; }
+      .pool-question-card:hover { border-color: #0070FF; box-shadow: 0 2px 8px rgba(0,112,255,0.08); }
+      .pool-question-card strong { font-size: 13px; line-height: 1.6; display: block; }
+      .question-actions { display: flex; gap: 8px; margin-top: 8px; }
+      .question-actions a { font-size: 12px; color: #0070FF; cursor: pointer; text-decoration: none; font-weight: 600; }
+      .question-actions a:hover { text-decoration: underline; }
+      .selected-question-panel { }
+      .selected-box { background: #fff; border: 1px solid #E2E8F0; border-radius: 12px; padding: 16px; }
+      .selected-group { margin-bottom: 12px; }
+      .selected-group-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 13px; }
+      .selected-group-head strong { color: #0F172A; }
+      .selected-group-head span { color: #94A3B8; font-size: 12px; }
+      .selected-question { display: flex; align-items: center; gap: 8px; padding: 6px 0; font-size: 13px; border-bottom: 1px solid #F8FAFC; }
+      .selected-question span { width: 20px; height: 20px; border-radius: 6px; background: linear-gradient(135deg, #0070FF, #00D68F); color: #fff; font-size: 11px; font-weight: 700; display: grid; place-items: center; flex-shrink: 0; }
+      .selected-question strong { flex: 1; font-weight: 500; }
+      .selected-question a { font-size: 12px; color: #94A3B8; cursor: pointer; }
+      .add-question-section { margin-top: 16px; background: #fff; border: 1px solid #E2E8F0; border-radius: 12px; padding: 20px; }
+      .add-question-grid { display: grid; grid-template-columns: 1fr 280px; gap: 16px; }
+      .field { display: flex; flex-direction: column; gap: 6px; }
+      .field.full { grid-column: 1 / -1; }
+      .field label { font-size: 13px; font-weight: 600; }
+      .field textarea { padding: 10px 12px; border: 1px solid #E2E8F0; border-radius: 8px; font-size: 13px; font: inherit; resize: vertical; min-height: 80px; }
+      .field textarea:focus { outline: none; border-color: #0070FF; box-shadow: 0 0 0 3px rgba(0,112,255,0.1); }
+      .ai-detect-card { padding: 14px; background: linear-gradient(135deg, rgba(0,112,255,0.04), rgba(0,214,143,0.04)); border: 1px solid rgba(0,112,255,0.12); border-radius: 10px; }
+      .ai-detect-card span { display: block; font-size: 12px; color: #94A3B8; margin-bottom: 8px; }
+      .ai-detect-card strong { display: block; font-size: 13px; margin-bottom: 4px; color: #0070FF; }
+      .actions { display: flex; gap: 8px; margin-top: 14px; }
+      .mps-beian { text-align: center; padding: 16px; font-size: 12px; color: #94A3B8; }
+      .mps-beian a { color: #94A3B8; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; }
+      .mps-beian img { width: 14px; height: 14px; }
+      @media (max-width: 980px) { .question-picker-layout { grid-template-columns: 1fr; } .add-question-grid { grid-template-columns: 1fr; } }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="side">
+        <div class="brand"><img class="brand-icon" src="./assets/logo-icon.svg" alt="hi AI初面" style="background:none;padding:0;" /><span><strong>AI全量初面系统</strong><small>泓泽数字旗下产品</small></span></div>
+        <nav class="nav">
+          <a href="./dashboard.html">首页</a>
+          <a href="./create-interview-flow.html?v=20260615cachefix">创建初面</a>
+          <a href="./job-management.html">初面管理</a>
+          <a href="./candidate-list.html">候选人</a>
+          <a href="./report-review-list.html">报告复核</a>
+          <a class="active" href="./question-bank.html">题库管理</a>
+          <a href="./profile.html">设置</a>
+        </nav>
+      </aside>
+      <main class="main">
+        <div class="topbar">
+          <div class="page-title">
+            <span class="crumb">HR端 / 面试题库</span>
+            <h1>面试题库</h1>
+            <p>从题库池中选择问题，配置到岗位初面流程里。</p>
+          </div>
+          <a class="btn warn" id="generateAiQuestions" href="./ai-question-review.html">AI生成题库初稿</a>
+        </div>
+        <div class="content">
+          <section class="job-card panel question-job-card">
+            <div class="job-card-head">
+              <div>
+                <span class="label">当前配置岗位</span>
+                <h2 data-job-title>请选择岗位</h2>
+                <p data-job-meta>从岗位管理页进入后，可按岗位生成AI题库初稿。</p>
+              </div>
+              <div class="actions">
+                <a class="btn" href="./job-management.html">切换岗位</a>
+                <a class="btn">新增题目</a>
+                <a class="btn primary" href="./create-interview-flow.html?v=20260615cachefix">保存题库</a>
+              </div>
+            </div>
+            <div class="question-summary">
+              <span>必答题 3/3</span>
+              <span>简历匹配题池 6题</span>
+              <span>备选题 8题</span>
+              <span>当前版本可用 8题</span>
+            </div>
+          </section>
+
+          <div class="notice">平台不替企业生成公司介绍、薪资福利、岗位职责和任职要求。公司与岗位信息只从HR填写的岗位内容中读取，这里仅生成和管理面试问题。</div>
+
+          <div class="question-board">
+            <section class="question-section">
+              <div class="section-head">
+                <div><h2>候选人开场说明</h2><p>AI语音会先说明面试流程，并按岗位信息向候选人介绍公司和岗位。</p></div>
+                <span class="count-pill">可编辑</span>
+              </div>
+              <div class="script-box">
+                你好，欢迎参加本次线上初面。接下来我会先向你说明公司和岗位信息，再围绕你的经历与岗位要求进行提问。请尽量真实、清楚地表达你的想法。
+              </div>
+            </section>
+
+            <section class="panel question-pool-filter">
+              <select aria-label="适用岗位"><option>适用岗位：全部</option><option>行政</option><option>HR</option><option>财务</option><option>客服</option><option>销售</option></select>
+              <select aria-label="难度"><option>难度：全部</option><option>基础</option><option>中等</option><option>深入</option></select>
+              <select aria-label="题目类型"><option>题目类型：全部</option><option>通用题</option><option>岗位题</option><option>行为题</option><option>技能题</option><option>简历追问题</option><option>价值观</option></select>
+              <input aria-label="搜索题目" placeholder="搜索题目关键词" />
+            </section>
+
+            <section class="question-picker-layout">
+              <div class="question-section">
+                <div class="section-head">
+                  <div><h2>可选题库</h2><p>通过适用岗位、难度和题目类型筛选问题，再加入本岗位的初面配置。</p></div>
+                  <span class="count-pill">共 128 题</span>
+                </div>
+                <div class="question-stack dense pool-scroll" id="aiQuestionList">
+                  <article class="pool-question-card">
+                    <div><strong>请用1到2分钟介绍你的过往工作经历。</strong></div>
+                    <div class="question-actions"><a>加入必答</a><a>加入匹配库</a><a>加入备选</a></div>
+                  </article>
+                  <article class="pool-question-card">
+                    <div><strong>你对行政专员这个岗位的理解是什么？</strong></div>
+                    <div class="question-actions"><a>加入必答</a><a>加入匹配库</a><a>加入备选</a></div>
+                  </article>
+                  <article class="pool-question-card">
+                    <div><strong>你简历中提到负责资料归档，请说明你的具体流程。</strong></div>
+                    <div class="question-actions"><a>加入必答</a><a>加入匹配库</a><a>加入备选</a></div>
+                  </article>
+                  <article class="pool-question-card">
+                    <div><strong>你提到熟悉Excel，请举一个实际使用场景。</strong></div>
+                    <div class="question-actions"><a>加入必答</a><a>加入匹配库</a><a>加入备选</a></div>
+                  </article>
+                  <article class="pool-question-card">
+                    <div><strong>如果同时有几项紧急任务，你会怎么安排优先级？</strong></div>
+                    <div class="question-actions"><a>加入必答</a><a>加入匹配库</a><a>加入备选</a></div>
+                  </article>
+                  <article class="pool-question-card">
+                    <div><strong>请举一个你主动协调资源解决问题的例子。</strong></div>
+                    <div class="question-actions"><a>加入必答</a><a>加入匹配库</a><a>加入备选</a></div>
+                  </article>
+                  <article class="pool-question-card">
+                    <div><strong>你上一份工作中最稳定负责的一项任务是什么？</strong></div>
+                    <div class="question-actions"><a>加入必答</a><a>加入匹配库</a><a>加入备选</a></div>
+                  </article>
+                  <article class="pool-question-card">
+                    <div><strong>遇到临时变化的任务安排时，你通常怎么确认优先级？</strong></div>
+                    <div class="question-actions"><a>加入必答</a><a>加入匹配库</a><a>加入备选</a></div>
+                  </article>
+                  <article class="pool-question-card">
+                    <div><strong>请说明你使用办公软件整理数据或资料的一次具体经历。</strong></div>
+                    <div class="question-actions"><a>加入必答</a><a>加入匹配库</a><a>加入备选</a></div>
+                  </article>
+                  <article class="pool-question-card">
+                    <div><strong>如果要你负责员工入职资料整理，你会如何保证资料完整？</strong></div>
+                    <div class="question-actions"><a>加入必答</a><a>加入匹配库</a><a>加入备选</a></div>
+                  </article>
+                  <article class="pool-question-card">
+                    <div><strong>你如何理解工作中的责任心？请结合经历说明。</strong></div>
+                    <div class="question-actions"><a>加入必答</a><a>加入匹配库</a><a>加入备选</a></div>
+                  </article>
+                  <article class="pool-question-card">
+                    <div><strong>你简历里提到跨部门沟通，请讲一次具体沟通对象、过程和结果。</strong></div>
+                    <div class="question-actions"><a>加入必答</a><a>加入匹配库</a><a>加入备选</a></div>
+                  </article>
+                  <article class="pool-question-card">
+                    <div><strong>请描述一次你发现流程问题并主动优化的经历。</strong></div>
+                    <div class="question-actions"><a>加入必答</a><a>加入匹配库</a><a>加入备选</a></div>
+                  </article>
+                  <article class="pool-question-card">
+                    <div><strong>当候选人或同事反复追问同一件事时，你会如何处理？</strong></div>
+                    <div class="question-actions"><a>加入必答</a><a>加入匹配库</a><a>加入备选</a></div>
+                  </article>
+                  <article class="pool-question-card">
+                    <div><strong>请讲一个你需要保密处理资料或信息的场景。</strong></div>
+                    <div class="question-actions"><a>加入必答</a><a>加入匹配库</a><a>加入备选</a></div>
+                  </article>
+                  <article class="pool-question-card">
+                    <div><strong>如果上级给出的任务信息不完整，你会如何补充确认？</strong></div>
+                    <div class="question-actions"><a>加入必答</a><a>加入匹配库</a><a>加入备选</a></div>
+                  </article>
+                  <article class="pool-question-card">
+                    <div><strong>你如何记录和跟进一项需要多天完成的行政事务？</strong></div>
+                    <div class="question-actions"><a>加入必答</a><a>加入匹配库</a><a>加入备选</a></div>
+                  </article>
+                  <article class="pool-question-card">
+                    <div><strong>请说一次你发现资料数据有误并及时修正的经历。</strong></div>
+                    <div class="question-actions"><a>加入必答</a><a>加入匹配库</a><a>加入备选</a></div>
+                  </article>
+                  <article class="pool-question-card">
+                    <div><strong>如果候选人、员工或客户情绪比较急，你会怎样回应？</strong></div>
+                    <div class="question-actions"><a>加入必答</a><a>加入匹配库</a><a>加入备选</a></div>
+                  </article>
+                  <article class="pool-question-card">
+                    <div><strong>你在工作中如何避免重复遗漏和低级错误？</strong></div>
+                    <div class="question-actions"><a>加入必答</a><a>加入匹配库</a><a>加入备选</a></div>
+                  </article>
+                  <article class="pool-question-card">
+                    <div><strong>请讲一次你接到不熟悉任务后，如何快速上手。</strong></div>
+                    <div class="question-actions"><a>加入必答</a><a>加入匹配库</a><a>加入备选</a></div>
+                  </article>
+                  <article class="pool-question-card">
+                    <div><strong>你如何判断一项工作是否已经交付到位？</strong></div>
+                    <div class="question-actions"><a>加入必答</a><a>加入匹配库</a><a>加入备选</a></div>
+                  </article>
+                  <article class="pool-question-card">
+                    <div><strong>如果需要同时支持多个部门，你会如何安排沟通节奏？</strong></div>
+                    <div class="question-actions"><a>加入必答</a><a>加入匹配库</a><a>加入备选</a></div>
+                  </article>
+                  <article class="pool-question-card">
+                    <div><strong>请描述一次你把复杂信息整理成清晰表格或文档的经历。</strong></div>
+                    <div class="question-actions"><a>加入必答</a><a>加入匹配库</a><a>加入备选</a></div>
+                  </article>
+                  <article class="pool-question-card">
+                    <div><strong>你认为行政或职能岗位最容易被忽视但很重要的细节是什么？</strong></div>
+                    <div class="question-actions"><a>加入必答</a><a>加入匹配库</a><a>加入备选</a></div>
+                  </article>
+                </div>
+              </div>
+
+              <aside class="selected-question-panel">
+                <section class="question-section selected-box">
+                  <div class="section-head">
+                    <div><h2>本岗位已选</h2><p>创建初面时，系统会按这里的配置组织问题。</p></div>
+                  </div>
+                  <div class="selected-group">
+                    <div class="selected-group-head"><strong>必答题</strong><span>3/3</span></div>
+                    <article class="selected-question"><span>1</span><strong>请用1到2分钟介绍你的过往工作经历。</strong><a>移除</a></article>
+                    <article class="selected-question"><span>2</span><strong>你为什么对这个岗位感兴趣？</strong><a>移除</a></article>
+                    <article class="selected-question"><span>3</span><strong>你对行政专员这个岗位的理解是什么？</strong><a>移除</a></article>
+                  </div>
+                  <div class="selected-group">
+                    <div class="selected-group-head"><strong>简历匹配题池</strong><span>面试时抽2题</span></div>
+                    <article class="selected-question"><span>1</span><strong>资料归档的具体流程</strong><a>移除</a></article>
+                    <article class="selected-question"><span>2</span><strong>Excel实际使用场景</strong><a>移除</a></article>
+                    <article class="selected-question"><span>3</span><strong>真实工作细节追问</strong><a>移除</a></article>
+                  </div>
+                  <div class="selected-group">
+                    <div class="selected-group-head"><strong>备选题</strong><span>3题</span></div>
+                    <article class="selected-question"><span>1</span><strong>多任务优先级安排</strong><a>移除</a></article>
+                    <article class="selected-question"><span>2</span><strong>主动协调资源案例</strong><a>移除</a></article>
+                    <article class="selected-question"><span>3</span><strong>岗位成长期待</strong><a>移除</a></article>
+                  </div>
+                </section>
+              </aside>
+            </section>
+
+            <section class="question-section add-question-section">
+              <div class="section-head">
+                <div><h2>新增问题</h2><p>HR可以根据岗位实际情况添加问题，AI会自动识别题目类型、难度和适用岗位。</p></div>
+              </div>
+              <div class="add-question-grid">
+                <div class="field full"><label>问题内容</label><textarea placeholder="例如：请结合一次真实经历，说明你如何处理临时插入的紧急任务。"></textarea></div>
+                <div class="ai-detect-card">
+                  <span>AI识别结果</span>
+                  <strong>题目类型：行为题</strong>
+                  <strong>难度：中等</strong>
+                  <strong>适用岗位：职能岗 / 行政 / HR</strong>
+                </div>
+              </div>
+              <div class="actions" style="margin-top: 14px">
+                <a class="btn primary">添加到题库</a>
+                <a class="btn">添加并加入本岗位备选</a>
+              </div>
+            </section>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <div class="mps-beian">
+      <a href="https://beian.mps.gov.cn/#/query/webSearch?code=44010302111445" rel="noreferrer" target="_blank">
+        <img src="./assets/beian.png" alt="公安备案图标" />
+        <span>粤公网安备44010302111445号</span>
+      </a>
+    </div>
+    <script src="./auth-flow.js?v=20260615cachefix"></script>
+</body>
+</html>
