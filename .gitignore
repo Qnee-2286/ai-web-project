@@ -1,0 +1,33 @@
+# 密码和密钥
+.env
+.env.*
+!.env.example
+config.php
+config.local.php
+database.php
+db.php
+secrets.php
+credentials.json
+api_keys.php
+
+# 数据库及备份
+*.sql
+*.bak
+*.zip
+
+# 用户上传及运行数据
+uploads/
+logs/
+cache/
+tmp/
+*.log
+
+# 安装依赖
+vendor/
+node_modules/
+
+# 电脑及编辑器文件
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
